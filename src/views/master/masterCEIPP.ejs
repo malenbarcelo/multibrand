@@ -1,0 +1,194 @@
+<!--- create edit item popup (ceipp) --->
+<div class="popup pp-std" id="ceipp">
+
+    <div class="pp-content w-1200 top-10" id="ceippContent">
+
+        <div class="pp-close pad-6" id="ceippClose">
+            <div class="pp-close-icon w-25 h-25">x</div>
+        </div>
+
+        <!--- general actions --->
+        <div class="flex-r absolute top-10p r-5p" id="ceippDgas">
+            <div class="dga h-35 w-35" id="ceippDestroy">
+                <i class="fa-regular fa-trash-can"></i>
+                <div class="dga-info fs-12 top-50p-">
+                    Eliminar item
+                </div>        
+            </div>
+        </div>
+
+        <div class="ta-c fw-b fs-19 mt-15-" id="ceippTitle"></div>
+
+        <div class="fw-b fc-error fs-13 ta-c mt-10 not-visible" id="ceippError"></div>
+
+
+        <div class="inputs-column mt-20">
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">Proveedor *</label>
+                <select id="ceippSupplier" class="input-std ta-c w-250 pad-9-0-7-0">
+                    <option value=""></option>
+                    <% suppliers.forEach(supplier => { %>
+                        <option value="<%= supplier.id %>">
+                            <%= supplier.supplier %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+
+        <div class="bs-gray-1 w-90p m-a mt-15">            
+            <!--- title -->
+            <div class="mt-10 fw-b ta-c fs-15">DATOS DEL PRODUCTO</div>
+
+            <!--- inputs -->
+            <div class="inputs-row cg-15 mt-25">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Item *</label>
+                    <input type="text" id="ceippItem" class="input-std ta-c w-180 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Descripción *</label>
+                    <input type="text" id="ceippDescription" class="input-std ta-c w-400 pad-9-0-7-0">
+                </div>                
+            </div>
+
+            <div class="inputs-row cg-15 mt-20 mb-15">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p" id="ceippFobLabel">Precio por UM *</label>
+                    <input type="text" placeholder="" id="ceippFob" class="input-std ta-c w-170 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">UM *</label>
+                    <select id="ceippMu" class="input-std ta-c w-120 pad-9-0-7-0">
+                        <option value=""></option>
+                        <% mus.forEach(mu => { %>
+                            <option value="<%= mu.id %>"><%= mu.measurement_unit %></option>                         
+                        <% }) %>
+                    </select>
+                </div>                
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">UM por caja *</label>
+                    <input type="text" placeholder="" id="ceippMuPerBox" class="input-std ta-c w-120 pad-9-0-7-0">
+                </div>
+            </div>
+
+            <div class="inputs-row cg-15 mt-20 mb-15">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p" id="ceippWeightLabel">Peso por caja (kgs)</label>
+                    <input type="text" placeholder="" id="ceippWeight" class="input-std ta-c w-170 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p" id="ceippVolumeLabel">Volumen por caja (m3)</label>
+                    <input type="text" placeholder="" id="ceippVolume" class="input-std ta-c w-170 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Marca *</label>
+                    <input type="text" id="ceippBrand" class="input-std ta-c w-200 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Origen *</label>
+                    <input type="text" id="ceippOrigin" class="input-std ta-c w-120 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Roturas *</label>
+                    <select id="ceippBreaks" class="input-std ta-c w-120 pad-9-0-7-0">
+                        <option value=""></option>
+                        <option value="1">si</option>
+                        <option value="0">no</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="bs-gray-1 w-90p m-a mt-10 relative">
+            
+            <div class="fs-11 ta-c w-100 pad-5-0 absolute r-3 top-3 bc-4 fc-white pointer not-visible" id="ceippViewFactors">
+                VER FACTORES
+            </div>
+
+            <!--- title -->
+            <div class="mt-15 fw-b ta-c fs-15">COSTEO</div>
+
+            <!--- inputs -->
+            <div class="inputs-row cg-15 mt-25 mb-15" id="ceippVolumeFactorsBox">
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">Flete marítimo / UM</label>
+                    <input type="text" id="ceippFreight" class="disabled-input w-150 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">CIF / UM</label>
+                    <input type="text"  id="ceippCif" class="disabled-input w-120 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">Derechos de aduana / UM</label>
+                    <input type="text"  id="ceippDispatchExpenses" class="disabled-input w-200 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">Gastos por volumen / UM</label>
+                    <input type="text"  id="ceippVolumeExpenses" class="disabled-input w-200 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">Gastos por % de precio / UM</label>
+                    <input type="text"  id="ceippPriceExpenses" class="disabled-input w-200 pad-9-0-7-0" disabled>
+                </div>
+            </div>
+            <div class="inputs-row cg-15 mt-25 mb-15">
+                <div class="div-input" id="ceippCoefFactorBox">
+                    <label class="label-std disabled-label fs-13 l-3p">Factor (%)</label>
+                    <input type="text"  id="ceippCoefFactor" class="disabled-input w-100 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p" id="ceippMuCostLabel">Costo estimado / UM</label>
+                    <input type="text"  id="ceippMuCost" class="disabled-input w-230 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b" id="ceippUnitCostLabel">Costo estimado / unidad</label>
+                    <input type="text"  id="ceippUnitCost" class="disabled-input bs-2 w-230 pad-9-0-7-0" disabled>
+                </div>          
+            </div>
+        </div>
+
+        <div class="bs-gray-1 w-90p m-a mt-10">            
+            <!--- title -->
+            <div class="mt-10 fw-b ta-c fs-15">PRECIO DE VENTA</div>
+
+            <!--- inputs -->
+            <div class="inputs-row cg-15 mt-25 mb-15">
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p" id="ceippSuggestedPriceLabel">Precio sugerido</label>
+                    <input type="text" id="ceippSuggestedPrice" class="disabled-input w-180 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">TC</label>
+                    <input type="text" id="ceippExchange" class="disabled-input w-80 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std disabled-label fs-13 l-3p">Precio sugerido (ARS)</label>
+                    <input type="text" id="ceippSuggestedPriceArs" class="disabled-input w-180 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Factor de multiplicación</label>
+                    <input type="text" placeholder="" id="ceippSpecialPriceFactor" class="input-std ta-c w-180 pad-9-0-7-0">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Precio de venta (ARS)</label>
+                    <input type="text" id="ceippSellsPriceArs" class="input-std bs-2 w-180 pad-9-0-7-0" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Margen %</label>
+                    <input type="text" id="ceippMargin" class="input-std w-100 pad-9-0-7-0" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-r cg-20 jc-c mb-13 mt-15">
+            <div id="ceippAccept" class="btn-std w-150 pad-8-0 fs-13"></div>
+            <div id="ceippCancel" class="btn-std w-150 pad-8-0 fs-13">CANCELAR</div>
+        </div>
+    </div>
+</div>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="ceippLoader">
+    <div class="ld-content ld-main top-45p"></div>
+</div>

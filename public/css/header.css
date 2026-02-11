@@ -1,0 +1,143 @@
+/* header*/
+.header{
+    height: 15vh;
+}
+
+.top-header{
+    height: 75%;
+    background-color: var(--color2);
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom-header{
+    height: 25%;
+    background-color: var(--color2);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 50px;
+    position: relative;
+}
+
+.top-header-element{
+    height: 100%;
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+
+.company-logo{
+    height: 80px;
+    margin-left: 20px;
+}
+
+.top-header-right{
+    justify-content: end;
+}
+
+.user-logged{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: center;
+    margin-right: 20px;
+    color: white;
+}
+
+.user-logged-icon{
+    font-size: 25px;
+    color: var(--color1);
+}
+
+.user-logged-name{
+    font-size: 14px;
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    color: var(--color1);
+}
+
+.logout-icon{
+    color: var(--color1);
+}
+
+.bottom-header-border{
+    border-top: white solid 1px;
+}
+
+.bottom-header-item{
+    height: 100%;
+    padding: 0px 10px;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.bottom-header-item a{
+    color: rgb(44, 43, 43)
+}
+
+.bottom-header-item:hover {
+    font-weight: bold;
+}
+
+.bottom-header-item:hover .bottom-header-subitems {
+    display: flex;
+}
+
+.bhi-selected a{
+    font-weight: bold;
+}
+
+.bottom-header-subitems{
+    position: absolute;
+    top: 100%;
+    right: calc(50% - 100px);
+    width: 200px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    background-color: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    font-weight: lighter;
+    z-index: 1;
+}
+
+.bottom-header-subitems a{
+    width: 100%;
+}
+
+.bottom-header-subitem{
+    padding: 7px 0px;
+    text-align: center;
+}
+
+.bottom-header-subitem:hover{
+    font-weight: bold;
+}
+
+.bottom-header-show-subitems{
+    font-size: 13px;
+}
+
+.bottom-header-right-element{
+    height: 100%;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    justify-content: center ;
+    position: absolute;
+    right: 2%;
+    font-size: 13px;
+}
+
+.bottom-header-right-element:hover{
+    font-weight: bold;
+}
+
+
+

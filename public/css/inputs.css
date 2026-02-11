@@ -1,0 +1,58 @@
+/* div inputs*/
+.inputs-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputs-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* div input */
+.div-input{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* inputs */
+.input-std{
+    font-size: 13px;
+    text-align: center;
+    border:rgb(57, 56, 56) solid 1px;    
+}
+
+.disabled-input{
+    font-size: 13px;
+    text-align: center;
+    border:rgb(134, 130, 130) solid 1px;
+    color: rgb(120, 116, 116) ;
+}
+
+.invalid-input{
+    border: var(--errorColor) solid 2px;
+}
+
+/* labels */
+.label-std{
+    position: absolute;
+    background-color: white;
+    top: -8px;
+    padding: 0px 5px;
+}
+
+.invalid-label{
+    color: var(--errorColor);
+    font-weight: bold;
+}
+
+.disabled-label{
+    color:rgb(103, 99, 99);
+}
+

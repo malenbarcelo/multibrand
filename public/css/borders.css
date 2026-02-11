@@ -1,0 +1,15 @@
+/* solid */
+.bs{
+    border: black solid 1px;
+}
+.bs-2{
+    border: black solid 2px;
+}
+
+.bs-color1-1{
+    border: var(--color1) solid 1px;
+}
+
+.bs-gray-1{
+    border: gray solid 1px;
+}

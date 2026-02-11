@@ -1,0 +1,110 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-18 fw-b mt-25 mb-20 ta-c">IMPORTACIONES</div>
+
+<!--- general actions --->
+<div class="dgas top-20p r-12p">
+    <div class="dga h-35 w-35" id="create">
+        <i class="fa-solid fa-plus"></i>
+        <div class="dga-info fs-12 top-50p-">
+            Crear OC
+        </div>        
+    </div>
+</div>
+
+<!------------FILTERS------------>
+<div class="inputs-row cg-10 mb-25">
+    
+    <div class="div-input">
+        <label for="selectSupplier" class="label-std fs-12 l-3p">Proveedor</label>
+        <select name="selectSupplier" id="supplier" class="input-std w-250 pad-8-0">
+            <option value=""></option>            
+        </select>
+    </div>
+
+    <div class="div-input">
+        <label for="purchaseOrder" class="label-std fs-12 l-3p">Nº de OC</label>
+        <input type="text" name ="purchaseOrder" class="input-std w-150 pad-8-0" id="purchaseOrder">
+    </div>
+
+    <div class="div-input">
+        <label for="item" class="label-std fs-12 l-3p">Item</label>
+        <input type="text" name="item" class="input-std w-150 pad-8-0" id="item">
+    </div>
+
+    <div class="div-input">
+        <label for="selectSupplier" class="label-std fs-12 l-3p">Estado</label>
+        <select name="selectSupplier" id="importStatus" class="input-std w-150 pad-8-0">
+            <option value="default"></option>
+            <option value="default">En proceso</option>
+            <option value="default">Recibida</option>
+        </select>
+    </div>
+
+    <div id="unfilter" class="unfilter">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <div class="unfilter-info">Quitar filtros</div>
+    </div>
+</div>
+
+<!------------IMPORTS TABLE------------>
+<div class="div-table max-h-430" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="eippInfo">Editar OC</div>    
+    <div class="t-tooltip" id="rippInfo">Recibir</div>    
+    <div class="t-tooltip" id="pippInfo">Imprimir OC</div>
+    <div class="t-tooltip" id="iippInfo">Ver detalle</div>
+    <div class="t-tooltip" id="dippInfo">Eliminar OC</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="th pad-3-0 w-90">OC</th>
+                <th class="th pad-3-0 w-170">Proveedor</th>
+                <th class="th pad-3-0 w-80">Fecha</th>
+                <th class="th pad-3-0 w-90">FOB</th>
+                <th class="th pad-3-0 w-90">Moneda</th>
+                <th class="th pad-3-0 w-90">Volumen (m3)</th>
+                <th class="th pad-3-0 w-90">Cajas</th>
+                <th class="th pad-3-0 w-90">Fecha de recepción</th>
+                <th class="th pad-3-0 w-90">Costo sobre el FOB</th>
+                <th class="th pad-3-0 w-90">Costo estimado</th>
+                <th class="th pad-3-0 w-90">Real vs estimado</th>
+                <th class="th pad-3-0 w-50 pointer" id="eippIcon"><i class="fa-regular fa-pen-to-square"></i></th>                
+                <th class="th pad-3-0 w-50 pointer" id="rippIcon"><i class="fa-solid fa-truck-ramp-box"></i></th>                
+                <th class="th pad-3-0 w-50 pointer" id="pippIcon"><i class="fa-regular fa-file-excel"></i></th>                
+                <th class="th pad-3-0 w-50 pointer" id="iippIcon"><i class="fa-solid fa-magnifying-glass-plus"></i></th>
+                <th class="th pad-3-0 w-50 pointer" id="dippIcon"><i class="fa-regular fa-trash-can"></i></th>
+            </tr>
+        </thead>
+
+        <tbody id="body"></tbody>
+        
+    </table>
+</div>
+
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content ld-main top-45p"></div>
+</div>
+
+<!----------POPUPS---------->
+<%- include('./importsCEIPP') %>
+<%- include('./importsEIPP') %>
+<%- include('./importsSSPP') %>
+<%- include('../partials/resultsPopups') %>
+<%- include('../partials/confirmPopup') %>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/imports/imports.js"></script>
+
+
+
+
+
+
+
+

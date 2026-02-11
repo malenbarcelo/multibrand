@@ -1,0 +1,25 @@
+/* div buttons */
+.buttons-row{
+    display: flex;
+    justify-content: center;
+}
+
+.buttons-column{
+    display: flex;
+    flex-direction: column;
+}
+
+/* buttons */
+.btn-std{
+    background-color: var(--color1);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+}
+
+.btn-std:hover{
+    background-color:var(--color4);
+}
+

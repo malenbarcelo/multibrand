@@ -1,0 +1,90 @@
+/* colors */
+:root{
+    --color1:#15A89D;
+    --color2:#F4F4F4;
+    --color3:#94C6C4;
+    --color4:#11847c;
+    --color5:#799f9d;
+    --color10:#dae0e0;
+    --errorColor:rgb(221, 7, 7);
+    --errorColorLight:rgb(202, 127, 127);
+    --okColor: green;
+    --okColorLight:rgb(173, 204, 173);
+    --alertColor: rgb(104, 104, 104);
+    --alertColorLight:rgba(255, 255, 0, 0.785);
+}
+
+/* body */
+body{
+    font-family:'Poppins', Arial, "sans-serif";
+    margin: 0;    
+    font-size: 14px;
+}
+
+/* inputs */
+input, select, textarea{
+    outline:none
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}/*Hide arrows from input type number*/
+
+input[type="checkbox"]:checked {
+    accent-color: black
+}
+
+input[type="radio"]:checked {
+accent-color: black
+}
+
+a{
+    text-decoration: none;
+    color:black
+}
+
+/* pointer */
+.pointer{
+    cursor:pointer
+}
+
+/* unfilters */
+.unfilter{
+    position: relative;
+    cursor: pointer;
+}
+
+.unfilter-info{
+    font-size: 12px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    display: none;
+    width: 100px;
+}
+
+.unfilter:hover .unfilter-info{
+    display: block;
+}
+
+/* background colors */
+.bc-1{
+    background-color: var(--color1);
+}
+.bc-2{
+    background-color: var(--color2);
+}
+.bc-3{
+    background-color: var(--color3);
+}
+.bc-4{
+    background-color: var(--color4);
+}
+.bc-5{
+    background-color: var(--color5);
+}
+.bc-10{
+    background-color: var(--color10);
+}

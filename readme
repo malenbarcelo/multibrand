@@ -1,0 +1,47 @@
+/*---Generals---*/
+npm init -y
+npm install express
+npm install ejs
+npm install method-override
+npm install multer
+npm install express-validator
+npm install express-session
+npm install bcryptjs
+npm install nodemailer
+npm install googleapis
+npm install node-fetch@2
+
+
+/*---Sequelize---*/
+1. npm install --save sequelize-cli
+2. npm install --save sequelize
+3. npm install mysql2
+
+/*---excel---*/
+npm install exceljs
+npm install read-excel-file
+npm install xlsx
+
+Resumed --->
+npm init -y
+npm install express ejs method-override multer express-validator express-session bcryptjs sequelize-cli sequelize mysql2 exceljs read-excel-file session-file-store xlsx nodemailer googleapis
+
+To do actions Sequelize
+1. Create file .sequelizerc
+2. Sequelize: npx sequelize-cli init
+3. Modify file config.js
+
+Prd:
+1. Create file src/data/databaseConfig.js
+2. Create file src/data/doamin.js
+3. Create file public/js/domain.js
+4. Create gmailCredentials.json
+5. Create googleSheetsCredentials.json
+
+Dates importante!!
+Hice una tabla pl_dates donde pongo los numeros de semana por dia, hasta fines del 2028. Después del 2028 agregar más datos
+Tb hice la tabla schedule para que se vayan agregando los horarios. Ir haciendolo a mano, pero después agregar un cron
+
+
+
+

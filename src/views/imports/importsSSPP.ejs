@@ -1,0 +1,37 @@
+<!--- select supplier popup (sspp) --->
+<div class="popup pp-std" id="sspp">
+
+    <div class="pp-content w-600 top-90" id="ssppContent">
+
+        <div class="pp-close pad-6" id="ssppClose">
+            <div class="pp-close-icon w-25 h-25">x</div>
+        </div>
+
+        <div class="ta-c fw-b fs-17" id="ssppTitle">SELECCIONE UN PROVEEDOR</div>
+
+        <div class="flex-r jc-c mt-40">
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">Proveedor</label>
+                <select id="ssppSupplier" class="input-std ta-c w-300 pad-9-0-7-0">
+                    <option value=""></option>
+                    <% suppliers.forEach(supplier => { %>
+                        <option value="<%= supplier.id %>"><%= supplier.supplier %></option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+
+        <div class="fw-b fc-error fs-13 ta-c mt-5 not-visible" id="ssppError"></div>
+
+        <div class="flex-r cg-20 jc-c mb-13 mt-50">
+            <div id="ssppAccept" class="btn-std w-120 pad-6-0 fs-13">ACEPTAR</div>
+            <div id="ssppCancel" class="btn-std w-120 pad-6-0 fs-13">CANCELAR</div>
+        </div>
+
+    </div>
+</div>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="ssppLoader">
+    <div class="ld-content ld-main top-45p"></div>
+</div>

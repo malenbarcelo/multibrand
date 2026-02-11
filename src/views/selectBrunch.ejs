@@ -1,0 +1,18 @@
+<%- include('./partials/head') %>
+<%- include('./partials/header') %>
+
+<div class="fs-18 fw-b mt-35 mb-100 ta-c">SELECCIONE UNA OPCIÓN</div>
+
+<form action="/set-branch" method="POST">
+    <div class="flex-c rg-30">
+        <% branches.forEach(branch => { %>
+            <button type="submit" class="btn-std pad-17-0 w-400 m-a" name="<%= branch.id %>">
+                <div class="flex-r ai-c jc-c fs-17 cg-10">
+                    <%= branch.branch.toUpperCase() %>
+                    <img src="/images/<%= branch.branch.toLowerCase() %>.jpg" class="h-20" alt="logo">
+                </div>
+            </button>
+        <% }) %>
+    </div>
+</form>
+

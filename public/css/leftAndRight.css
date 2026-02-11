@@ -1,0 +1,50 @@
+/* left percentage */
+.l-3p{
+    left: 3%
+}
+
+/* right */
+.r-1{
+    right: 1px;
+}
+.r-3{
+    right: 3px;
+}
+.r-5{
+    right: 5px;
+}
+
+/* right percentage */
+.r-1p{
+    right: 1%;
+}
+.r-3p{
+    right: 3%;
+}
+.r-4p{
+    right: 4%;
+}
+.r-5p{
+    right: 5%;
+}
+.r-6p{
+    right: 6%;
+}
+.r-6dot5p{
+    right: 6.5%;
+}
+.r-7p{
+    right: 7%;
+}
+.r-10p{
+    right: 10%;
+}
+.r-12p{
+    right: 12%;
+}
+.r-15p{
+    right: 15%;
+}
+.r-20p{
+    right: 20%;
+}

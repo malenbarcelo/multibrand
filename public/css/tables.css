@@ -1,0 +1,79 @@
+/* tables */
+table{
+    margin: auto;
+    border-collapse: collapse;
+    width: max-content; /* permite que la tabla se expanda más allá del contenedor si es necesario */
+    table-layout: auto; /* evita truncamientos extraños */
+}
+thead{
+    position: sticky;
+    top:0;
+}/*to leave titles fixed*/
+
+/* div table */
+.div-table{
+    overflow-y: auto;
+    overflow-x: auto;
+    margin: auto;
+    width: fit-content;
+    max-width: 95%;
+}
+
+
+/* tables heads */
+
+.th{
+    text-align: center;
+    background-color: var(--color1);
+    color: white;
+    font-weight: lighter;
+}
+
+/* body */
+.body {
+    font-weight: lighter;
+    text-align: center;
+}
+
+.body-std {
+    font-weight: lighter;
+    text-align: center;
+    max-height: 2rem; /* Maximum height */    
+    padding: 3px 5px;
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds ellipsis (...) */
+    white-space: nowrap; /* Prevents text from wrapping into multiple lines*/
+}
+
+.body-overflow{
+    font-weight: lighter;
+    padding: 3px 0px;
+    text-align: center;
+    max-height: 2rem; /* Maximum height */    
+    padding: 3px 5px;
+}
+
+.body-even{
+    background-color: white;
+}/*background when row number is even*/
+
+.body-odd{
+    background-color: var(--color10);
+}/*background when row number is odd*/
+
+.allowed-icon{
+    cursor:pointer;
+}
+
+.unabled-icon{
+    color:gray;
+}
+
+/* table tooltips */
+.t-tooltip{
+    font-size: 12px;
+    position: absolute;
+    display: none;
+    text-align: center;
+}
+

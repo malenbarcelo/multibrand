@@ -1,0 +1,36 @@
+<!--- edit item popup (eipp) --->
+<div class="popup pp-std" id="eipp">
+
+    <div class="pp-content w-600 top-90" id="eippContent">
+
+        <div class="pp-close pad-6" id="eippClose">
+            <div class="pp-close-icon w-25 h-25">x</div>
+        </div>
+
+        <div class="ta-c fw-b fs-17" id="eippTitle"></div>
+
+        <div class="flex-c">
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">FOB</label>
+                <input type="text" class="input-std ta-c w-100 pad-9-0-7-0" id="eippFob">
+            </div>
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">Cantidad (UM)</label>
+                <input type="text" class="input-std ta-c w-100 pad-9-0-7-0" id="eippQty">
+            </div>
+        </div>
+
+        <div class="fw-b fc-error fs-13 ta-c mt-5 not-visible" id="eippError"></div>
+
+        <div class="flex-r cg-20 jc-c mb-13 mt-50">
+            <div id="eippAccept" class="btn-std w-120 pad-6-0 fs-13">ACEPTAR</div>
+            <div id="eippCancel" class="btn-std w-120 pad-6-0 fs-13">CANCELAR</div>
+        </div>
+
+    </div>
+</div>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="eippLoader">
+    <div class="ld-content ld-main top-45p"></div>
+</div>

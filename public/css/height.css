@@ -1,0 +1,105 @@
+/*--- height ---*/
+.h-5{
+    height: 5px;
+}
+.h-20{
+    height: 20px;
+}
+.h-25{
+    height: 25px;
+}
+.h-30{
+    height: 30px;
+}
+.h-35{
+    height: 35px;
+}
+.h-40{
+    height: 40px;
+}
+.h-50{
+    height: 50px;
+}
+.h-100{
+    height: 100px;
+}
+.h-200{
+    height: 200px;
+}
+.h-250{
+    height: 250px;
+}
+.h-300{
+    height: 300px;
+}
+.h-400{
+    height: 400px;
+}
+.h-430{
+    height: 430px;
+}
+.h-450{
+    height: 450px;
+}
+.h-470{
+    height: 470px;
+}
+.h-500{
+    height: 500px;
+}
+.h-600{
+    height: 600px;
+}
+.h-700{
+    height: 700px;
+}
+.h-720{
+    height: 720px;
+}
+.h-800{
+    height: 800px;
+}
+.h-900{
+    height: 900px;
+}
+.h-1000{
+    height: 1000px;
+}
+
+/*--- max height ---*/
+.max-h-400{
+    max-height: 400px;
+    overflow-y: auto;
+}
+.max-h-420{
+    max-height: 420px;
+    overflow-y: auto;
+}
+.max-h-430{
+    max-height: 430px;
+    overflow-y: auto;
+}
+.max-h-450{
+    max-height: 450px;
+    overflow-y: auto;
+}
+.max-h-470{
+    max-height: 470px;
+    overflow-y: auto;
+}
+.max-h-500{
+    max-height: 500px;
+    overflow-y: auto;
+}
+.max-h-600{
+    max-height: 600px;
+    overflow-y: auto;
+}
+.max-h-650{
+    max-height: 650px;
+    overflow-y: auto;
+}
+.max-h-700{
+    max-height: 700px;
+    overflow-y: auto;
+}

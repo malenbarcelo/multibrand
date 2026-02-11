@@ -1,0 +1,94 @@
+<!--- create edit import popup (ceipp) --->
+<div class="popup pp-std" id="ceipp">
+
+    <div class="pp-content w-1500 top-5 h-720" id="ceippContent">
+
+        <div class="pp-close pad-6" id="ceippClose">
+            <div class="pp-close-icon w-25 h-25">x</div>
+        </div>
+
+        <!--- general actions --->
+        <div class="flex-r absolute top-23p r-4p" id="ceippDgas">
+            <div class="dga h-35 w-35" id="ceippSave">
+                <i class="fa-regular fa-floppy-disk"></i>
+                <div class="dga-info fs-12 top-50p-">
+                    GUARDAR
+                </div>        
+            </div>
+        </div>
+
+        <div class="ta-c fw-b fs-19" id="ceippTitle"></div>
+
+        <div class="flex-r jc-c mt-15">
+            <input type="text" id="ceippPo" class="input-std ta-c w-100 pad-7">
+        </div>
+
+        <div class="flex-r jc-c cg-15 mt-25 mb-5">
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">Item</label>
+                <input type="text" class="input-std ta-c w-150 pad-9-0-7-0" id="ceippItem">
+            </div>
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">Cantidad (UM)</label>
+                <input type="number" step="0.01" class="input-std ta-c w-120 pad-9-0-7-0" id="ceippQty">
+            </div>
+            <div class="flex-c jc-c fs-20 pointer fc-1" id="ceippAddItem">
+                <i class="fa-solid fa-square-plus"></i>                
+            </div>
+        </div>
+
+        <div class="fw-b fc-error fs-13 ta-c mb-20" id="ceippError"></div>
+
+        <div class="flex-r jc-c ai-c cg-20 mb-15">
+            <div><b>FOB (USD): </b><span id="ceippFob"></span></div>
+            <div><b>CAJAS: </b><span id="ceippBoxes"></span></div>
+            <div><b>VOLUMEN (m3): </b><span id="ceippVolume"></span></div>
+            <div><b>PESO (kg): </b><span id="ceippWeight"></span></div>
+        </div>
+
+        <!------------ TABLE------------>
+        <div class="mb-5">
+
+            <!-- <div class="flex-r ai-c cg-10 fs-13">
+                <div>Buscar item: </div>
+                <input type="text" class="input-std ta-c w-150 pad-4-0">
+            </div> -->
+
+            <div class="div-table h-470 max-h-470 bs-color1-1" id="ceippTable">
+
+                <table>
+                    <thead clas="fs-13">
+                        <tr>
+                            <th class="th pad-3-0 w-90">Item</th>
+                            <th class="th pad-3-0 w-250">Descripción</th>
+                            <th class="th pad-3-0 w-80">Cantidad</th>
+                            <th class="th pad-3-0 w-80">UM</th>
+                            <th class="th pad-3 w-70">Precio por UM</th>
+                            <th class="th pad-3-10 w-70">UM por caja</th>
+                            <th class="th pad-3-10 w-90">Volumen por caja (m3)</th>
+                            <th class="th pad-3-10 w-70">Peso por caja (kg)</th>
+                            <th class="th pad-3-0 w-90">Cajas</th>
+                            <th class="th pad-3-10 w-70">Importe total</th>
+                            <th class="th pad-3-10 w-70">Volumen total (m3)</th>
+                            <th class="th pad-3-10 w-70">Peso total (kg)</th>
+                            <th class="th pad-3-0 w-100 flex-c">
+                                <div>Paga arancel</div>
+                                <input type="checkbox" class="pointer" id="ceippCheck">
+                            </th>
+                            <th class="th pad-3-0 w-50"><i class="fa-regular fa-pen-to-square"></i></th>
+                            <th class="th pad-3-0 w-50"><i class="fa-regular fa-trash-can"></i></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ceippBody"></tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="ceippLoader">
+    <div class="ld-content ld-main top-45p"></div>
+</div>

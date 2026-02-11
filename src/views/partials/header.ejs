@@ -1,0 +1,46 @@
+<div class="header">
+    <div class="top-header">
+        <div class="top-header-element">
+            <img src="/images/companyLogo.jpg" alt="multibrand" class="company-logo">
+        </div>
+        <div class="top-header-element top-header-right">
+            <div class="user-logged">
+                <% if (locals.userLogged) { %>
+                    <i class="fa-solid fa-user user-logged-icon"></i>
+                    <div class="user-logged-name">
+                        <%= userLogged.first_name + ' ' + userLogged.last_name %>
+                        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header <%= locals.bottomHeaderMenu ? 'bottom-header-border' : '' %>">
+        
+        <% if (locals.bottomHeaderMenu) { %>
+
+            <% bottomHeaderMenu.forEach(itemMenu => { %>
+                
+                <div class="<%= locals.selectedItem == itemMenu.name ? 'bottom-header-item bhi-selected' : 'bottom-header-item' %>">
+                    <a href="<%= itemMenu.href %>"><%= itemMenu.name %></a>                
+
+                    <% if (itemMenu.subitems.length > 0) { %>
+                        <div class="bottom-header-subitems" id="<%= 'subItems_' + itemMenu.id %>">
+                            <% itemMenu.subitems.forEach(subitem => { %>
+                                <a href="<%= subitem.href %>" class="bottom-header-subitem"><%= subitem.subitem %></a>                                
+                            <% }) %>
+                        </div>
+                        <div class="bottom-header-show-subitems"><i class="fa-solid fa-chevron-down"></i></div>
+                    <% } %>
+                </div>
+            <% }) %>
+            
+        <% } %>
+    </div>
+</div>  
+
+
+
+
+

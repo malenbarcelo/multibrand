@@ -1,0 +1,106 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-18 fw-b mt-25 mb-20 ta-c">LISTAS DE PRECIOS</div>
+
+<!--- general actions --->
+<div class="dgas top-20p r-7p">
+    <div class="dga h-35 w-35" id="create">
+        <i class="fa-solid fa-plus"></i>
+        <div class="dga-info fs-12 top-50p-">
+            Crear item
+        </div>        
+    </div>
+    <div class="dga h-35 w-35" id="upload">
+        <i class="fa-solid fa-upload"></i>
+        <div class="dga-info fs-12 top-50p-">
+            Subir lista
+        </div>        
+    </div>
+    <div class="dga h-35 w-35" id="download">
+        <i class="fa-solid fa-download"></i>
+        <div class="dga-info fs-12 top-50p-">
+            Descargar lista
+        </div>        
+    </div>
+</div>
+
+<!--- filters --->
+<div class="inputs-row cg-10 mb-25">
+    
+    <div class="div-input">
+        <label class="label-std fs-13 l-3p">Proveedor</label>
+        <select id="supplier" class="input-std w-250 pad-9-0-7-0">
+            <option value=""></option>
+            <% suppliers.forEach(supplier => { %>
+                <option value="<%= supplier.id %>">
+                    <%= supplier.supplier %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="div-input">
+        <label class="label-std fs-12 l-3p">Item</label>
+        <input type="text" class="input-std w-150 pad-9-0-7-0" id="item">
+    </div>
+
+    <div class="div-input">
+        <label class="label-std fs-12 l-3p">Descripción</label>
+        <input type="text" class="input-std w-250 pad-9-0-7-0" id="description">
+    </div>
+
+    <div id="unfilter" class="unfilter">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <div class="unfilter-info">Quitar filtros</div>
+    </div>
+</div>
+
+<!--- table --->
+<div class="div-table max-h-450" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="eippInfo">Editar</div>    
+    <div class="t-tooltip" id="dippInfo">Eliminar</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="th pad-3-0 w-170">Proveedor</th>
+                <th class="th pad-3-0 w-150">Item</th>
+                <th class="th pad-3-0 w-300">Descripción</th>
+                <th class="th pad-3-0 w-90">UM</th>
+                <th class="th pad-3-0 w-70">UM por caja</th>
+                <th class="th pad-3-0 w-90">Peso (kg)</th>
+                <th class="th pad-3-0 w-70">Volumen (m3)</th>
+                <th class="th pad-3-0 w-90">FOB / UM</th>
+                <th class="th pad-3-0 w-90">FOB / unidad</th>
+                <th class="th pad-3-0 w-90">Moneda</th>                
+                <th class="th pad-3-0 w-120">Costo estimado por unidad</th>
+                <th class="th pad-3-0 w-70">Costo vs FOB</th>                
+                <th class="th pad-3-0 w-120">Precio de venta (ARS)</th>
+                <th class="th pad-3-0 w-120">Margen %</th>
+                <th class="th pad-3-0 w-50 pointer" id="eippIcon"><i class="fa-regular fa-pen-to-square"></i></th>                
+                <th class="th pad-3-0 w-50 pointer" id="dippIcon"><i class="fa-regular fa-trash-can"></i></th>
+            </tr>
+        </thead>
+
+        <tbody id="body"></tbody>
+        
+    </table>
+</div>
+
+<!----------POPUPS---------->
+<%- include('./masterCEIPP') %>
+<%- include('../partials/resultsPopups') %>
+<%- include('../partials/confirmPopup') %>
+<%- include('./masterFAPP') %>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content ld-main top-55p"></div>
+</div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/master/master.js"></script>
+

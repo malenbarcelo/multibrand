@@ -1,0 +1,38 @@
+/* div general actions */
+.dgas{
+    display: flex;
+    column-gap: 20px;
+    position: absolute;
+}
+
+/* div general action */
+.dga{
+    border: var(--color1) solid 2px;
+    color: var(--color1);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dga:hover{
+    color:white;
+    background-color: var(--color1);
+}
+
+.dga:hover .dga-info{
+    display: block;
+}
+
+/* div general action info */
+.dga-info{
+    display: none;
+    position: absolute;
+    text-align: center;
+    width: 150px;
+    color: var(--color1);
+}
+
+
+

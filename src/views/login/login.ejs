@@ -1,0 +1,36 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-18 fw-b mt-35 mb-70 ta-c">INICIAR SESIÓN</div>
+
+<form action="/login" method="POST">
+    <div class="inputs-column">
+        <div class="div-input">
+            <label for="email" class="label-std l-3p ts <%= locals.errors && errors.userName ? 'invalid-label' : null %>">USUARIO</label>
+            <input type="text" name="userName" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? 'invalid-input' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
+            <div class="fw-b fc-error txs">
+                <% if (locals.errors && errors.userName) { %>
+                    <%= errors.userName.msg %>
+                <% } %>
+            </div>
+        </div>
+        <div class="div-input mt-25">
+            <label for="password" class="label-std l-3p ts <%= locals.errors && errors.password ? 'invalid-label' : null %>">CONTRASEÑA</label>
+            <input type="password" name="password" class="input-std w-350 pad-12-0 <%= locals.errors && errors.password ? 'invalid-input' : null %>" value="<%= locals.oldData ? oldData.password : null %>" autocomplete="off">
+            <div class="fw-b fc-error txs   ">
+                <% if (locals.errors && errors.password) { %>
+                    <%= errors.password.msg %>
+                <% } %>
+            </div>
+        </div>        
+    </div>
+
+    <div class="buttons-row mt-xl">
+        <button type="submit" class="btn-std mt-35 w-350 pad-12-0" id="loginBtn">LOGIN</button>
+    </div>
+
+    <div class="flex jc-c"><div class="ts ta-c mt-35 underline pointer fc-blue" id="restorePassword">Olvidé mi contraseña</div></div>
+    <div class="flex jc-c" ><div class="ts ta-c mt-10 underline pointer fc-blue">Cambiar mi contraseña</div></div>
+    
+    
+</form>

@@ -1,0 +1,76 @@
+import g from "./globals.js"
+import { domain } from "../domain.js"
+import { gu } from "../globalUtils.js"
+import { printDetails } from "./printDetails.js"
+
+// create edit item popup (ceipp)
+async function ceippEventListeners() {
+
+    // add item
+    ceippAddItem.addEventListener('click',async()=>{
+
+        if (ceippItem.value != '' && ceippQty.value != '') {
+
+            const itemData = g.supplierItems.find( i => i.item.toLowerCase() == ceippItem.value)
+            const findItem = g.details.find( i => i.item.toLowerCase() == ceippItem.value)
+
+            if (itemData && !findItem) {
+                
+                let nextIndex = 1
+
+                if (g.details.length > 0) {
+                    const maxIndex = Math.max(...g.details.map(d => d.idx || 0))
+                    nextIndex = maxIndex + 1
+                }
+
+                const boxes = ceippQty.value / Number(itemData.mu_per_box)
+
+                g.details.push({
+                    idx: nextIndex,
+                    id_master: itemData.id,
+                    item: ceippItem.value,
+                    description: itemData.description,
+                    id_measurement_units: itemData.id_measurement_units,
+                    mu_per_box: Number(itemData.mu_per_box),
+                    mu_quantity: Number(ceippQty.value),
+                    fob: Number(itemData.fob),
+                    volume_m3: Number(itemData.volume_m3),
+                    weight_kg: Number(itemData.weight_kg),
+                    pays_duties_tarifs: 0,
+                    estimated_unit_cost: itemData.estimated_unit_cost,
+                    mu: itemData.mu_data.measurement_unit,
+                    totalFob: Number(itemData.fob) * Number(ceippQty.value),
+                    totalVolume: Number(itemData.volume_m3) * boxes,
+                    totalWeight: Number(itemData.weight_kg) * boxes,
+                    boxes: boxes,
+                })
+
+                // print details
+                printDetails()
+
+                // clear inputs
+                gu.clearInputs([ceippItem, ceippQty])
+
+                // focus
+                ceippItem.focus()
+
+                // hide error
+                const errorText = ''
+                ceippError.innerText = errorText
+            }else{
+                const errorText = findItem ? 'El item ingresado ya se encuentra en la OC' : 'No se encuentra el item en la lista del proveedor'
+                ceippError.innerText = errorText
+            }
+        }
+    })
+
+    // save po
+    ceippSave.addEventListener('click',async()=>{
+        coppText.innerHTML = '¿Confirma que desea guardar la <b>OC ' + ceippPo.value + ' </b>del proveedor <b>' + g.supplierData.supplier + '</b>?'
+        copp.style.display = 'block'
+    })
+
+    
+}
+
+export { ceippEventListeners }
