@@ -7,6 +7,7 @@ import { printDetails } from "./printDetails.js"
 
 // popups
 import { ceippEventListeners} from "./importsCEIPP.js"
+import { eippEventListeners} from "./importsEIPP.js"
 import { ssppEventListeners} from "./importsSSPP.js"
 import { coppEventListeners} from "./importsCOPP.js"
 
@@ -23,8 +24,6 @@ window.addEventListener('load',async()=>{
     // get data
     await utils.resetData()
 
-    console.log(g.imports)
-
     // show tooltips
     gu.showTooltips(g.tooltips,217,150)
 
@@ -34,8 +33,15 @@ window.addEventListener('load',async()=>{
     // close with escape
     gu.closeWithEscape(g.popups)
 
+    // allows only number with ',' and 3 decimals
+    gu.replaceDotWithComa(g.elementsToFormat,3)
+
+    // accept with enter
+    gu.acceptWithEnterInput(ceippQty, ceippAddItem)
+
     // popups event listeners
     ceippEventListeners()
+    eippEventListeners()
     ssppEventListeners()
     coppEventListeners()
 

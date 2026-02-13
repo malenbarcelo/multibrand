@@ -13,6 +13,8 @@ async function ssppEventListeners() {
     // add item
     ssppAccept.addEventListener('click',async()=>{
 
+        loader.style.display = 'block'
+
         let errors = 0
 
         // find supplier items
@@ -50,6 +52,7 @@ async function ssppEventListeners() {
             // hide errors and clear data
             ceippError.innerText = ''
             gu.clearInputs([ceippItem, ceippQty])
+            ceippCheck.checked = false
             g.details = []
 
             // print table
@@ -60,7 +63,11 @@ async function ssppEventListeners() {
         
             // show popup
             ceipp.style.display = 'block'
+            ceippItem.focus()
+            
         }
+
+        loader.style.display = 'none'
     })
 }
 

@@ -33,6 +33,9 @@ window.addEventListener('load',async()=>{
     // close with escape
     gu.closeWithEscape(g.popups)
 
+    // allows only number with ',' and 3 decimals
+    gu.replaceDotWithComa(g.elementsToFormat,3)
+
     // popups event listeners
     ceippEventListeners()
     coppEventListeners()

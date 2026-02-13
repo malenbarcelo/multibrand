@@ -6,6 +6,7 @@ let g = {
     branchData: null,
     popups: [copp, fapp, ceipp],
     ceippInputs: [ceippSupplier, ceippItem, ceippDescription, ceippFob, ceippMu, ceippMuPerBox, ceippWeight, ceippVolume, ceippBrand, ceippOrigin, ceippBreaks, ceippSpecialPriceFactor],
+    elementsToFormat: [ceippFob, ceippMuPerBox, ceippWeight, ceippVolume, ceippSpecialPriceFactor],
     // imports
     page:0,
     pages:0,

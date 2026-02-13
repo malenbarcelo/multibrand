@@ -1,0 +1,160 @@
+<!--- receive popup (ripp) --->
+<div class="popup pp-std" id="ripp">
+
+    <div class="pp-content w-1200 top-15" id="rippContent">
+
+        <div class="pp-close pad-6" id="rippClose">
+            <div class="pp-close-icon w-25 h-25">x</div>
+        </div>
+
+        <div class="ta-c fw-b fs-20" id="rippTitle">RECIBIR IMPORTACIÓN</div>
+        <div class="ta-c fw-b fs-16 mt-10 mb-25" id="rippTitle">AR.02.26 - Libbey China</div>
+
+        <div class="flex-r jc-c">
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p">Fecha de recepción</label>
+                <input type="date" id="rippDate" class="input-std ta-c w-250 pt-10 pb-6">
+            </div>
+        </div>
+        
+
+        <div class="fw-b fc-error fs-13 ta-c mt-10 not-visible" id="rippError">Debe completar todos los datos</div>
+
+        <div class="bs-gray-1 w-90p m-a mt-15">            
+            
+            <!--- title -->
+            <div class="mt-10 fw-b ta-c fs-15">GASTOS DE LA IMPORTACIÓN (ARS)</div>
+
+            <!--- inputs -->
+            <div class="inputs-row cg-15 mt-25">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">FOB (USD)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-120 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Tasa de cambio</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-120 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Flete</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Seguro</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>         
+            </div>
+
+            <div class="inputs-row cg-15 mt-25">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">FOB (ARS)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">CIF (ARS)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7 bs-2" disabled>
+                </div>
+            </div>
+
+            <div class="inputs-row cg-15 mt-25">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Gastos forwarder</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Flete</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Gastos despacho</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Honorarios despacho</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Gastos contenedor</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+            </div>
+
+            <div class="inputs-row cg-15 mt-25 mb-15">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Gastos puerto</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Derechos / Aranceles</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Seguro contenedor</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Aporte portuario</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p">Otros gastos</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-150 pt-10 pb-7">
+                </div>
+            </div>
+        </div>
+
+        <div class="bs-gray-1 w-90p m-a mt-10">            
+            <!--- title -->
+            <div class="mt-10 fw-b ta-c fs-15">COSTEO</div>
+
+            <!--- inputs -->
+            <div class="inputs-row cg-15 mt-25 mb-15">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Gastos totales (ARS)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Costos totales (ARS)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Gastos por volumen (ARS)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Gastos por precio (ARS)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+            </div>
+
+            <div class="inputs-row cg-15 mt-25 mb-15">
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Costo (USD)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Costos vs FOB %</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Costo estimado (USD)</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+                <div class="div-input">
+                    <label class="label-std fs-13 l-3p fw-b">Cost real vs Estimado %</label>
+                    <input type="text" id="rippItem" class="input-std ta-c w-180 pt-10 pb-7 bs-2" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-r cg-20 jc-c mb-13 mt-15">
+            <div id="rippAccept" class="btn-std w-150 pad-8-0 fs-13">GUARDAR</div>
+            <div id="rippCancel" class="btn-std w-150 pad-8-0 fs-13">CANCELAR</div>
+        </div>
+    </div>
+</div>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="rippLoader">
+    <div class="ld-content ld-main top-45p"></div>
+</div>

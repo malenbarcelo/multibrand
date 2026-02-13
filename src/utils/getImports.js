@@ -15,7 +15,7 @@ async function getImports(data, idBranch) {
             detail.calculated_data = {}
 
             // fob
-            const fob = Number(detail.fob_supplier_currency)
+            const fob = Number(detail.fob)
             const qty = Number(detail.mu_quantity)
             const totalFob = fob * qty
             detail.calculated_data.fob = totalFob
@@ -34,7 +34,7 @@ async function getImports(data, idBranch) {
 
             // estimated cost
             const estimatedUnitCost = detail.estimated_unit_cost == null ? null : Number(detail.estimated_unit_cost)
-            detail.calculated_data.estimated_cost = detail.calculated_data.units * estimatedUnitCost
+            detail.calculated_data.estimated_cost = estimatedUnitCost == null ? null : detail.calculated_data.units * estimatedUnitCost
             
         })
 

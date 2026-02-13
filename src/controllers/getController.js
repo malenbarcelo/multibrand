@@ -116,7 +116,7 @@ const getController = {
     imports: async(req,res) =>{
         try{
 
-            const { page, size, order, po_string, id_suppliers, item_string, enabled  } = req.query
+            const { page, size, id, order, po_string, id_suppliers, item_string, enabled  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -129,6 +129,10 @@ const getController = {
             // add filters
             if (order) {
                 filters.order = JSON.parse(order)
+            }
+
+            if (id) {
+                filters.id = id
             }
 
             if (po_string) {

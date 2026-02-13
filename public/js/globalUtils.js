@@ -231,7 +231,7 @@ const gu = {
 
     acceptWithEnterInput: function(input,button) {
         input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && (button.style.display == 'flex' || button.style.display == 'block')) {
+            if (e.key === 'Enter' && (button.classList.contains('flex-c') || button.classList.contains('flex-r') || button.style.display == 'flex' || button.style.display == 'block')) {
                 button.click()
             }
         })
@@ -248,6 +248,34 @@ const gu = {
         checks.forEach(check => {
             check.checked = true
             
+        })
+    },
+
+    replaceDotWithComa: function(inputs, decimals) {
+        
+        inputs.forEach(input => {
+
+            input.addEventListener('input', () => {
+                
+                // if '.' or ',' put ','
+                let value = input.value
+                    .replace(/[^0-9.,]/g, '')   // permite punto y coma
+                    .replace(/\./g, ',')        // punto → coma
+                    .replace(/(,.*),/g, '$1')   // una sola coma
+
+                // decimals
+                if (value.includes(',')) {
+                    const [int, dec] = value.split(',')
+
+                    if (dec.length > decimals) {
+                        const num = Number((int + '.' + dec))
+                        value = num.toFixed(decimals).replace('.', ',')
+                    }
+                }
+
+                input.value = value
+
+            })
         })
     },
 }

@@ -19,6 +19,10 @@ const importsQueries = {
             where.enabled = filters.enabled
         }
 
+        if (filters.id) {
+            where.id = filters.id
+        }
+
         if (filters.id_branches) {
             where.id_branches = filters.id_branches
         }

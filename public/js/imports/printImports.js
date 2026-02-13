@@ -1,5 +1,8 @@
 import g from "./globals.js"
 import gg from "../globals.js"
+import { gu } from "../globalUtils.js"
+import { printDetails } from "./printDetails.js"
+import { domain } from "../domain.js"
 
 async function printImports() {
     
@@ -23,12 +26,12 @@ async function printImports() {
                 <td class="${rowClass}">${gg.formatter0.format(element.calculated_data.boxes)}</td>
                 <td class="${rowClass}">${''}</td>
                 <td class="${rowClass}">${''}</td>
-                <td class="${rowClass}">${gg.formatter2.format(element.calculated_data.estimated_cost)}</td>
+                <td class="${rowClass}">${(element.calculated_data.estimated_cost == null || element.calculated_data.estimated_cost == 0) ? '' : gg.formatter2.format(element.calculated_data.estimated_cost)}</td>
                 <td class="${rowClass}">${''}</td>                
                 <td class="${rowClass}"><i class="fa-regular fa-pen-to-square fs-12" id="edit_${element.id}"></i></td>
-                <td class="${rowClass}"><i class="fa-solid fa-truck-ramp-box fs-12" id="edit_${element.id}"></i></td>
-                <td class="${rowClass}"><i class="fa-regular fa-file-excel fs-12" id="edit_${element.id}"></i></td>
-                <td class="${rowClass}"><i class="fa-solid fa-magnifying-glass-plus fs-12" id="edit_${element.id}"></i></td>
+                <td class="${rowClass}"><i class="fa-solid fa-truck-ramp-box fs-12" id="receive_${element.id}"></i></td>
+                <td class="${rowClass}"><i class="fa-regular fa-file-excel fs-12" id="excel_${element.id}"></i></td>
+                <td class="${rowClass}"><i class="fa-solid fa-magnifying-glass-plus fs-12" id="details_${element.id}"></i></td>
                 <td class="${rowClass}"><i class="fa-regular fa-trash-can fs-12" id="destroy_${element.id}"></i></td>
             </tr>
             `
@@ -36,64 +39,128 @@ async function printImports() {
 
     body.innerHTML = html
 
-    //eventListeners(data)
+    eventListeners(data)
 }
 
-// function eventListeners(data) {
+function eventListeners(data) {
 
-//     data.forEach(element => {
+    data.forEach(element => {
 
-//         const edit = document.getElementById('edit_' + element.id)
-//         const destroy = document.getElementById('destroy_' + element.id)
-//         const tr = document.getElementById('tr_' + element.id)
+        const edit = document.getElementById('edit_' + element.id)
+        const destroy = document.getElementById('destroy_' + element.id)
+        const excel = document.getElementById('excel_' + element.id)
+        const tr = document.getElementById('tr_' + element.id)
 
-//         // edit
-//         edit.addEventListener('click',async()=>{
-//             g.action = 'edit'
-//             g.elementToEdit = element
-//             ceippTitle.innerText = 'EDITAR ITEM'
-//             ceippAccept.innerText = 'EDITAR'
-//             ceipp.style.display = 'block'
-//             ceippContent.scrollTop = 0
-//             ceippError.classList.add('not-visible')
-//             ceippDgas.classList.remove('not-visible')
+        // edit
+        edit.addEventListener('click',async()=>{
             
-//             // complete inputs
-//             ceippSupplier.value = element.id_suppliers
-//             ceippSupplier.disabled = true
-//             ceippSupplierLabel.style.display = 'none'
-//             ceippSupplier.dispatchEvent(new Event('change'))
-//             ceippItem.value = element.item
-//             ceippDescription.value = element.description
-//             ceippFob.value = Number(element.fob).toFixed(3).replace('.',',')
-//             ceippMu.value = element.id_measurement_units
-//             ceippMuPerBox.value = Number(element.mu_per_box).toFixed(3).replace('.',',')
-//             ceippWeight.value = element.weight_kg == null ? '' : Number(element.weight_kg).toFixed(3).replace('.',',')
-//             ceippVolume.value = Number(element.volume_m3).toFixed(3).replace('.',',')
-//             ceippBrand.value = element.brand
-//             ceippOrigin.value = element.origin
-//             ceippBreaks.value = element.has_breaks
-//             ceippSpecialPriceFactor.value = element.special_price_factor == null ? '' : Number(element.special_price_factor).toFixed(3).replace('.',',')
+            // action and title
+            g.action = 'edit'
+            g.importToEdit = element
+            g.supplierData = g.suppliers.find( s => s.id == element.id_suppliers)
+            
+            // supplieritems
+            const supplierItems = await (await fetch(`${domain}get/master?id_suppliers=${element.id_suppliers}&enabled=1`)).json()
+            g.supplierItems = supplierItems.rows
 
-//             ceippSupplier.dispatchEvent(new Event('change'))
-//             ceippSupplier.focus()
-//         })
+            ceippTitle.innerText = 'EDITAR ORDEN DE COMPRA - ' + g.supplierData.supplier.toUpperCase()
 
-//         // edit row with double click
-//         tr.addEventListener('dblclick',async()=>{
-//             if (edit) {
-//                 edit.click()
-//             }
-//         })
+            // complete poNumber
+            ceippPo.value = element.purchase_order
 
-//         //destroy
-//         destroy.addEventListener('click',async()=>{
-//             g.confirmation = 'deleteItem'            
-//             g.elementToEdit = element
-//             coppText.innerHTML = '¿Confirma que desea eliminar el item <b>' + element.item + '</b> del proveedor <b>' + element.supplier_data.supplier + '</b>?'
-//             copp.style.display = 'block'
-//         })
-//     })
-// }
+            // hide errors and clear data
+            ceippError.innerText = ''
+            gu.clearInputs([ceippItem, ceippQty])
+
+            // check
+            const payDuties = element.details.filter( d => d.pays_duties_tarifs == 1)
+            if (payDuties.length == element.details.length) {
+                ceippCheck.checked = true
+            }else{
+                ceippCheck.checked = false
+            }
+            
+            // get details
+            g.details = []
+            element.details.forEach(detail => {
+                
+                const boxes = Number(detail.mu_quantity) / Number(detail.mu_per_box)
+
+                g.details.push({
+                    idx: detail.id,
+                    id_master: detail.id_master,
+                    item: detail.item,
+                    description: detail.description,
+                    id_measurement_units: detail.id_measurement_units,
+                    mu_per_box: Number(detail.mu_per_box),
+                    mu_quantity: Number(detail.mu_quantity),
+                    fob: Number(detail.fob),
+                    volume_m3: Number(detail.volume_m3),
+                    weight_kg: Number(detail.weight_kg),
+                    pays_duties_tarifs: detail.pays_duties_tarifs,
+                    estimated_unit_cost: detail.estimated_unit_cost,
+                    mu: detail.mu_data.measurement_unit,
+                    totalFob: Number(detail.fob) * Number(detail.mu_quantity),
+                    totalVolume: Number(detail.volume_m3) * boxes,
+                    totalWeight: Number(detail.weight_kg) * boxes,
+                    boxes: boxes,
+                })
+                
+            })
+
+            // print table
+            printDetails()
+
+            // show popup
+            ceipp.style.display = 'block'
+            ceippItem.focus()
+        })
+
+        // edit row with double click
+        tr.addEventListener('dblclick',async()=>{
+            if (edit) {
+                edit.click()
+            }
+        })
+
+        //destroy
+        destroy.addEventListener('click',async()=>{
+            g.action = 'delete'            
+            g.importToEdit = element
+            coppText.innerHTML = '¿Confirma que desea eliminar la orden de compra <b>' + element.purchase_order + '</b> del proveedor <b>' + element.supplier_data.supplier + '</b>?'
+            copp.style.display = 'block'
+        })
+
+        // download excel
+        excel.addEventListener('click',async()=>{
+            
+            // download price list
+            loader.style.display = 'block'
+
+            const data = {id: element.id}
+
+            const response = await fetch(domain + 'composed/download-purchase-order',{
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+
+            if (response.ok) {
+                const blob = await response.blob()
+                const url = window.URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = element.purchase_order + ' - ' + element.supplier_data.supplier + '.xlsx'
+                document.body.appendChild(a)
+                a.click()
+                a.remove()
+            } else {
+                console.error('Error al descargar el archivo:', response.statusText);
+            }
+
+            loader.style.display = 'none'
+        })
+    })
+}
 
 export { printImports }

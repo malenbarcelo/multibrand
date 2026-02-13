@@ -2,7 +2,8 @@ let g = {
     imports:[],
     suppliers:[],
     branchData: null,
-    popups: [copp,sspp,ceipp],
+    popups: [copp,sspp,eipp,ceipp],
+    elementsToFormat: [ceippQty, eippFob, eippQty],
     // imports
     page:0,
     pages:0,
@@ -41,7 +42,9 @@ let g = {
         },
     ],
     action: null,
-    // create edit po
+    // modify pos
+    itemToEdit: null,
+    importToEdit: null,
     supplierData: null,
     supplierItems: [],
     details: []

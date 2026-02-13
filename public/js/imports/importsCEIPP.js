@@ -6,6 +6,16 @@ import { printDetails } from "./printDetails.js"
 // create edit item popup (ceipp)
 async function ceippEventListeners() {
 
+    // check
+    ceippCheck.addEventListener('click', async () => {
+        g.details = g.details.map(d => ({
+            ...d,
+            pays_duties_tarifs: ceippCheck.checked ? 1 : 0
+        }))
+
+        printDetails()
+    })
+
     // add item
     ceippAddItem.addEventListener('click',async()=>{
 

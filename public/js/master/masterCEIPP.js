@@ -8,34 +8,9 @@ import gg from "../globals.js"
 async function ceippEventListeners() {
 
     const elementsToChange = [ceippSupplier, ceippFob, ceippMu, ceippMuPerBox, ceippVolume, ceippSpecialPriceFactor]
-    const elementsToFormat = [ceippFob, ceippMuPerBox, ceippWeight, ceippVolume, ceippSpecialPriceFactor]
     let elementsForCosting = [ceippSupplier, ceippFob, ceippMu, ceippMuPerBox]
     let supplierData
     let row
-
-    // allows only number with ',' and 3 decimals
-    elementsToFormat.forEach(element => {
-        element.addEventListener('input', () => {
-            
-            // if '.' or ',' put ','
-            let value = element.value
-                .replace(/[^0-9.,]/g, '')   // permite punto y coma
-                .replace(/\./g, ',')        // punto → coma
-                .replace(/(,.*),/g, '$1')   // una sola coma
-
-            // 3 decimals
-            if (value.includes(',')) {
-                const [int, dec] = value.split(',')
-
-                if (dec.length > 3) {
-                    const num = Number((int + '.' + dec))
-                    value = num.toFixed(3).replace('.', ',')
-                }
-            }
-
-            element.value = value
-        })
-    })
 
     // view factors
     ceippViewFactors.addEventListener('click',async()=>{
