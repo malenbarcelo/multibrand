@@ -7,6 +7,7 @@ import { utils } from "./utils.js"
 async function coppEventListeners() {
 
     coppAccept.addEventListener('click',async()=>{
+        console.log('hola')
 
         loader.style.display = 'block'
         ceipp.style.display = 'none'

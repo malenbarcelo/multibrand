@@ -2,8 +2,9 @@ let g = {
     imports:[],
     suppliers:[],
     branchData: null,
-    popups: [copp,sspp,eipp,ceipp],
+    popups: [copp,sspp,eipp,ceipp, ripp],
     elementsToFormat: [ceippQty, eippFob, eippQty],
+    rippToFormat: [rippTc,rippFreight, rippInsurance, rippForwarder, rippDomesticFreight, rippDispatchExpenses, rippOfficeFees, rippContainerCosts, rippPortExpenses, rippDutiesTariffs, rippContainerInsurance, rippPortContribution, rippOtherExpenses],
     // imports
     page:0,
     pages:0,
@@ -13,6 +14,8 @@ let g = {
         order:'[["po_number","DESC"]]',
         id_suppliers:'',
         item_string:'',
+        po_string:'',
+        import_status:'',
         enabled: 1
     },
     // scroll

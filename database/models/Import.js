@@ -32,15 +32,15 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.DATE,
          allowNull: true,
       },
+      currency_exchange:{
+         type: DataTypes.DECIMAL,
+         allowNull: true,
+      },
       freight_local_currency:{
          type: DataTypes.DECIMAL,
          allowNull:true
       },
       insurance_local_currency:{
-         type: DataTypes.DECIMAL,
-         allowNull:true
-      },
-      cif_local_currency:{
          type: DataTypes.DECIMAL,
          allowNull:true
       },

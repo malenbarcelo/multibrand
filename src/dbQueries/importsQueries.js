@@ -31,17 +31,22 @@ const importsQueries = {
             where.id_suppliers = filters.id_suppliers
         }
 
-        if (filters.item_string) {
-            where.item = {
-                [Op.like]: `%${utils.specialChars(filters.item_string)}%`
-            }
-        }
-
         if (filters.po_string) {
             where.purchase_order = {
                 [Op.like]: `%${utils.specialChars(filters.po_string)}%`
             }
         }
+
+        // where details
+        // const whereDetails = {}
+
+        // console.log(whereDetails)
+
+        // if (filters.item_string) {
+        //     whereDetails.item = {
+        //         [Op.like]: `%${utils.specialChars(filters.item_string)}%`
+        //     }
+        // }
 
         const data = await model.findAndCountAll({
             include:[
@@ -54,7 +59,7 @@ const importsQueries = {
                     include:[
                         {association:'master_data'},
                         {association:'mu_data'}                        
-                    ]
+                    ],
                 },
             ],
             order,

@@ -12,7 +12,9 @@ const utils = {
         filters += g.filters.size == '' ? '' : `&size=${g.filters.size}`
         filters += g.filters.order == '' ? '' : `&order=${g.filters.order}`
         filters += g.filters.id_suppliers == '' ? '' : `&id_suppliers=${g.filters.id_suppliers}`
+        filters += g.filters.po_string == '' ? '' : `&po_string=${g.filters.po_string}`
         filters += g.filters.item_string == '' ? '' : `&item_string=${g.filters.item_string}`
+        filters += g.filters.import_status == '' ? '' : `&import_status=${g.filters.import_status}`
         filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
 
         const fetchData = await (await fetch(`${domain}get/imports?${filters}`)).json()

@@ -8,6 +8,7 @@ import { printDetails } from "./printDetails.js"
 // popups
 import { ceippEventListeners} from "./importsCEIPP.js"
 import { eippEventListeners} from "./importsEIPP.js"
+import { rippEventListeners} from "./importsRIPP.js"
 import { ssppEventListeners} from "./importsSSPP.js"
 import { coppEventListeners} from "./importsCOPP.js"
 
@@ -35,6 +36,7 @@ window.addEventListener('load',async()=>{
 
     // allows only number with ',' and 3 decimals
     gu.replaceDotWithComa(g.elementsToFormat,3)
+    gu.replaceDotWithComa(g.rippToFormat,3)
 
     // accept with enter
     gu.acceptWithEnterInput(ceippQty, ceippAddItem)
@@ -43,6 +45,7 @@ window.addEventListener('load',async()=>{
     ceippEventListeners()
     eippEventListeners()
     ssppEventListeners()
+    rippEventListeners()
     coppEventListeners()
 
     // add page with scroll
@@ -64,44 +67,47 @@ window.addEventListener('load',async()=>{
         g.previousScrollTop = table.scrollTop
     })
 
-    // // filters
-    // const filters = [supplier, item, description]
+    // filters
+    const filters = [supplier, purchaseOrder, item, importStatus]
 
-    // for (const filter of filters) {
+    for (const filter of filters) {
         
-    //     filter.addEventListener("change", async () => {
+        filter.addEventListener("change", async () => {
             
-    //         // show loader
-    //         loader.style.display = 'block'
+            // show loader
+            loader.style.display = 'block'
 
-    //         //complete filters
-    //         g.filters.id_suppliers = supplier.value
-    //         g.filters.item_string = item.value
-    //         g.filters.description = description.value
+            //complete filters
+            g.filters.id_suppliers = supplier.value
+            g.filters.po_string = purchaseOrder.value
+            g.filters.item_string = item.value
+            g.filters.import_status = importStatus.value
             
-    //         await utils.resetData()
+            await utils.resetData()
 
-    //         // hide loader
-    //         loader.style.display = 'none'
-    //     })
-    // }
+            // hide loader
+            loader.style.display = 'none'
+        })
+    }
 
-    // // unfilter event listener
-    // unfilter.addEventListener("click", async() => {        
+    // unfilter event listener
+    unfilter.addEventListener("click", async() => {        
         
-    //     // show loader
-    //     loader.style.display = 'block'
+        // show loader
+        loader.style.display = 'block'
         
-    //     // reset filters
-    //     gu.clearInputs(filters)
-    //     g.filters.id_suppliers = ''
-    //     g.filters.item = ''
+        // reset filters
+        gu.clearInputs(filters)
+        g.filters.id_suppliers = ''
+        g.filters.item_string = ''
+        g.filters.po_string = ''
+        g.filters.import_status = ''   
         
-    //     await utils.resetData()
+        await utils.resetData()
         
-    //     // hide loader
-    //     loader.style.display = 'none'
-    // })
+        // hide loader
+        loader.style.display = 'none'
+    })
 
     // create po
     create.addEventListener("click", async() => {

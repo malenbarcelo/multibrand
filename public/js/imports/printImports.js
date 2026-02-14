@@ -49,6 +49,7 @@ function eventListeners(data) {
         const edit = document.getElementById('edit_' + element.id)
         const destroy = document.getElementById('destroy_' + element.id)
         const excel = document.getElementById('excel_' + element.id)
+        const receive = document.getElementById('receive_' + element.id)
         const tr = document.getElementById('tr_' + element.id)
 
         // edit
@@ -157,6 +158,53 @@ function eventListeners(data) {
             } else {
                 console.error('Error al descargar el archivo:', response.statusText);
             }
+
+            loader.style.display = 'none'
+        })
+
+        // receive
+        receive.addEventListener('click',async()=>{
+
+            loader.style.display = 'block'
+            
+            // action and title
+            g.action = 'edit'
+            g.importToEdit = element
+            g.supplierData = g.suppliers.find( s => s.id == element.id_suppliers)
+            
+            rippSubtitle.innerText = element.purchase_order + ' - ' +g.supplierData.supplier
+
+            // hide errors and clear data
+            rippError.innerText = ''
+
+            // labels
+            rippFobLabel.innerText = 'FOB (' + element.supplier_data.currency_data.currency + ')'
+            rippCostLabel.innerText = 'Costo (' + element.supplier_data.currency_data.currency + ')'
+            rippEstimatedCostLabel.innerText = 'Costo estimado (' + element.supplier_data.currency_data.currency + ')'
+            
+            // complete data
+            // calculated data
+            rippFob.value = gg.formatter2.format(element.calculated_data.fob)
+            //rippFobArs.value = element.calculated_data.fob_ars == null ? '' : gg.formatter2.format(element.calculated_data.fob_ars)
+            // rippFob.value = gg.formatter2.format(element.calculated_data.fob)
+
+            // input data
+            rippDate.value = element.reception_date == null ? '' : element.reception_date.split('T')[0]
+            rippTc.value = element.tc == null ? '' : gg.formatter2.format(element.tc)
+            rippFreight.value = element.freight_local_currency == null ? '' : gg.formatter2.format(element.freight_local_currency)
+            rippInsurance.value = element.insurance_local_currency == null ? '' : gg.formatter2.format(element.insurance_local_currency)
+            rippForwarder.value = element.forwarder_local_currency == null ? '' : gg.formatter2.format(element.forwarder_local_currency)
+            rippDomesticFreight.value = element.domestic_freight_local_currency == null ? '' : gg.formatter2.format(element.domestic_freight_local_currency)
+            rippDispatchExpenses.value = element.dispatch_expenses_local_currency == null ? '' : gg.formatter2.format(element.dispatch_expenses_local_currency)
+            rippOfficeFees.value = element.office_fees_local_currency == null ? '' : gg.formatter2.format(element.office_fees_local_currency)
+            rippContainerCosts.value = element.container_costs_local_currency == null ? '' : gg.formatter2.format(element.container_costs_local_currency)
+            rippPortExpenses.value = element.port_expenses_local_currency == null ? '' : gg.formatter2.format(element.port_expenses_local_currency)
+            rippDutiesTariffs.value = element.duties_tariffs_local_currency == null ? '' : gg.formatter2.format(element.duties_tariffs_local_currency)
+            rippContainerInsurance.value = element.container_insurance_local_currency == null ? '' : gg.formatter2.format(element.container_insurance_local_currency)
+            rippPortContribution.value = element.port_contribution_local_currency == null ? '' : gg.formatter2.format(element.port_contribution_local_currency)
+            rippOtherExpenses.value = element.other_expenses_local_currency == null ? '' : gg.formatter2.format(element.other_expenses_local_currency)    
+
+            ripp.style.display = 'block'
 
             loader.style.display = 'none'
         })

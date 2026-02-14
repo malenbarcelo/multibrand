@@ -83,23 +83,23 @@ const appController = {
         return res.send('Ha ocurrido un error')
         }
     },
-  master: async(req,res) =>{
-        try{
+    master: async(req,res) =>{
+            try{
 
-            // get session if DEV
-            getDevSession(req)
+                // get session if DEV
+                getDevSession(req)
 
-            const suppliers = await suppliersQueries.get({filters:{order:[["supplier","ASC"]]}})
-            const mus = await musQueries.get({filters:{order:[["measurement_unit","ASC"]]}})
-            const selectedItem = 'MAESTRO'
-        
-            return res.render('master/master',{title:'Multibrand',suppliers, selectedItem, bottomHeaderMenu, mus})
-        
-        }catch(error){
-        console.log(error)
-        return res.send('Ha ocurrido un error')
-        }
-  },
+                const suppliers = await suppliersQueries.get({filters:{order:[["supplier","ASC"]]}})
+                const mus = await musQueries.get({filters:{order:[["measurement_unit","ASC"]]}})
+                const selectedItem = 'MAESTRO'
+            
+                return res.render('master/master',{title:'Multibrand',suppliers, selectedItem, bottomHeaderMenu, mus})
+            
+            }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+            }
+    },
 }
 module.exports = appController
 

@@ -19,7 +19,10 @@
     <div class="div-input">
         <label for="selectSupplier" class="label-std fs-12 l-3p">Proveedor</label>
         <select name="selectSupplier" id="supplier" class="input-std w-250 pad-8-0">
-            <option value=""></option>            
+            <option value=""></option>
+            <% suppliers.forEach(supplier => { %>
+                <option value="<%= supplier.id %>"><%= supplier.supplier %></option>
+            <% }) %>            
         </select>
     </div>
 
