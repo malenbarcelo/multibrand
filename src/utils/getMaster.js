@@ -52,15 +52,15 @@ async function getMaster(data, idBranch) {
 
         if (row.supplier_data.cost_calculation == 'volume') {            
             row.estimated_mu_cost = factors ? utils.round(row.cif + row.dispatch_expenses + row.volume_expenses + row.price_expenses,3) : null
-            row.estimated_estimated_unit_cost = factors ? utils.round(row.estimated_mu_cost / unitsPerMu,3) : null
+            row.estimated_unit_cost = factors ? utils.round(row.estimated_mu_cost / unitsPerMu,3) : null
         }else{
             const coeficient = factors ? Number(row.factors.factor) : null
             row.estimated_mu_cost = factors ? utils.round(fob * (1 + coeficient),3) : null
-            row.estimated_estimated_unit_cost = factors ? utils.round(row.estimated_mu_cost / unitsPerMu,3) : null
+            row.estimated_unit_cost = factors ? utils.round(row.estimated_mu_cost / unitsPerMu,3) : null
         }
 
         // other data
-        row.cost_vs_fob = factors ? utils.round((row.estimated_estimated_unit_cost / row.unit_fob),3) : null
+        row.cost_vs_fob = factors ? utils.round((row.estimated_unit_cost / row.unit_fob),3) : null
 
         // sell price
         row.suggested_price = factors ? utils.round(row.estimated_unit_cost * (1 + margin),3)  : null

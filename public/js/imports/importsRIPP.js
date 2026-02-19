@@ -1,4 +1,5 @@
 import g from "./globals.js"
+import gg from "../globals.js"
 
 // create edit item popup (ceipp)
 async function rippEventListeners() {
@@ -9,6 +10,8 @@ async function rippEventListeners() {
     elementsToChange.forEach(element => {
 
         element.addEventListener('change',async()=>{
+
+            loader.style.display = 'block'
 
             // inputs
             const tc = rippTc.value == '' ? null : Number(rippTc.value.replace(',','.'))
@@ -26,19 +29,54 @@ async function rippEventListeners() {
             const otherExpenses = rippOtherExpenses.value == '' ? null : Number(rippOtherExpenses.value.replace(',','.'))
 
             // calculations
+            const nullInputs = elementsToChange.some(i => i.value == '')
             const fob = g.importToEdit.calculated_data.fob
-            const fobArs = tc == null ? null : tc * fob
-            const cif = (tc == null || freight == null || insurance == null) ? null : (fobArs + freight + insurance)
-            const expenses = (freight == null || insurance == null || forwarder == null || domesticFreight == null || dispatchExpenses == null || officeFees == null || containerCosts == null || portExpenses == null || dutiesTariffs == null || containerInsurance == null || portContribution == null || otherExpenses == null) ? null : (freight + insurance + forwarder + domesticFreight + dispatchExpenses + officeFees + containerCosts + portExpenses + dutiesTariffs + containerInsurance + portContribution + otherExpenses)
-            const costs = (cif == null || expenses == null) ? null : (cif + expenses)
+            const fobLocalCurrency = tc == null ? null : tc * fob
+            const cif = (tc == null || freight == null || insurance == null) ? null : (fobLocalCurrency + freight + insurance)
+            const expenses = nullInputs ? null : (freight + insurance + forwarder + domesticFreight + dispatchExpenses + officeFees + containerCosts + portExpenses + dutiesTariffs + containerInsurance + portContribution + otherExpenses)
+            const costs = nullInputs ? null : (fobLocalCurrency + expenses)
+            const volumeExpenses = nullInputs ? null : (forwarder + domesticFreight + portExpenses + containerInsurance + portContribution + otherExpenses)
+            const priceExpenses = nullInputs ? null : (dispatchExpenses + officeFees + containerCosts)
+            const cost = nullInputs ? null : (costs / tc)
+            const costVsFob = nullInputs ? null : (cost / fob - 1)
 
             // complete inputs
-            rippFobArs.value = fobArs == null ? '' : String(fobArs).replace('.',',')
-            rippCif.value = cif == null ? '' : String(cif).replace('.',',')
-            rippExpenses.value = expenses == null ? '' : String(expenses).replace('.',',')
-            rippCosts.value = costs == null ? '' : String(costs).replace('.',',')
+            rippFobLocalCurrency.value = fobLocalCurrency == null ? '' : gg.formatter2.format(fobLocalCurrency)
+            rippCif.value = cif == null ? '' : gg.formatter2.format(cif)
+            rippExpenses.value = expenses == null ? '' : gg.formatter2.format(expenses)
+            rippCosts.value = costs == null ? '' : gg.formatter2.format(costs)
+            rippVolumeExpenses.value = nullInputs ? '' : gg.formatter2.format(volumeExpenses)
+            rippPriceExpenses.value = nullInputs ? '' : gg.formatter2.format(priceExpenses)
+            rippCost.value = nullInputs ? '' : gg.formatter2.format(cost)
+            rippCostVsFob.value = nullInputs ? '' : gg.formatter2.format(costVsFob*100)
+            rippRealVsEstimated.value = nullInputs ? '' : gg.formatter2.format((cost / g.importToEdit.calculated_data.estimated_cost - 1)*100)
+
+            if (!nullInputs) {
+                if (cost > g.importToEdit.calculated_data.estimated_cost) {
+                    rippRealVsEstimated.classList.add('fc-error')
+                    rippRealVsEstimated.classList.remove('fc-green')
+                } else {
+                    rippRealVsEstimated.classList.remove('fc-error')
+                    rippRealVsEstimated.classList.add('fc-green')
+                }
+            }
+
+            loader.style.display = 'none'
 
         })
+    })
+
+    // save changes
+    rippAccept.addEventListener('click',async()=>{
+        const nullInputs = elementsToChange.some(i => i.value == '')
+        if (nullInputs || rippDate.value == '') {
+            rippError.classList.remove('not-visible')
+        }else{
+            rippError.classList.add('not-visible')
+            coppText.innerHTML = '¿Confirma que desea guardar los datos?'
+            copp.style.display = 'block'
+        }
+        
     })
     
 }

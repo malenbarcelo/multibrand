@@ -56,6 +56,17 @@ const utils = {
         // weight
         const poWeight = g.details.reduce((acc, { totalWeight }) => acc + Number(totalWeight || 0), 0)
         ceippWeight.innerText = gg.formatter2.format(poWeight)
+    },
+
+    updateDetailsData: async function() {
+        
+        g.details.forEach(detail => {
+            const boxes = detail.mu_quantity / detail.mu_per_box
+            detail.totalFob = Number(detail.fob) * Number(detail.mu_quantity)
+            detail.totalVolume = Number(detail.volume_m3) * boxes
+            detail.totalWeight = Number(detail.weight_kg) * boxes
+            detail.boxes = boxes
+        })
     }
 }
 

@@ -93,7 +93,6 @@ const composedController = {
         }
     },
 
-    // download imort excel
     downloadPoExcel: async(req,res) =>{
         try{
 
@@ -147,7 +146,7 @@ const composedController = {
           console.log(error)
           return res.send('Ha ocurrido un error')
         }
-    },
+    }
 
 }
 module.exports = composedController

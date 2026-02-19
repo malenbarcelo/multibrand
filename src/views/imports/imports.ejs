@@ -28,20 +28,20 @@
 
     <div class="div-input">
         <label for="purchaseOrder" class="label-std fs-12 l-3p">Nº de OC</label>
-        <input type="text" name ="purchaseOrder" class="input-std w-150 pad-8-0" id="purchaseOrder">
+        <input type="text" name ="purchaseOrder" class="input-std w-150 pad-8-0" id="purchaseOrder" autocomplete="off">
     </div>
 
     <div class="div-input">
         <label for="item" class="label-std fs-12 l-3p">Item</label>
-        <input type="text" name="item" class="input-std w-150 pad-8-0" id="item">
+        <input type="text" name="item" class="input-std w-150 pad-8-0" id="item" autocomplete="off">
     </div>
 
     <div class="div-input">
         <label for="selectSupplier" class="label-std fs-12 l-3p">Estado</label>
         <select name="selectSupplier" id="importStatus" class="input-std w-150 pad-8-0">
             <option value="default"></option>
-            <option value="default">En proceso</option>
-            <option value="default">Recibida</option>
+            <option value="inProgress">En proceso</option>
+            <option value="received">Recibida</option>
         </select>
     </div>
 
@@ -67,13 +67,14 @@
                 <th class="th pad-3-0 w-90">OC</th>
                 <th class="th pad-3-0 w-170">Proveedor</th>
                 <th class="th pad-3-0 w-80">Fecha</th>
-                <th class="th pad-3-0 w-90">FOB</th>
+                <th class="th pad-3-0 w-110">FOB</th>
                 <th class="th pad-3-0 w-90">Moneda</th>
                 <th class="th pad-3-0 w-90">Volumen (m3)</th>
                 <th class="th pad-3-0 w-90">Cajas</th>
                 <th class="th pad-3-0 w-90">Fecha de recepción</th>
+                <th class="th pad-3-0 w-90">Costo</th>
                 <th class="th pad-3-0 w-90">Costo sobre el FOB</th>
-                <th class="th pad-3-0 w-90">Costo estimado</th>
+                <th class="th pad-3-0 w-110">Costo<br>estimado</th>
                 <th class="th pad-3-0 w-90">Real vs estimado</th>
                 <th class="th pad-3-0 w-50 pointer" id="eippIcon"><i class="fa-regular fa-pen-to-square"></i></th>                
                 <th class="th pad-3-0 w-50 pointer" id="rippIcon"><i class="fa-solid fa-truck-ramp-box"></i></th>                

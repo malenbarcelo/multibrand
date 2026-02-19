@@ -2,6 +2,7 @@ import g from "./globals.js"
 import { domain } from "../domain.js"
 import { gu } from "../globalUtils.js"
 import { printDetails } from "./printDetails.js"
+import { utils } from "./utils.js"
 
 // create edit item popup (ceipp)
 async function eippEventListeners() {
@@ -19,6 +20,7 @@ async function eippEventListeners() {
             const item = g.details.find( d => d.item == g.itemToEdit.item)
             item.fob = Number(eippFob.value.replace(',','.'))
             item.mu_quantity = Number(eippQty.value.replace(',','.'))
+            utils.updateDetailsData()
             eipp.style.display = 'none'
             printDetails()
             loader.style.display = 'none'

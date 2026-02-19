@@ -3,6 +3,7 @@ import gg from "../globals.js"
 import { gu } from "../globalUtils.js"
 import { printDetails } from "./printDetails.js"
 import { domain } from "../domain.js"
+import { utils } from "./utils.js"
 
 async function printImports() {
     
@@ -14,7 +15,11 @@ async function printImports() {
 
         const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-6-0 body-even' : 'ta-c fs-12 pad-6-0 body-odd'
         const date = element.date.split('-')[2].split('T')[0] + '/' + element.date.split('-')[1] + '/' + element.date.split('-')[0]
-        
+        const receptionDate = element.reception_date == null ? '' : element.reception_date.split('-')[2].split('T')[0] + '/' + element.reception_date.split('-')[1] + '/' + element.reception_date.split('-')[0]
+        const costVsFob = element.calculated_data.cost_vs_fob == null ? '' : (gg.formatter2.format(element.calculated_data.cost_vs_fob*100)+'%')
+        const realVsEstimated = element.calculated_data.real_vs_estimated == null ? '' : (gg.formatter2.format(element.calculated_data.real_vs_estimated*100)+'%')
+        const realVsEstimatedCss = element.calculated_data.real_vs_estimated == null ? '' : (element.calculated_data.real_vs_estimated > 0 ? 'fc-error fw-b' : 'fc-green fw-b')
+    
         html += `
             <tr class="pointer" id="tr_${element.id}">
                 <td class="${rowClass}">${element.purchase_order}</td>
@@ -24,10 +29,11 @@ async function printImports() {
                 <td class="${rowClass}">${element.supplier_data.currency_data.currency}</td>
                 <td class="${rowClass}">${element.calculated_data.volume_m3 == null ? '' : gg.formatter3.format(element.calculated_data.volume_m3)}</td>
                 <td class="${rowClass}">${gg.formatter0.format(element.calculated_data.boxes)}</td>
-                <td class="${rowClass}">${''}</td>
-                <td class="${rowClass}">${''}</td>
-                <td class="${rowClass}">${(element.calculated_data.estimated_cost == null || element.calculated_data.estimated_cost == 0) ? '' : gg.formatter2.format(element.calculated_data.estimated_cost)}</td>
-                <td class="${rowClass}">${''}</td>                
+                <td class="${rowClass}">${receptionDate}</td>
+                <td class="${rowClass}">${element.calculated_data.cost == null ? '' : gg.formatter2.format(element.calculated_data.cost)}</td>
+                <td class="${rowClass}">${costVsFob}</td>
+                <td class="${rowClass}">${(element.calculated_data.estimated_cost == null) ? '' : gg.formatter2.format(element.calculated_data.estimated_cost)}</td>
+                <td class="${rowClass + ' ' + realVsEstimatedCss}">${realVsEstimated}</td>                
                 <td class="${rowClass}"><i class="fa-regular fa-pen-to-square fs-12" id="edit_${element.id}"></i></td>
                 <td class="${rowClass}"><i class="fa-solid fa-truck-ramp-box fs-12" id="receive_${element.id}"></i></td>
                 <td class="${rowClass}"><i class="fa-regular fa-file-excel fs-12" id="excel_${element.id}"></i></td>
@@ -85,8 +91,6 @@ function eventListeners(data) {
             g.details = []
             element.details.forEach(detail => {
                 
-                const boxes = Number(detail.mu_quantity) / Number(detail.mu_per_box)
-
                 g.details.push({
                     idx: detail.id,
                     id_master: detail.id_master,
@@ -100,12 +104,10 @@ function eventListeners(data) {
                     weight_kg: Number(detail.weight_kg),
                     pays_duties_tarifs: detail.pays_duties_tarifs,
                     estimated_unit_cost: detail.estimated_unit_cost,
-                    mu: detail.mu_data.measurement_unit,
-                    totalFob: Number(detail.fob) * Number(detail.mu_quantity),
-                    totalVolume: Number(detail.volume_m3) * boxes,
-                    totalWeight: Number(detail.weight_kg) * boxes,
-                    boxes: boxes,
+                    mu: detail.mu_data.measurement_unit
                 })
+
+                utils.updateDetailsData()
                 
             })
 
@@ -168,14 +170,14 @@ function eventListeners(data) {
             loader.style.display = 'block'
             
             // action and title
-            g.action = 'edit'
+            g.action = 'receive'
             g.importToEdit = element
             g.supplierData = g.suppliers.find( s => s.id == element.id_suppliers)
             
             rippSubtitle.innerText = element.purchase_order + ' - ' +g.supplierData.supplier
 
             // hide errors and clear data
-            rippError.innerText = ''
+            rippError.classList.add('not-visible')
 
             // labels
             rippFobLabel.innerText = 'FOB (' + element.supplier_data.currency_data.currency + ')'
@@ -185,24 +187,25 @@ function eventListeners(data) {
             // complete data
             // calculated data
             rippFob.value = gg.formatter2.format(element.calculated_data.fob)
-            //rippFobArs.value = element.calculated_data.fob_ars == null ? '' : gg.formatter2.format(element.calculated_data.fob_ars)
-            // rippFob.value = gg.formatter2.format(element.calculated_data.fob)
+            rippEstimatedCost.value = gg.formatter2.format(element.calculated_data.estimated_cost)
 
             // input data
             rippDate.value = element.reception_date == null ? '' : element.reception_date.split('T')[0]
-            rippTc.value = element.tc == null ? '' : gg.formatter2.format(element.tc)
-            rippFreight.value = element.freight_local_currency == null ? '' : gg.formatter2.format(element.freight_local_currency)
-            rippInsurance.value = element.insurance_local_currency == null ? '' : gg.formatter2.format(element.insurance_local_currency)
-            rippForwarder.value = element.forwarder_local_currency == null ? '' : gg.formatter2.format(element.forwarder_local_currency)
-            rippDomesticFreight.value = element.domestic_freight_local_currency == null ? '' : gg.formatter2.format(element.domestic_freight_local_currency)
-            rippDispatchExpenses.value = element.dispatch_expenses_local_currency == null ? '' : gg.formatter2.format(element.dispatch_expenses_local_currency)
-            rippOfficeFees.value = element.office_fees_local_currency == null ? '' : gg.formatter2.format(element.office_fees_local_currency)
-            rippContainerCosts.value = element.container_costs_local_currency == null ? '' : gg.formatter2.format(element.container_costs_local_currency)
-            rippPortExpenses.value = element.port_expenses_local_currency == null ? '' : gg.formatter2.format(element.port_expenses_local_currency)
-            rippDutiesTariffs.value = element.duties_tariffs_local_currency == null ? '' : gg.formatter2.format(element.duties_tariffs_local_currency)
-            rippContainerInsurance.value = element.container_insurance_local_currency == null ? '' : gg.formatter2.format(element.container_insurance_local_currency)
-            rippPortContribution.value = element.port_contribution_local_currency == null ? '' : gg.formatter2.format(element.port_contribution_local_currency)
-            rippOtherExpenses.value = element.other_expenses_local_currency == null ? '' : gg.formatter2.format(element.other_expenses_local_currency)    
+            rippTc.value = element.currency_exchange == null ? '' :  gu.formatNumberWithComma(element.currency_exchange,2)
+            rippFreight.value = element.freight_local_currency == null ? '' : gu.formatNumberWithComma(element.freight_local_currency,2)
+            rippInsurance.value = element.insurance_local_currency == null ? '' : gu.formatNumberWithComma(element.insurance_local_currency,2)
+            rippForwarder.value = element.forwarder_local_currency == null ? '' : gu.formatNumberWithComma(element.forwarder_local_currency,2)
+            rippDomesticFreight.value = element.domestic_freight_local_currency == null ? '' : gu.formatNumberWithComma(element.domestic_freight_local_currency,2)
+            rippDispatchExpenses.value = element.dispatch_expenses_local_currency == null ? '' : gu.formatNumberWithComma(element.dispatch_expenses_local_currency,2)
+            rippOfficeFees.value = element.office_fees_local_currency == null ? '' : gu.formatNumberWithComma(element.office_fees_local_currency,2)
+            rippContainerCosts.value = element.container_costs_local_currency == null ? '' : gu.formatNumberWithComma(element.container_costs_local_currency,2)
+            rippPortExpenses.value = element.port_expenses_local_currency == null ? '' : gu.formatNumberWithComma(element.port_expenses_local_currency,2)
+            rippDutiesTariffs.value = element.duties_tariffs_local_currency == null ? '' : gu.formatNumberWithComma(element.duties_tariffs_local_currency,2)
+            rippContainerInsurance.value = element.container_insurance_local_currency == null ? '' : gu.formatNumberWithComma(element.container_insurance_local_currency,2)
+            rippPortContribution.value = element.port_contribution_local_currency == null ? '' : gu.formatNumberWithComma(element.port_contribution_local_currency,2)
+            rippOtherExpenses.value = element.other_expenses_local_currency == null ? '' : gu.formatNumberWithComma(element.other_expenses_local_currency,2)
+
+            rippTc.dispatchEvent(new Event('change'))
 
             ripp.style.display = 'block'
 

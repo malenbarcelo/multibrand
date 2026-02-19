@@ -2,6 +2,7 @@ import g from "./globals.js"
 import { domain } from "../domain.js"
 import { gu } from "../globalUtils.js"
 import { printDetails } from "./printDetails.js"
+import { utils } from "./utils.js"
 
 // create edit item popup (ceipp)
 async function ceippEventListeners() {
@@ -33,8 +34,6 @@ async function ceippEventListeners() {
                     nextIndex = maxIndex + 1
                 }
 
-                const boxes = ceippQty.value / Number(itemData.mu_per_box)
-
                 g.details.push({
                     idx: nextIndex,
                     id_master: itemData.id,
@@ -48,12 +47,11 @@ async function ceippEventListeners() {
                     weight_kg: Number(itemData.weight_kg),
                     pays_duties_tarifs: 0,
                     estimated_unit_cost: itemData.estimated_unit_cost,
-                    mu: itemData.mu_data.measurement_unit,
-                    totalFob: Number(itemData.fob) * Number(ceippQty.value),
-                    totalVolume: Number(itemData.volume_m3) * boxes,
-                    totalWeight: Number(itemData.weight_kg) * boxes,
-                    boxes: boxes,
+                    mu: itemData.mu_data.measurement_unit
                 })
+
+                // update data
+                utils.updateDetailsData()
 
                 // print details
                 printDetails()

@@ -37,16 +37,40 @@ const importsQueries = {
             }
         }
 
+        if (filters.import_status) {
+            if (filters.import_status == 'received') {
+                where.reception_date = {
+                    [Op.ne]: null
+                }
+            }else{
+                where.reception_date = {
+                    [Op.is]: null
+                }
+            }
+        }
+
         // where details
-        // const whereDetails = {}
+        const whereDetails = {}
 
-        // console.log(whereDetails)
+        if (filters.item_string) {
+            whereDetails.item = {
+                [Op.like]: `%${utils.specialChars(filters.item_string)}%`
+            }
+        }
 
-        // if (filters.item_string) {
-        //     whereDetails.item = {
-        //         [Op.like]: `%${utils.specialChars(filters.item_string)}%`
-        //     }
-        // }
+        const detailsInclude = {
+            association: 'details',
+            required: !!filters.item_string, // 👈 clave
+            include: [
+                { association: 'master_data' },
+                { association: 'mu_data' }
+            ]
+        }
+
+        // solo agrego where si existe filtro
+        if (filters.item_string) {
+            detailsInclude.where = whereDetails
+        }
 
         const data = await model.findAndCountAll({
             include:[
@@ -54,13 +78,7 @@ const importsQueries = {
                     association:'supplier_data',
                     include:[{association:'currency_data'}]
                 },
-                {
-                    association:'details',
-                    include:[
-                        {association:'master_data'},
-                        {association:'mu_data'}                        
-                    ],
-                },
+                detailsInclude
             ],
             order,
             where,

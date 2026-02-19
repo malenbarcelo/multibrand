@@ -24,8 +24,7 @@ async function printTable() {
                 <td class="${rowClass}">${gg.formatter2.format(element.fob)}</td>
                 <td class="${rowClass}">${gg.formatter2.format(element.unit_fob)}</td>
                 <td class="${rowClass}">${element.supplier_data.currency_data.currency}</td>
-                <td class="${rowClass}">${element.unit_cost == null ? '' : gg.formatter2.format(element.unit_cost)}</td>
-                <td class="${rowClass}">${element.cost_vs_fob == null ? '' : gg.formatter2.format(element.cost_vs_fob)}</td>
+                <td class="${rowClass}">${element.estimated_unit_cost == null ? '' : gg.formatter3.format(element.estimated_unit_cost)}</td>
                 <td class="${rowClass}">${element.sells_price_ars == null ? '' : gg.formatter0.format(element.sells_price_ars)}</td>
                 <td class="${rowClass}">${element.margin == null ? '' : gg.formatter1.format(element.margin) + ' %'}</td>
                 <td class="${rowClass}"><i class="fa-regular fa-pen-to-square fs-12" id="edit_${element.id}"></i></td>

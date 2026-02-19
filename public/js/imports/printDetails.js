@@ -3,7 +3,7 @@ import gg from "../globals.js"
 import { utils } from "./utils.js"
 
 async function printDetails() {
-    
+
     ceippBody.innerHTML = ''
     let html = ''
     g.details = g.details.sort((a, b) => a.item.localeCompare(b.item))
@@ -18,14 +18,14 @@ async function printDetails() {
             <tr class="pointer" id="ceippTr_${element.idx}">
                 <td class="${rowClass}">${element.item}</td>
                 <td class="${rowClass}">${element.description}</td>
-                <td class="${rowClass}">${gg.formatter2.format(element.mu_quantity)}</td>
+                <td class="${rowClass}">${gg.formatter0.format(element.mu_quantity)}</td>
                 <td class="${rowClass}">${element.mu}</td>
-                <td class="${rowClass}">${gg.formatter3.format(element.fob)}</td>
+                <td class="${rowClass}">${gg.formatter2.format(element.fob)}</td>
                 <td class="${rowClass}">${gg.formatter2.format(element.mu_per_box)}</td>
                 <td class="${rowClass}">${gg.formatter3.format(element.volume_m3)}</td>
                 <td class="${rowClass}">${gg.formatter3.format(element.weight_kg)}</td>
                 <td class="${rowClass}">${gg.formatter1.format(element.boxes)}</td>
-                <td class="${rowClass}">${gg.formatter3.format(element.totalFob)}</td>
+                <td class="${rowClass}">${gg.formatter2.format(element.totalFob)}</td>
                 <td class="${rowClass}">${gg.formatter3.format(element.totalVolume)}</td>
                 <td class="${rowClass}">${gg.formatter3.format(element.totalWeight)}</td>
                 <td class="${rowClass}"><input type="checkbox" class="pointer" ${checkStatus} id="ceippCheck_${element.idx}"></td>
@@ -62,7 +62,7 @@ function eventListeners(data) {
             const currency = g.importToEdit.supplier_data.currency_data.currency
             eippFobText.innerText = '(FOB lista: ' + currency + ' ' + gg.formatter3.format(fob) + ')'
             eippError.classList.add('not-visibe')
-            g.itemToEdit = element            
+            g.itemToEdit = element
             eipp.style.display = 'block'
             eippFob.focus()
             loader.style.display = 'none'
@@ -87,9 +87,9 @@ function eventListeners(data) {
         check.addEventListener('click',async()=>{
 
             loader.style.display = 'block'
-            
+
             const detail = g.details.find( d => d.idx == element.idx)
-            
+
             if (check.checked) {
                 detail.pays_duties_tarifs = 1
             }else{

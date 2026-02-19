@@ -116,7 +116,7 @@ const getController = {
     imports: async(req,res) =>{
         try{
 
-            const { page, size, id, order, po_string, id_suppliers, item_string, enabled  } = req.query
+            const { page, size, id, order, po_string, id_suppliers, item_string, import_status, enabled  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -145,6 +145,10 @@ const getController = {
 
             if (item_string) {
                 filters.item_string = item_string
+            }
+
+            if (import_status) {
+                filters.import_status = import_status
             }
 
             if (enabled) {

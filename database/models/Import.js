@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.DECIMAL,
          allowNull:true
       },
-      duties_tarifs_local_currency:{
+      duties_tariffs_local_currency:{
          type: DataTypes.DECIMAL,
          allowNull:true
       },

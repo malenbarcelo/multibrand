@@ -26,7 +26,9 @@ window.addEventListener('load',async()=>{
     await utils.resetData()
 
     // show tooltips
-    gu.showTooltips(g.tooltips,217,150)
+    //gu.showTooltips(g.tooltips,217,150)
+    gu.showTooltips(g.tooltips,150)
+    
 
     // close popups
     gu.closePopups(g.popups)

@@ -7,7 +7,6 @@ import { utils } from "./utils.js"
 async function coppEventListeners() {
 
     coppAccept.addEventListener('click',async()=>{
-        console.log('hola')
 
         loader.style.display = 'block'
         ceipp.style.display = 'none'
@@ -86,6 +85,57 @@ async function coppEventListeners() {
             }
 
             // reset data
+            await utils.resetData()
+            loader.style.display = 'none'
+
+        }
+
+        // receive import
+        if (g.action == 'receive') {
+
+            const data = {
+                condition: 'id',
+                updateDetails: false,
+                data:[{
+                    id: g.importToEdit.id,
+                    dataToUpdate: {
+                        reception_date: rippDate.value,
+                        currency_exchange: Number(rippTc.value.replace(',','.')),
+                        freight_local_currency: Number(rippFreight.value.replace(',','.')),
+                        insurance_local_currency: Number(rippInsurance.value.replace(',','.')),
+                        forwarder_local_currency: Number(rippForwarder.value.replace(',','.')),
+                        domestic_freight_local_currency: Number(rippDomesticFreight.value.replace(',','.')),
+                        dispatch_expenses_local_currency: Number(rippDispatchExpenses.value.replace(',','.')),
+                        office_fees_local_currency: Number(rippOfficeFees.value.replace(',','.'))   ,
+                        container_costs_local_currency: Number(rippContainerCosts.value.replace(',','.')),
+                        port_expenses_local_currency: Number(rippPortExpenses.value.replace(',','.')),
+                        duties_tariffs_local_currency: Number(rippDutiesTariffs.value.replace(',','.')),
+                        container_insurance_local_currency: Number(rippContainerInsurance.value.replace(',','.')),
+                        port_contribution_local_currency: Number(rippPortContribution.value.replace(',','.')),
+                        other_expenses_local_currency: Number(rippOtherExpenses.value.replace(',','.')),
+                    }
+                }]
+            }
+
+            const response = await fetch(domain + 'update/import',{
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+                
+            const responseData = await response.json()
+
+            // show result
+            if (responseData.response == 'ok') {
+                okText.innerText = 'Orden recibida con éxito'
+                gu.showResultPopup(okPopup)                
+            }else{
+                errorText.innerText = 'Error al recibir la orden de compra'
+                gu.showResultPopup(errorPopup)
+            }
+
+            // reset data
+            ripp.style.display = 'none'
             await utils.resetData()
             loader.style.display = 'none'
 

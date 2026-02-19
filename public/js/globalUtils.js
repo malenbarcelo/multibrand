@@ -199,20 +199,47 @@ const gu = {
         }
     },
 
-    showTooltips: function(tooltips,top,width) {
+    // showTooltips: function(tooltips,top,width) {
+
+    //     tooltips.forEach(element => {
+    //         const info = document.getElementById(element.icon.id.replace('Icon','Info'))
+    //         element.icon.addEventListener("mouseover", async(e) => {
+    //             info.style.top = top + 'px'
+    //             info.style.right = element.right
+                
+    //             info.style.width = width + 'px'
+    //             info.style.display = 'block'
+    //         })
+    //         element.icon.addEventListener("mouseout", async(e) => {
+    //             info.style.display = 'none'
+    //         })
+    //     })
+    // },
+
+    showTooltips: function(tooltips, width) {
 
         tooltips.forEach(element => {
-            const info = document.getElementById(element.icon.id.replace('Icon','Info'))
-            element.icon.addEventListener("mouseover", async(e) => {
-                info.style.top = top + 'px'
-                info.style.right = element.right
-                
+
+            const info = document.getElementById(
+                element.icon.id.replace('Icon','Info')
+            )
+
+            element.icon.addEventListener("mousemove", (e) => {
+
+                const offsetY = 35  // qué tan arriba del mouse lo querés
+                const offsetX = -70  // pequeño corrimiento lateral
+
+                info.style.position = 'fixed'
+                info.style.top = (e.clientY - offsetY) + 'px'
+                info.style.left = (e.clientX + offsetX) + 'px'
                 info.style.width = width + 'px'
                 info.style.display = 'block'
             })
-            element.icon.addEventListener("mouseout", async(e) => {
+
+            element.icon.addEventListener("mouseleave", () => {
                 info.style.display = 'none'
             })
+
         })
     },
 
@@ -251,33 +278,37 @@ const gu = {
         })
     },
 
+    formatNumberWithComma: function(value, decimals) {
+
+        if (value == null || value === '') return ''
+
+        let str = String(value)
+            .replace(/[^0-9.,]/g, '')
+            .replace(/\./g, ',')
+            .replace(/(,.*),/g, '$1')
+
+        if (str.includes(',')) {
+            const [int, dec] = str.split(',')
+
+            if (dec && dec.length > decimals) {
+                const num = Number(int + '.' + dec)
+                str = num.toFixed(decimals).replace('.', ',')
+            }
+        }
+
+        return str
+    },
+
     replaceDotWithComa: function(inputs, decimals) {
-        
+
         inputs.forEach(input => {
 
             input.addEventListener('input', () => {
-                
-                // if '.' or ',' put ','
-                let value = input.value
-                    .replace(/[^0-9.,]/g, '')   // permite punto y coma
-                    .replace(/\./g, ',')        // punto → coma
-                    .replace(/(,.*),/g, '$1')   // una sola coma
-
-                // decimals
-                if (value.includes(',')) {
-                    const [int, dec] = value.split(',')
-
-                    if (dec.length > decimals) {
-                        const num = Number((int + '.' + dec))
-                        value = num.toFixed(decimals).replace('.', ',')
-                    }
-                }
-
-                input.value = value
-
+                input.value = this.formatNumberWithComma(input.value, decimals)
             })
+
         })
-    },
+    }
 }
 
 export { gu }
