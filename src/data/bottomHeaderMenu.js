@@ -14,8 +14,29 @@ const bottomHeaderMenu = [
     {
         id:3,
         name:'DATOS GENERALES',
-        href:'/datos',
-        subitems:[]
+        href:'',
+        subitems:[
+            {
+                id:1,
+                name:'FACTORES POR COEFICIENTE',
+                href:'/factores-coeficiente'
+            },
+            {
+                id:2,
+                name:'FACTORES POR VOLUMEN',
+                href:'/factores-volumen'
+            },
+            {
+                id:3,
+                name:'MONEDAS',
+                href:'/monedas'
+            },
+            {
+                id:4,
+                name:'PROVEEDORES',
+                href:'/proveedores'
+            }
+        ]
     }
 ]
 

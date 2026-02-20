@@ -80,12 +80,20 @@
     color: rgb(44, 43, 43)
 }
 
-.bottom-header-item:hover {
+.bottom-header-item:hover > a {
+    font-weight: bold;
+}
+
+.bottom-header-item:hover .bottom-header-show-subitems {
     font-weight: bold;
 }
 
 .bottom-header-item:hover .bottom-header-subitems {
     display: flex;
+}
+
+.bhi-selected{
+    border-bottom: 3px solid var(--color1);
 }
 
 .bhi-selected a{
@@ -95,29 +103,35 @@
 .bottom-header-subitems{
     position: absolute;
     top: 100%;
-    right: calc(50% - 100px);
-    width: 200px;
+    right: calc(50% - 125px);
+    width: 250px;
     display: none;
     flex-direction: column;
     align-items: center;
     font-size: 13px;
     background-color: white;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-    font-weight: lighter;
+    font-weight: normal;
     z-index: 1;
 }
 
 .bottom-header-subitems a{
     width: 100%;
+    font-weight: normal;
 }
 
 .bottom-header-subitem{
     padding: 7px 0px;
     text-align: center;
+    font-weight: normal;
 }
 
 .bottom-header-subitem:hover{
     font-weight: bold;
+}
+
+.bhs-selected{
+    font-weight: bold !important;
 }
 
 .bottom-header-show-subitems{
@@ -127,16 +141,40 @@
 .bottom-header-right-element{
     height: 100%;
     display: flex;
-    column-gap: 4px;
+    column-gap: 8px;
     align-items: center;
-    justify-content: center ;
+    justify-content: center;
     position: absolute;
     right: 2%;
     font-size: 13px;
+    font-weight: bold;
 }
 
-.bottom-header-right-element:hover{
-    font-weight: bold;
+.branch-name{
+    color: var(--color1);
+    text-transform: uppercase;
+}
+
+.branch-flag{
+    height: 16px;
+    width: 24px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
+}
+
+.branch-edit-icon{
+    color: rgb(44, 43, 43);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.branch-edit-icon:hover{
+    color: var(--color1);
 }
 
 

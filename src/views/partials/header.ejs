@@ -28,13 +28,34 @@
                     <% if (itemMenu.subitems.length > 0) { %>
                         <div class="bottom-header-subitems" id="<%= 'subItems_' + itemMenu.id %>">
                             <% itemMenu.subitems.forEach(subitem => { %>
-                                <a href="<%= subitem.href %>" class="bottom-header-subitem"><%= subitem.subitem %></a>                                
+                                <a href="<%= subitem.href %>" class="<%= locals.selectedSubitem == subitem.name ? 'bottom-header-subitem bhs-selected' : 'bottom-header-subitem' %>"><%= subitem.name %></a>                                
                             <% }) %>
                         </div>
                         <div class="bottom-header-show-subitems"><i class="fa-solid fa-chevron-down"></i></div>
                     <% } %>
                 </div>
             <% }) %>
+
+            <% if (locals.branch) { %>
+                <div class="bottom-header-right-element">
+                    <span class="branch-name"><%= branch.branch.toUpperCase() %></span>
+                    <% 
+                        const branchLower = branch.branch.toLowerCase();
+                        let flagImage = '';
+                        if (branchLower.includes('argentina')) {
+                            flagImage = '/images/argentina.jpg';
+                        } else if (branchLower.includes('chile')) {
+                            flagImage = '/images/chile.jpg';
+                        }
+                    %>
+                    <% if (flagImage) { %>
+                        <img src="<%= flagImage %>" alt="<%= branch.branch %>" class="branch-flag">
+                    <% } %>
+                    <a href="/menu" class="branch-edit-icon">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </div>
+            <% } %>
             
         <% } %>
     </div>
