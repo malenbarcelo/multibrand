@@ -61,11 +61,22 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      list_number:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,
+      },
+      created_date:{
+         type: DataTypes.DATEONLY,
+         allowNull: false,
+      },
+      observations:{
+         type: DataTypes.STRING(1000),
+         allowNull: true,
       }
-      
    }
    const config = {
       tableName : 'master',

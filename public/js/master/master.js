@@ -90,7 +90,8 @@ window.addEventListener('load',async()=>{
         // reset filters
         gu.clearInputs(filters)
         g.filters.id_suppliers = ''
-        g.filters.item = ''
+        g.filters.item_string = ''
+        g.filters.description = ''
         
         await utils.resetData()
         
@@ -102,8 +103,7 @@ window.addEventListener('load',async()=>{
     create.addEventListener("click", async() => {
         g.action = 'create'
         ceippTitle.innerText = 'CREAR ITEM'
-        ceippAccept.innerText = 'CREAR'
-        ceippDgas.classList.add('not-visible')
+        ceippDestroy.classList.add('not-visible')
         ceipp.style.display = 'block'
         ceippContent.scrollTop = 0
         ceippSupplier.value = ''
@@ -113,6 +113,42 @@ window.addEventListener('load',async()=>{
         gu.clearInputs(g.ceippInputs)
         ceippSupplier.dispatchEvent(new Event('change'))
         ceippSupplier.focus()
+    })
+
+    // download master
+    download.addEventListener('click',async()=>{
+        
+        loader.style.display = 'block'
+
+        const data = {
+            id_suppliers: g.filters.id_suppliers,
+            item_string: g.filters.item_string,
+            description: g.filters.description,
+            last_list_number: g.filters.last_list_number,
+            enabled: g.filters.enabled,
+            order: [["id_suppliers","ASC"],["item","ASC"]]  
+        }
+
+        const response = await fetch(domain + 'composed/download-master',{
+            method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+
+        if (response.ok) {
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'Lista de precios.xlsx'
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+        } else {
+            console.error('Error al descargar el archivo:', response.statusText);
+        }
+
+        loader.style.display = 'none'
     })
 
     loader.style.display = 'none'

@@ -8,6 +8,7 @@ router.get('/get-branch',composedController.getBranch)
 
 // master
 router.post('/get-master',composedController.getMaster)
+router.post('/download-master',composedController.downloadMaster)
 
 // imports
 router.get('/get-new-po-number',composedController.getPoNumber)

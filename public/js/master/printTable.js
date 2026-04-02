@@ -19,13 +19,13 @@ async function printTable() {
                 <td class="${rowClass}">${element.description}</td>
                 <td class="${rowClass}">${element.mu_data.measurement_unit}</td>
                 <td class="${rowClass}">${element.mu_per_box == null ? '' : gg.formatter1.format(element.mu_per_box)}</td>
-                <td class="${rowClass}">${element.weight_kg == null ? '' : gg.formatter2.format(element.weight_kg)}</td>
-                <td class="${rowClass}">${element.volume_m3 == null ? '' : gg.formatter3.format(element.volume_m3)}</td>
-                <td class="${rowClass}">${gg.formatter2.format(element.fob)}</td>
-                <td class="${rowClass}">${gg.formatter2.format(element.unit_fob)}</td>
+                <td class="${rowClass}">${element.weight_kg == null ? '' : gg.formatter3.format(element.weight_kg)}</td>
+                <td class="${rowClass}">${element.volume_m3 == null ? '' : gg.formatter4.format(element.volume_m3)}</td>
+                <td class="${rowClass}">${gg.formatter3.format(element.fob)}</td>
+                <td class="${rowClass}">${gg.formatter3.format(element.unit_fob)}</td>
                 <td class="${rowClass}">${element.supplier_data.currency_data.currency}</td>
                 <td class="${rowClass}">${element.estimated_unit_cost == null ? '' : gg.formatter3.format(element.estimated_unit_cost)}</td>
-                <td class="${rowClass}">${element.sells_price_ars == null ? '' : gg.formatter0.format(element.sells_price_ars)}</td>
+                <td class="${rowClass}">${element.sells_price_local_currency == null ? '' : gg.formatter0.format(element.sells_price_local_currency)}</td>
                 <td class="${rowClass}">${element.margin == null ? '' : gg.formatter1.format(element.margin) + ' %'}</td>
                 <td class="${rowClass}"><i class="fa-regular fa-pen-to-square fs-12" id="edit_${element.id}"></i></td>
                 <td class="${rowClass}"><i class="fa-regular fa-trash-can fs-12" id="destroy_${element.id}"></i></td>
@@ -51,11 +51,10 @@ function eventListeners(data) {
             g.action = 'edit'
             g.elementToEdit = element
             ceippTitle.innerText = 'EDITAR ITEM'
-            ceippAccept.innerText = 'EDITAR'
             ceipp.style.display = 'block'
             ceippContent.scrollTop = 0
             ceippError.classList.add('not-visible')
-            ceippDgas.classList.remove('not-visible')
+            ceippDestroy.classList.remove('not-visible')
             
             // complete inputs
             ceippSupplier.value = element.id_suppliers
@@ -68,7 +67,7 @@ function eventListeners(data) {
             ceippMu.value = element.id_measurement_units
             ceippMuPerBox.value = Number(element.mu_per_box).toFixed(3).replace('.',',')
             ceippWeight.value = element.weight_kg == null ? '' : Number(element.weight_kg).toFixed(3).replace('.',',')
-            ceippVolume.value = Number(element.volume_m3).toFixed(3).replace('.',',')
+            ceippVolume.value = Number(element.volume_m3).toFixed(4).replace('.',',')
             ceippBrand.value = element.brand
             ceippOrigin.value = element.origin
             ceippBreaks.value = element.has_breaks

@@ -13,6 +13,7 @@ const utils = {
         filters += g.filters.id_suppliers == '' ? '' : `&id_suppliers=${g.filters.id_suppliers}`
         filters += g.filters.item_string == '' ? '' : `&item_string=${g.filters.item_string}`
         filters += g.filters.description == '' ? '' : `&description=${g.filters.description}`
+        filters += g.filters.last_list_number == '' ? '' : `&last_list_number=${g.filters.last_list_number}`
         filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
 
         const fetchData = await (await fetch(`${domain}get/master?${filters}`)).json()

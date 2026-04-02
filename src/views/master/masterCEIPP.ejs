@@ -8,8 +8,14 @@
         </div>
 
         <!--- general actions --->
-        <div class="flex-r absolute top-10p r-5p" id="ceippDgas">
-            <div class="dga h-35 w-35" id="ceippDestroy">
+        <div class="flex-r absolute top-9p r-5p cg-10" id="ceippDgas">
+            <div class="dga h-35 w-35" id="ceippAccept">
+                <i class="fa-regular fa-floppy-disk"></i>
+                <div class="dga-info fs-12 top-50p-">
+                    Guardar
+                </div>        
+            </div>
+            <div class="dga h-35 w-35 not-visible" id="ceippDestroy">
                 <i class="fa-regular fa-trash-can"></i>
                 <div class="dga-info fs-12 top-50p-">
                     Eliminar item
@@ -164,7 +170,7 @@
                 </div>
                 <div class="div-input">
                     <label class="label-std disabled-label fs-13 l-3p">Precio sugerido (ARS)</label>
-                    <input type="text" id="ceippSuggestedPriceArs" class="disabled-input w-180 pad-9-0-7-0" disabled>
+                    <input type="text" id="ceippSuggestedPriceLocalCurrency" class="disabled-input w-180 pad-9-0-7-0" disabled>
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Factor de multiplicación</label>
@@ -172,18 +178,24 @@
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p fw-b">Precio de venta (ARS)</label>
-                    <input type="text" id="ceippSellsPriceArs" class="input-std bs-2 w-180 pad-9-0-7-0" disabled>
+                    <input type="text" id="ceippSellsPriceLocalCurrency" class="input-std bs-2 w-180 pad-9-0-7-0" disabled>
                 </div>
                 <div class="div-input">
-                    <label class="label-std fs-13 l-3p">Margen %</label>
-                    <input type="text" id="ceippMargin" class="input-std w-100 pad-9-0-7-0" disabled>
+                    <label class="label-std disabled-label fs-13 l-3p">Margen %</label>
+                    <input type="text" id="ceippMargin" class="disabled-input w-100 pad-9-0-7-0" disabled>
                 </div>
             </div>
         </div>
 
-        <div class="flex-r cg-20 jc-c mb-13 mt-15">
-            <div id="ceippAccept" class="btn-std w-150 pad-8-0 fs-13"></div>
-            <div id="ceippCancel" class="btn-std w-150 pad-8-0 fs-13">CANCELAR</div>
+        <div class="bs-gray-1 w-90p m-a mt-10 mb-15">            
+            
+            <!--- inputs -->
+            <div class="inputs-row cg-15 mt-25 mb-15">
+                <div class="div-input" style="width:95%">
+                    <label class="label-std fs-13 l-3p" id="ceippObservationsLabel">Observaciones</label>
+                    <input type="text" id="ceippObservations" class="input-std w-95p pad-9-0-7-0">
+                </div>
+            </div>
         </div>
     </div>
 </div>

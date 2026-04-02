@@ -102,6 +102,17 @@ const appController = {
             return res.send('Ha ocurrido un error')
             }
     },
+    items: async(req,res) => {
+        try{
+            const selectedItem = 'ITEMS'
+            const selectedSubitem = 'ITEMS'
+            const branch = req.session.branch
+            return res.render('items/items',{title:'Multibrand', selectedItem, selectedSubitem, bottomHeaderMenu, branch})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
     volumeFactors: async(req,res) => {
         try{
             const selectedItem = 'DATOS GENERALES'

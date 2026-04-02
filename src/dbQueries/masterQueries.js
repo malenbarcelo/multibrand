@@ -1,5 +1,5 @@
 const db = require('../../database/models')
-const { Op,fn,col } = require('sequelize')
+const { Op,literal,fn,col } = require('sequelize')
 const utils = require("../utils/utils")
 const model = db.Master
 
@@ -43,6 +43,15 @@ const masterQueries = {
             }
         }
 
+        if (filters.last_list_number) {
+            where[Op.and] = literal(`master.list_number = (
+                SELECT MAX(t2.list_number)
+                FROM master AS t2
+                WHERE t2.id_suppliers = master.id_suppliers
+                AND t2.id_branches = master.id_branches
+            )`)
+        }
+
         const data = await model.findAndCountAll({
             include:[
                 {
@@ -55,7 +64,8 @@ const masterQueries = {
             where,
             limit,
             offset,
-            nest:true
+            nest:true,
+            logging: console.log
         })
 
         data.rows = data.rows.map(r => r.get({ plain: true }))

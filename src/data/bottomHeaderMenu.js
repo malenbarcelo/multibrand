@@ -27,6 +27,11 @@ const bottomHeaderMenu = [
                 href:'/factores-volumen'
             },
             {
+                id:5,
+                name:'ITEMS',
+                href:'/items'
+            },
+            {
                 id:3,
                 name:'MONEDAS',
                 href:'/monedas'

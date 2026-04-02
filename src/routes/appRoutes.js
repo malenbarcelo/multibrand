@@ -24,6 +24,7 @@ router.get('/factores-volumen',appController.volumeFactors)
 router.get('/factores-coeficiente',appController.coeficientFactors)
 router.get('/monedas',appController.currencies)
 router.get('/proveedores',appController.suppliers)
+router.get('/items',appController.items)
 
 module.exports = router
 

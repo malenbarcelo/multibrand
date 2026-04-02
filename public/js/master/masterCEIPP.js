@@ -113,14 +113,14 @@ async function ceippEventListeners() {
             ceippDispatchExpenses.value = row ? (row.dispatch_expenses == null ? '' : row.dispatch_expenses.toFixed(3).replace('.',',')) : ''
             ceippVolumeExpenses.value = row ? (row.volume_expenses == null ? '' : row.volume_expenses.toFixed(3).replace('.',',')) : ''
             ceippPriceExpenses.value = row ? (row.price_expenses == null ? '' : row.price_expenses.toFixed(3).replace('.',',')) : ''
-            ceippMuCost.value = row ? (row.mu_cost.toFixed(3).replace('.',',')) : ''
-            ceippUnitCost.value = row ? (row.unit_cost.toFixed(3).replace('.',',')) : ''
-            ceippSuggestedPrice.value = row ? (row.unit_cost.toFixed(3).replace('.',',')) : ''
+            ceippMuCost.value = row ? (row.estimated_mu_cost.toFixed(3).replace('.',',')) : ''
+            ceippUnitCost.value = row ? (row.estimated_unit_cost.toFixed(3).replace('.',',')) : ''
+            ceippSuggestedPrice.value = row ? (row.suggested_price.toFixed(3).replace('.',',')) : ''
             ceippExchange.value = row ? (Number(row.currency_exchange)) : ''
-            ceippSuggestedPriceArs.value = row ? (row.suggested_price_ars) : ''
-            ceippSellsPriceArs.value = row ? (row.sells_price_ars) : ''
+            ceippSuggestedPriceLocalCurrency.value = row ? (row.suggested_price_local_currency) : ''
+            ceippSellsPriceLocalCurrency.value = row ? (row.sells_price_local_currency) : ''
             ceippCoefFactor.value = row ? (row.factors.factor ? (Number(row.factors.factor) * 100).toFixed(2).replace('.',',') : '') : ''
-            ceippMargin.value = row ? (row.margin.toFixed(3).replace('.',',')) : ''
+            ceippMargin.value = row ? (row.margin.toFixed(1).replace('.',',')) : ''
             
             // complete lables
             ceippFobLabel.innerText = `Precio por UM ${ currency ? '(' + currency.currency + ')' : ''} *`

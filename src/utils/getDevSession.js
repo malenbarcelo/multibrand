@@ -9,7 +9,11 @@ function getDevSession(req) {
             id: 1,
             branch: 'Argentina',
             pos_suffix: 'AR',
-            id_currencies: 1
+            id_currencies: 1,
+            currency_data:{
+                id:1,
+                currency:'ARS',
+            }
         }
         
         req.session.userLogged = {

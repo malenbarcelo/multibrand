@@ -21,6 +21,11 @@ let gg = {
         maximumFractionDigits: 3,
         useGrouping: true
     }),
+    formatter4:new Intl.NumberFormat('es-ES', {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4,
+        useGrouping: true
+    }),
       
 }
 

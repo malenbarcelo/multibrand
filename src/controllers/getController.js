@@ -11,7 +11,7 @@ const getController = {
     master: async(req,res) =>{
         try{
 
-            const { page, size, order, id_suppliers, item_string, item, description, enabled  } = req.query
+            const { page, size, order, id_suppliers, item_string, item, description, enabled, last_list_number  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -46,9 +46,13 @@ const getController = {
                 filters.enabled = enabled
             }
 
+            if (last_list_number) {
+                filters.last_list_number = last_list_number
+            }
+
             // get data
             let data = await masterQueries.get({ limit, offset, filters })
-
+            
             // get pages
             const pages = Math.ceil(data.count / limit)
             data.pages = pages

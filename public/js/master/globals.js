@@ -13,10 +13,11 @@ let g = {
     filters: {
         size:'',
         page:'',
-        order:'[["item","ASC"]]',
+        order:'[["id_suppliers","ASC"],["item","ASC"]]',
         id_suppliers:'',
         item_string:'',
         description: '',
+        last_list_number: 1,
         enabled: 1
     },
     // scroll
