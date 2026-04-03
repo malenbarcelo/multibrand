@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-   const alias = "Data_items"
+   const alias = "Prices_lists_to_print"
 
    const cols = {
       id:{
@@ -13,41 +13,41 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      erp:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
-      supplier:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
-      price_list:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
-      units_per_item:{
+      id_prices_lists:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      enabled:{
+      price_list_name:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      price_list_factor:{
+         type: DataTypes.DECIMAL(3,2),
+         allowNull: false,
+      },
+      include_in_consolidated_list:{
          type: DataTypes.INTEGER,
          allowNull: false,
       }
    }
 
    const config = {
-      tableName : 'data_items',
+      tableName : 'prices_lists_to_print',
       timestamps : false
    }
 
-   const Data_item = sequelize.define(alias, cols, config)
+   const Price_list_to_print = sequelize.define(alias, cols, config)
 
-   Data_item.associate = (models) => {
-      Data_item.belongsTo(models.Branches,{
+   Price_list_to_print.associate = (models) => {
+      Price_list_to_print.belongsTo(models.Branches,{
           as:'branch_data',
           foreignKey: 'id_branches'
+      }),
+      Price_list_to_print.belongsTo(models.Prices_lists,{
+          as:'price_list_data',
+          foreignKey: 'id_prices_lists'
       })
    }
 
-   return Data_item
+   return Price_list_to_print
 }
