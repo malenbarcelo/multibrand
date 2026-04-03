@@ -1,8 +1,8 @@
 const db = require('../../database/models')
 const { Op,literal,fn,col } = require('sequelize')
-const model = db.Prices_lists_categories
+const model = db.Model
 
-const pricesListsCategoriesQueries = {
+const modelQueries = { // same name as file
     get: async({ limit,offset,filters }) => {
 
         // order
@@ -14,24 +14,16 @@ const pricesListsCategoriesQueries = {
         // where
         const where = {}
 
-        if (filters.id) {
+        if (filters.id) { // one for each field in Model.js
             where.id = filters.id
         }
 
-        if (filters.id_branches) {
-            where.id_branches = filters.id_branches
-        }
-
-        if (filters.id_prices_lists) {
-            where.id_prices_lists = filters.id_prices_lists
-        }
-
-        if (filters.category_name) {
-            where.category_name = filters.category_name
-        }
-
-        const data = await model.findAndCountAll({
-            include:[],
+        const data = await model.findAndCountAll({ // find and count !
+            include:[ // one for each association included un Model.js
+                {
+                    association:'',
+                }
+            ],
             order,
             where,
             limit,
@@ -70,6 +62,6 @@ const pricesListsCategoriesQueries = {
         const deletedData = await model.destroy({ where: { id } })
         return deletedData
     },
-}
+}       
 
-module.exports = pricesListsCategoriesQueries
+module.exports = modelQueries

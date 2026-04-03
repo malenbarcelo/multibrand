@@ -104,10 +104,21 @@ const appController = {
     },
     items: async(req,res) => {
         try{
-            const selectedItem = 'ITEMS'
+            const selectedItem = 'LISTAS DE PRECIOS'
             const selectedSubitem = 'ITEMS'
             const branch = req.session.branch
             return res.render('items/items',{title:'Multibrand', selectedItem, selectedSubitem, bottomHeaderMenu, branch})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+    printings: async(req,res) => {
+        try{
+            const selectedItem = 'LISTAS DE PRECIOS'
+            const selectedSubitem = 'IMPRESIONES'
+            const branch = req.session.branch
+            return res.render('printings/printings',{title:'Multibrand', selectedItem, selectedSubitem, bottomHeaderMenu, branch})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

@@ -19,12 +19,16 @@ router.get('/importaciones',appController.imports)
 // masters
 router.get('/maestro',appController.master)
 
+// prices lists
+router.get('/impresiones',appController.printings)
+router.get('/items',appController.items)
+
+
 // general data
 router.get('/factores-volumen',appController.volumeFactors)
 router.get('/factores-coeficiente',appController.coeficientFactors)
 router.get('/monedas',appController.currencies)
 router.get('/proveedores',appController.suppliers)
-router.get('/items',appController.items)
 
 module.exports = router
 

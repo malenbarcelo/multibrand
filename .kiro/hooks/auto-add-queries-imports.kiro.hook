@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Auto Add Queries Imports",
+  "description": "Cada vez que el usuario guarda un archivo JS, verifica que cada módulo usado en llamadas tipo queries.get() esté importado con require al inicio del archivo, y lo agrega si falta.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/controllers/*.js",
+      "src/utils/*.js"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Revisá el archivo que acaba de ser editado por el usuario. Si contiene llamadas del tipo `await xxxxxQueries.get()`, `await xxxxxQueries.create()`, `await xxxxxQueries.update()` o `await xxxxxQueries.delete()`, verificá que cada módulo usado esté importado con `require` al inicio del archivo. Si falta algún import, agregalo automáticamente sin preguntar."
+  }
+}

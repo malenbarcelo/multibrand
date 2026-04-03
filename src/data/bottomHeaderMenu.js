@@ -12,6 +12,23 @@ const bottomHeaderMenu = [
         subitems:[]
     },
     {
+        id:4,
+        name:'LISTAS DE PRECIOS',
+        href:'',
+        subitems:[
+            {
+                id:1,
+                name:'ITEMS',
+                href:'/items'
+            },
+            {
+                id:2,
+                name:'IMPRESIONES',
+                href:'/impresiones'
+            }
+        ]
+    },
+    {
         id:3,
         name:'DATOS GENERALES',
         href:'',
@@ -25,11 +42,6 @@ const bottomHeaderMenu = [
                 id:2,
                 name:'FACTORES POR VOLUMEN',
                 href:'/factores-volumen'
-            },
-            {
-                id:5,
-                name:'ITEMS',
-                href:'/items'
             },
             {
                 id:3,

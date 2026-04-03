@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-18 fw-b mt-40 mb-20 ta-c">IMPRESIONES</div>
+
+<div class="flex-c rg-30 mt-50">
+    <div class="btn-std pad-17-0 w-400 m-a" id="printExcel">IMPRIMIR LISTAS EN EXCEL</div>
+    <div class="btn-std pad-17-0 w-400 m-a" id="printPdf">IMPRIMIR LISTAS EN PDF</div>
+    <div class="btn-std pad-17-0 w-400 m-a" id="printErp">IMPRIMIR LISTAS ERP</div>
+</div>
+
+<!----------POPUPS---------->
+<%- include('../partials/resultsPopups') %>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content ld-main top-40p"></div>
+</div>
+
+<!----------SCRIPTS---------->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script type="module" src="/js/printings/printings.js"></script>
+            
+        

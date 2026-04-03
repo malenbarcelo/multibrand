@@ -1,10 +1,9 @@
 const db = require('../../database/models')
-const { Op } = require('sequelize')
+const { Op,literal,fn,col } = require('sequelize')
 const model = db.Prices_lists_items
 
 const pricesListsItemsQueries = {
-
-    get: async({ filters }) => {
+    get: async({ limit,offset,filters }) => {
 
         // order
         let order = ''
@@ -23,37 +22,62 @@ const pricesListsItemsQueries = {
             where.id_branches = filters.id_branches
         }
 
-        if (filters.id_prices_lists_categories) {
-            where.id_prices_lists_categories = filters.id_prices_lists_categories
+        if (filters.erp_item) {
+            where.erp_item = filters.erp_item
         }
 
-        if (filters.erp) {
-            where.erp = filters.erp
+        if (filters.supplier_item) {
+            where.supplier_item = filters.supplier_item
+        }
+
+        if (filters.price_list_item) {
+            where.price_list_item = filters.price_list_item
+        }
+
+        if (filters.id_prices_lists_categories) {
+            where.id_prices_lists_categories = filters.id_prices_lists_categories
         }
 
         if (filters.enabled) {
             where.enabled = filters.enabled
         }
 
-        let data = await model.findAll({
+        const data = await model.findAndCountAll({
             include:[
                 {association: 'category_data'}
             ],
             order,
             where,
+            limit,
+            offset,
+            nest:true,
         })
+
+        data.rows = data.rows.map(r => r.get({ plain: true }))
 
         return data
     },
 
     create: async(data) => {
-        const createdData = await model.create(data)
+        const createdData = await model.bulkCreate(data)
         return createdData
     },
 
-    update: async(id, data) => {
-        const updatedData = await model.update(data, { where: { id } })
-        return updatedData
+    update: async (condition, data) => {
+
+        for (const d of data) {
+
+            let whereCondition = {}
+
+            if (condition == 'id') {
+                whereCondition = { id: d.id }
+            }
+
+            await model.update(
+                d.dataToUpdate,
+                { where: whereCondition }
+            )
+        }
     },
 
     delete: async(id) => {

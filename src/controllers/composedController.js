@@ -5,6 +5,8 @@ const currenciesExchangesQueries = require("../dbQueries/currenciesExchangesQuer
 const importsQueries = require("../dbQueries/importsQueries")
 const branchesQueries = require("../dbQueries/branchesQueries")
 const masterQueries = require("../dbQueries/masterQueries")
+const pricesListsToPrintQueries = require("../dbQueries/pricesListsToPrintQueries")
+const pricesListsItemsQueries = require("../dbQueries/pricesListsItemsQueries")
 const excelJs = require('exceljs')
 
 const composedController = {
@@ -79,8 +81,6 @@ const composedController = {
             ]
       
             worksheet.columns = columns
-
-            console.log(dataToPrint)
       
             dataToPrint.forEach(element => {
                 const data = {
@@ -225,7 +225,66 @@ const composedController = {
           console.log(error)
           return res.send('Ha ocurrido un error')
         }
-    }
+    },
+
+    printExcel: async(req,res) =>{
+        try{
+
+            const listData = req.body
+            const categories = listData.price_list_data.prices_lists_categories.map(c => c.id)
+            const idBranch = listData.id_branches
+            const fileName = 'Lista de precios ' + listData.price_list_name + ' - Abril 2026' + '.xlsx'
+
+            let items = await pricesListsItemsQueries.get({undefined,undefined,filters:{id_branches:idBranch, enabled: 1, id_prices_lists_categories:categories,order:[['id_prices_lists_categories','ASC']]} })
+            items = items.rows
+            const dataToPrint = items.filter(i => i. price_list_item != '' && i.erp_item != '' && i.supplier_item != '')
+
+            // create woorkbook
+            const workbook = new excelJs.Workbook()
+            const worksheet = workbook.addWorksheet('Lista de precios ' + req.session.branch.branch)
+      
+            const columns = [
+                { header: 'Lista', key: 'list', width: 20, style: {alignment:{horizontal: 'center'}}},
+                { header: 'Categoría', key: 'category', width: 20, style: {alignment:{horizontal: 'center'}}},
+                { header: 'ITEM', key: 'item', width: 15, style: {alignment:{horizontal: 'center'}}},
+                { header: 'Precio unitario + IVA', key: 'price', width: 12, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0.00'}},
+                { header: 'Unidades por caja', key: 'muPerBox', width: 10, style: {alignment:{horizontal: 'center'}}},
+                
+            ]
+      
+            worksheet.columns = columns
+      
+            dataToPrint.forEach(element => {
+                const data = {
+                    'list': listData.price_list_name,
+                    'category': element.category_data.category_name,
+                    'item': element.price_list_item,
+                }
+            
+                worksheet.addRow(data)
+            }) 
+      
+           res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+           res.setHeader('Content-Disposition', 'attachment; filename=' + fileName)
+        
+           await workbook.xlsx.write(res)
+          
+           res.end()
+          
+        }catch(error){
+          console.log(error)
+          return res.send('Ha ocurrido un error')
+        }
+    },
+
+    printPdf: async(req,res) =>{
+
+    },
+
+    printErp: async(req,res) =>{
+
+    }    
+
 
 }
 module.exports = composedController

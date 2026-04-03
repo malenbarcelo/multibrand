@@ -13,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      erp:{
+      erp_item:{
          type: DataTypes.STRING,
          allowNull: false,
       },
-      supplier:{
+      supplier_item:{
          type: DataTypes.STRING,
          allowNull: false,
       },
-      price_list:{
+      price_list_item:{
          type: DataTypes.STRING,
          allowNull: false,
       },

@@ -2,6 +2,7 @@ const masterQueries = require("../dbQueries/masterQueries")
 const importsQueries = require("../dbQueries/importsQueries")
 const suppliersQueries = require("../dbQueries/suppliersQueries")
 const musQueries = require("../dbQueries/measurementUnitsQueries")
+const pricesListsToPrintQueries = require("../dbQueries/pricesListsToPrintQueries")
 const { getMaster } = require("../utils/getMaster")
 const { getImports } = require("../utils/getImports")
 const { getDevSession } = require("../utils/getDevSession")
@@ -108,7 +109,7 @@ const getController = {
             }
 
             // get data
-            let data = await musQueries.get({ filters })
+            let data = await pricesListsToPrintQueries.get({ filters })
 
             res.status(200).json(data)
 
@@ -168,6 +169,42 @@ const getController = {
 
             // add data
             data = await getImports(data, idBranch)
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({error:'Error al obtener datos'})
+        }
+    },
+    pricesListsToPrint: async(req,res) =>{
+        try{
+
+            const { page, size, order, enabled  } = req.query
+            const limit = size ? parseInt(size) : undefined
+            const offset = page ? (parseInt(page) - 1) * limit : undefined
+            const filters = {}
+
+            // branch id
+            getDevSession(req)
+            const idBranch = req.session.branch.id
+            filters.id_branches = idBranch
+            
+            // add filters
+            if (order) {
+                filters.order = JSON.parse(order)
+            }
+
+            if (enabled) {
+                filters.enabled = enabled
+            }
+
+            // get data
+            let data = await pricesListsToPrintQueries.get({ limit, offset, filters })
+            
+            // get pages
+            const pages = Math.ceil(data.count / limit)
+            data.pages = pages
 
             res.status(200).json(data)
 

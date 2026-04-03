@@ -10,6 +10,11 @@ router.get('/get-branch',composedController.getBranch)
 router.post('/get-master',composedController.getMaster)
 router.post('/download-master',composedController.downloadMaster)
 
+// prices lists
+router.post('/print-excel',composedController.printExcel)
+router.post('/print-pdf',composedController.printPdf)
+router.post('/print-erp',composedController.printErp)
+
 // imports
 router.get('/get-new-po-number',composedController.getPoNumber)
 router.post('/download-purchase-order',composedController.downloadPoExcel)

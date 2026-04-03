@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Check Queries Imports",
+  "description": "Después de editar un archivo, verifica que cada módulo usado en llamadas tipo `queries.get()` esté correctamente importado con require al inicio del archivo.",
+  "version": "1",
+  "when": {
+    "type": "postToolUse",
+    "toolTypes": [
+      "write"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Revisá el archivo que acabás de editar. Si contiene llamadas del tipo `await xxxxxQueries.get()`, `await xxxxxQueries.create()`, `await xxxxxQueries.update()` o `await xxxxxQueries.delete()`, verificá que cada módulo usado esté importado con `require` al inicio del archivo. Si falta algún import, agregalo."
+  }
+}
