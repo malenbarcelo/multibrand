@@ -235,34 +235,63 @@ const composedController = {
             const idBranch = listData.id_branches
             const fileName = 'Lista de precios ' + listData.price_list_name + ' - Abril 2026' + '.xlsx'
 
-            let items = await pricesListsItemsQueries.get({undefined,undefined,filters:{id_branches:idBranch, enabled: 1, id_prices_lists_categories:categories,order:[['id_prices_lists_categories','ASC']]} })
+            let items = await pricesListsItemsQueries.get({undefined,undefined,filters:{id_branches:idBranch, enabled: 1, id_prices_lists_categories:categories,order:[['id_prices_lists_categories','ASC'],['price_list_item','ASC']]} })
             items = items.rows
-            const dataToPrint = items.filter(i => i. price_list_item != '' && i.erp_item != '' && i.supplier_item != '')
+            const dataToPrint = items.filter(i => i. price_list_item != '' && i.supplier_item != '')
 
             // create woorkbook
             const workbook = new excelJs.Workbook()
             const worksheet = workbook.addWorksheet('Lista de precios ' + req.session.branch.branch)
       
             const columns = [
-                { header: 'Lista', key: 'list', width: 20, style: {alignment:{horizontal: 'center'}}},
-                { header: 'Categoría', key: 'category', width: 20, style: {alignment:{horizontal: 'center'}}},
+                { header: 'LISTA', key: 'list', width: 20, style: {alignment:{horizontal: 'center'}}},
+                { header: 'CATEGORÍA', key: 'category', width: 40, style: {alignment:{horizontal: 'center'}}},
                 { header: 'ITEM', key: 'item', width: 15, style: {alignment:{horizontal: 'center'}}},
-                { header: 'Precio unitario + IVA', key: 'price', width: 12, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0.00'}},
-                { header: 'Unidades por caja', key: 'muPerBox', width: 10, style: {alignment:{horizontal: 'center'}}},
+                { header: 'DESCRIPCIÓN', key: 'description', width: 40, style: {alignment:{horizontal: 'center'}}},
+                { header: 'PRECIO UNITARIO + IVA', key: 'price', width: 17, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0.00'}},
+                { header: 'UNIDADES POR CAJA', key: 'muPerBox', width: 12, style: {alignment:{horizontal: 'center'}}},
                 
             ]
       
             worksheet.columns = columns
+
+            // style header row
+            const headerRow = worksheet.getRow(1)
+            headerRow.eachCell((cell) => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF15A89D' } }
+                cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }
+                cell.border = {
+                    top: { style: 'thin', color: { argb: 'FF000000' } },
+                    left: { style: 'thin', color: { argb: 'FF000000' } },
+                    bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                    right: { style: 'thin', color: { argb: 'FF000000' } }
+                }
+            })
       
             dataToPrint.forEach(element => {
                 const data = {
                     'list': listData.price_list_name,
                     'category': element.category_data.category_name,
                     'item': element.price_list_item,
+                    'description': '',
+                    'price':0,
+                    'muPerBox': 0,
                 }
             
-                worksheet.addRow(data)
-            }) 
+                const row = worksheet.addRow(data)
+                row.eachCell((cell) => {
+                    cell.border = {
+                        top: { style: 'thin', color: { argb: 'FF000000' } },
+                        left: { style: 'thin', color: { argb: 'FF000000' } },
+                        bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                        right: { style: 'thin', color: { argb: 'FF000000' } }
+                    }
+                })
+            })
+
+            // remove grid lines
+            worksheet.views = [{ showGridLines: false }]
       
            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName)
