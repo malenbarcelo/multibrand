@@ -22,8 +22,8 @@ const pricesListsCategoriesQueries = {
             where.id_branches = filters.id_branches
         }
 
-        if (filters.id_prices_lists) {
-            where.id_prices_lists = filters.id_prices_lists
+        if (filters.id_prices_lists_names) {
+            where.id_prices_lists_names = filters.id_prices_lists_names
         }
 
         if (filters.category_name) {

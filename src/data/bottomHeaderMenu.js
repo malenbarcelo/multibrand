@@ -14,19 +14,8 @@ const bottomHeaderMenu = [
     {
         id:4,
         name:'LISTAS DE PRECIOS',
-        href:'',
-        subitems:[
-            {
-                id:1,
-                name:'ITEMS',
-                href:'/items'
-            },
-            {
-                id:2,
-                name:'IMPRESIONES',
-                href:'/impresiones'
-            }
-        ]
+        href:'/prices-lists',
+        subitems:[]
     },
     {
         id:3,

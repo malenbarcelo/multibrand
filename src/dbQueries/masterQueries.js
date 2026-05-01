@@ -15,6 +15,10 @@ const masterQueries = {
         // where
         const where = {}
 
+        if (filters.id) {
+            where.id = Array.isArray(filters.id) ? { [Op.in]: filters.id } : filters.id
+        }
+
         if (filters.enabled) {
             where.enabled = filters.enabled
         }
@@ -54,6 +58,7 @@ const masterQueries = {
 
         const data = await model.findAndCountAll({
             include:[
+                {association:'branch_data'},
                 {
                     association:'supplier_data',
                     include:[{association:'currency_data'}]
@@ -97,6 +102,11 @@ const masterQueries = {
                 { where: whereCondition }
             )
         }
+    },
+
+    delete: async(id) => {
+        const deletedData = await model.destroy({ where: { id } })
+        return deletedData
     },
 }       
 

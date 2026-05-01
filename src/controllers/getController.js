@@ -2,8 +2,9 @@ const masterQueries = require("../dbQueries/masterQueries")
 const importsQueries = require("../dbQueries/importsQueries")
 const suppliersQueries = require("../dbQueries/suppliersQueries")
 const musQueries = require("../dbQueries/measurementUnitsQueries")
-const pricesListsToPrintQueries = require("../dbQueries/pricesListsToPrintQueries")
+const pricesListsDetailsQueries = require("../dbQueries/pricesListsDetailsQueries")
 const { getMaster } = require("../utils/getMaster")
+const { addMasterData } = require("../utils/addMasterData")
 const { getImports } = require("../utils/getImports")
 const { getDevSession } = require("../utils/getDevSession")
 
@@ -109,7 +110,7 @@ const getController = {
             }
 
             // get data
-            let data = await pricesListsToPrintQueries.get({ filters })
+            let data = await musQueries.get({ filters })
 
             res.status(200).json(data)
 
@@ -177,10 +178,10 @@ const getController = {
             res.status(200).json({error:'Error al obtener datos'})
         }
     },
-    pricesListsToPrint: async(req,res) =>{
+    pricesLists: async(req,res) =>{
         try{
 
-            const { page, size, order, enabled  } = req.query
+            const { page, size, order, id_prices_lists_categories, erp_item, supplier_item, price_list_item, enabled, price_list_item_null, erp_item_null, supplier_item_null  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -195,16 +196,47 @@ const getController = {
                 filters.order = JSON.parse(order)
             }
 
+            if (id_prices_lists_categories) {
+                filters.id_prices_lists_categories = id_prices_lists_categories
+            }
+
+            if (erp_item) {
+                filters.erp_item = erp_item
+            }
+
+            if (supplier_item) {
+                filters.supplier_item = supplier_item
+            }
+
+            if (price_list_item) {
+                filters.price_list_item = price_list_item
+            }
+
             if (enabled) {
                 filters.enabled = enabled
             }
 
+            if (price_list_item_null === 'false') {
+                filters.price_list_item_null = false
+            }
+
+            if (erp_item_null === 'false') {
+                filters.erp_item_null = false
+            }
+
+            if (supplier_item_null === 'false') {
+                filters.supplier_item_null = false
+            }
+
             // get data
-            let data = await pricesListsToPrintQueries.get({ limit, offset, filters })
+            let data = await pricesListsDetailsQueries.get({ limit, offset, filters })
             
             // get pages
             const pages = Math.ceil(data.count / limit)
             data.pages = pages
+
+            // add master details
+            data = await addMasterData(data, idBranch)
 
             res.status(200).json(data)
 

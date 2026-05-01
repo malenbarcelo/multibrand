@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       volume_m3:{
          type: DataTypes.DECIMAL,
-         allowNull: false,
+         allowNull: true,
       },
       fob:{
          type: DataTypes.DECIMAL,
@@ -86,6 +86,10 @@ module.exports = (sequelize, DataTypes) => {
    const Master = sequelize.define(alias, cols, config)
 
    Master.associate = (models) => {
+      Master.belongsTo(models.Branches,{
+          as:'branch_data',
+          foreignKey: 'id_branches'
+      }),
       Master.belongsTo(models.Data_suppliers,{
           as:'supplier_data',
           foreignKey: 'id_suppliers'
@@ -93,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
       Master.belongsTo(models.Data_measurement_units,{
          as:'mu_data',
          foreignKey: 'id_measurement_units'
-     })
+      })
    }
    
    return Master

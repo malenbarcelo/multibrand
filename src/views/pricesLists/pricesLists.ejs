@@ -1,0 +1,77 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="page-title-bar mt-25 mb-20">
+    <div class="fs-18 fw-b">LISTA DE ITEMS</div>
+    <div class="action-bar">
+        <div class="action-btn" id="printExcel">
+            <i class="fa-solid fa-file-excel"></i>
+            <span>Excel</span>
+        </div>
+        <div class="action-btn" id="printPdf">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>PDF</span>
+        </div>
+        <div class="action-btn" id="printErp">
+            <i class="fa-solid fa-print"></i>
+            <span>ERP</span>
+        </div>
+    </div>
+</div>
+
+<!--- filters --->
+<div class="inputs-row cg-10 mb-25">
+    
+    <div class="div-input">
+        <label class="label-std fs-12 l-3p">Item</label>
+        <input type="text" class="input-std w-150 pad-9-0-7-0" id="item">
+    </div>
+</div>
+
+<!--- table --->
+<div class="div-table max-h-450" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="eippInfo">Editar</div>    
+    <div class="t-tooltip" id="dippInfo">Eliminar</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="th pad-3-0 w-120">Lista</th>
+                <th class="th pad-3-0 w-300">Categoría</th>
+                <th class="th pad-3-0 w-150">Proveedor</th>
+                <th class="th pad-3-0 w-120">Item ERP</th>
+                <th class="th pad-3-0 w-120">Item Proveedor</th>
+                <th class="th pad-3-0 w-120">Item PDF</th>
+                <th class="th pad-3-0 w-300">Descripción</th>
+                <th class="th pad-3-0 w-120">Unidades / <br>Caja</th>
+                <th class="th pad-3-0 w-120">Precio Dist. <br>(+ IVA)</th>
+                <th class="th pad-3-0 w-120">Precio CF <br>(+ IVA)</th>
+                <th class="th pad-3-0 w-120">Precio ML <br>(+ IVA)</th>
+                
+                <th class="th pad-3-0 w-50 pointer" id="eippIcon"><i class="fa-regular fa-pen-to-square"></i></th>                
+                <th class="th pad-3-0 w-50 pointer" id="dippIcon"><i class="fa-regular fa-trash-can"></i></th>
+            </tr>
+        </thead>
+
+        <tbody id="body"></tbody>
+        
+    </table>
+</div>
+
+<!----------POPUPS---------->
+<%- include('./pricesListsSPPP') %>
+<%- include('../partials/resultsPopups') %>
+<%- include('../partials/confirmPopup') %>
+
+<!----------LOADER---------->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content ld-main top-55p"></div>
+</div>
+
+<!----------SCRIPTS---------->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script type="module" src="/js/pricesLists/pricesLists.js"></script>
+
+

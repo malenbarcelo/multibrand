@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING(500),
          allowNull: false,
       },
-      id_prices_lists:{
+      id_prices_lists_names:{
          type: DataTypes.INTEGER,
          allowNull: false,
       }
@@ -35,9 +35,9 @@ module.exports = (sequelize, DataTypes) => {
           as:'branch_data',
           foreignKey: 'id_branches'
       }),
-      Price_list_category.belongsTo(models.Prices_lists,{
-          as:'price_list_data',
-          foreignKey: 'id_prices_lists'
+      Price_list_category.belongsTo(models.Prices_lists_names,{
+          as:'price_list_name_data',
+          foreignKey: 'id_prices_lists_names'
       })
    }
 

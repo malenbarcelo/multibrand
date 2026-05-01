@@ -111,6 +111,20 @@ window.addEventListener('load',async()=>{
         ceippSupplierLabel.style.display = 'block'
         ceippError.classList.add('not-visible')
         gu.clearInputs(g.ceippInputs)
+        // clear disabled inputs
+        ceippFreight.value = ''
+        ceippCif.value = ''
+        ceippImportDuty.value = ''
+        ceippVolumeExpenses.value = ''
+        ceippPriceExpenses.value = ''
+        ceippCoefFactor.value = ''
+        ceippMuCost.value = ''
+        ceippUnitCost.value = ''
+        ceippSuggestedPrice.value = ''
+        ceippExchange.value = ''
+        ceippSuggestedPriceLocalCurrency.value = ''
+        ceippSellsPriceLocalCurrency.value = ''
+        ceippMargin.value = ''
         ceippSupplier.dispatchEvent(new Event('change'))
         ceippSupplier.focus()
     })

@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Sync Models & Queries",
+  "description": "Cuando se guarda un archivo .sql en sqlScriptsAndData, ejecuta automáticamente el proceso de actualizar models y queries siguiendo las instrucciones del steering modelsAndQueries.md",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "sqlScriptsAndData/*.sql"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "El usuario acaba de guardar un archivo .sql. Leé el steering file .kiro/steering/modelsAndQueries.md y seguí las instrucciones para actualizar los models y queries correspondientes al archivo .sql que fue editado. Solo procesá las tablas del archivo que cambió, no todos los .sql."
+  }
+}

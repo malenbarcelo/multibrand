@@ -38,3 +38,43 @@
 
 
 
+
+/* action bar */
+.page-title-bar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 3%;
+    position: relative;
+}
+
+.action-bar{
+    display: flex;
+    column-gap: 8px;
+    position: absolute;
+    right: 3%;
+}
+
+/* action button (pill) */
+.action-btn{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--color1);
+    background-color: white;
+    border: 1px solid var(--color1);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover{
+    background-color: var(--color1);
+    color: white;
+}
+
+.action-btn i{
+    font-size: 11px;
+}

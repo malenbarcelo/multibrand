@@ -1,3 +1,4 @@
+const { networksecurity } = require('googleapis/build/src/apis/networksecurity')
 const db = require('../../database/models')
 const model = db.Branches
 
@@ -21,7 +22,8 @@ const branchesQueries = {
             include:[{association: 'currency_data'}],            
             order,
             where,
-            raw:true
+            raw:true,
+            nest: true
         })
 
         return data

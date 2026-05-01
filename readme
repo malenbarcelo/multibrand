@@ -10,6 +10,7 @@ npm install bcryptjs
 npm install nodemailer
 npm install node-fetch@2
 npm install exceljs
+npm install pdfkit
 
 
 /*---Sequelize---*/
@@ -24,7 +25,7 @@ npm install xlsx
 
 Resumed --->
 npm init -y
-npm install express ejs method-override multer express-validator express-session bcryptjs nodemailer sequelize-cli sequelize mysql2 exceljs read-excel-file session-file-store xlsx exceljs
+npm install express ejs method-override multer express-validator express-session bcryptjs nodemailer sequelize-cli sequelize mysql2 exceljs read-excel-file session-file-store xlsx exceljs pdfkit
 
 To do actions Sequelize
 1. Create file .sequelizerc

@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "EJS Script Validator",
+  "description": "When an EJS file is saved, checks if it contains script tags with src paths like /js/folder/file.js and verifies that the corresponding folder and file exist under public/js/. Creates any missing folders or files automatically.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.ejs"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Read the EJS file that was just saved. Look for all script tags matching the pattern: <script type=\"module\" src=\"/js/...\"></script>. For each one found, extract the src path (e.g. /js/folder/file.js) and check if the corresponding file exists under the \"public\" directory (e.g. public/js/folder/file.js). Also check if the parent folder exists (e.g. public/js/folder/). If any file or folder is missing, create it. For new JS files, add a minimal placeholder comment like // <filename>. Additionally, for each folder detected (e.g. public/js/folder/), also check if the files \"globals.js\" and \"print{FolderName}.js\" exist inside it (where {FolderName} is the folder name with its first letter capitalized, e.g. for public/js/master/ create printMaster.js, for public/js/imports/ create printImports.js). If either file is missing, create it with a minimal placeholder comment. If everything already exists, say nothing."
+  }
+}

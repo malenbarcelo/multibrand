@@ -5,7 +5,7 @@ let g = {
     currenciesExchanges: [],
     branchData: null,
     popups: [copp, fapp, ceipp],
-    ceippInputs: [ceippSupplier, ceippItem, ceippDescription, ceippFob, ceippMu, ceippMuPerBox, ceippWeight, ceippVolume, ceippBrand, ceippOrigin, ceippBreaks, ceippSpecialPriceFactor],
+    ceippInputs: [ceippSupplier, ceippItem, ceippDescription, ceippFob, ceippMu, ceippMuPerBox, ceippWeight, ceippVolume, ceippBrand, ceippOrigin, ceippBreaks, ceippSpecialPriceFactor, ceippObservations],
     elementsToFormat: [ceippFob, ceippMuPerBox, ceippWeight, ceippVolume, ceippSpecialPriceFactor],
     // imports
     page:0,

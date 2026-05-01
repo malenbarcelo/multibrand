@@ -31,7 +31,7 @@
         <div class="inputs-column mt-20">
             <div class="div-input">
                 <label class="label-std fs-13 l-3p" id="ceippSupplierLabel">Proveedor *</label>
-                <select id="ceippSupplier" class="input-std ta-c w-250 pad-9-0-7-0">
+                <select id="ceippSupplier" class="input-std ta-c w-250 pad-9-0-7-0" autocomplete="off">
                     <option value=""></option>
                     <% suppliers.forEach(supplier => { %>
                         <option value="<%= supplier.id %>">
@@ -50,22 +50,22 @@
             <div class="inputs-row cg-15 mt-25">
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Item *</label>
-                    <input type="text" id="ceippItem" class="input-std ta-c w-180 pad-9-0-7-0">
+                    <input type="text" id="ceippItem" class="input-std ta-c w-180 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Descripción *</label>
-                    <input type="text" id="ceippDescription" class="input-std ta-c w-400 pad-9-0-7-0">
+                    <input type="text" id="ceippDescription" class="input-std ta-c w-400 pad-9-0-7-0" autocomplete="off">
                 </div>                
             </div>
 
             <div class="inputs-row cg-15 mt-20 mb-15">
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p" id="ceippFobLabel">Precio por UM *</label>
-                    <input type="text" placeholder="" id="ceippFob" class="input-std ta-c w-170 pad-9-0-7-0">
+                    <input type="text" placeholder="" id="ceippFob" class="input-std ta-c w-170 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">UM *</label>
-                    <select id="ceippMu" class="input-std ta-c w-120 pad-9-0-7-0">
+                    <select id="ceippMu" class="input-std ta-c w-120 pad-9-0-7-0" autocomplete="off">
                         <option value=""></option>
                         <% mus.forEach(mu => { %>
                             <option value="<%= mu.id %>"><%= mu.measurement_unit %></option>                         
@@ -74,30 +74,30 @@
                 </div>                
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">UM por caja *</label>
-                    <input type="text" placeholder="" id="ceippMuPerBox" class="input-std ta-c w-120 pad-9-0-7-0">
+                    <input type="text" placeholder="" id="ceippMuPerBox" class="input-std ta-c w-120 pad-9-0-7-0" autocomplete="off">
                 </div>
             </div>
 
             <div class="inputs-row cg-15 mt-20 mb-15">
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p" id="ceippWeightLabel">Peso por caja (kgs)</label>
-                    <input type="text" placeholder="" id="ceippWeight" class="input-std ta-c w-170 pad-9-0-7-0">
+                    <input type="text" placeholder="" id="ceippWeight" class="input-std ta-c w-170 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p" id="ceippVolumeLabel">Volumen por caja (m3)</label>
-                    <input type="text" placeholder="" id="ceippVolume" class="input-std ta-c w-170 pad-9-0-7-0">
+                    <input type="text" placeholder="" id="ceippVolume" class="input-std ta-c w-170 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Marca *</label>
-                    <input type="text" id="ceippBrand" class="input-std ta-c w-200 pad-9-0-7-0">
+                    <input type="text" id="ceippBrand" class="input-std ta-c w-200 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Origen *</label>
-                    <input type="text" id="ceippOrigin" class="input-std ta-c w-120 pad-9-0-7-0">
+                    <input type="text" id="ceippOrigin" class="input-std ta-c w-120 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Roturas *</label>
-                    <select id="ceippBreaks" class="input-std ta-c w-120 pad-9-0-7-0">
+                    <select id="ceippBreaks" class="input-std ta-c w-120 pad-9-0-7-0" autocomplete="off">
                         <option value=""></option>
                         <option value="1">si</option>
                         <option value="0">no</option>
@@ -108,9 +108,9 @@
 
         <div class="bs-gray-1 w-90p m-a mt-10 relative">
             
-            <div class="fs-11 ta-c w-100 pad-5-0 absolute r-3 top-3 bc-4 fc-white pointer not-visible" id="ceippViewFactors">
+            <!-- <div class="fs-11 ta-c w-100 pad-5-0 absolute r-3 top-3 bc-4 fc-white pointer not-visible" id="ceippViewFactors">
                 VER FACTORES
-            </div>
+            </div> -->
 
             <!--- title -->
             <div class="mt-15 fw-b ta-c fs-15">COSTEO</div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="div-input">
                     <label class="label-std disabled-label fs-13 l-3p">Derechos de aduana / UM</label>
-                    <input type="text"  id="ceippDispatchExpenses" class="disabled-input w-200 pad-9-0-7-0" disabled>
+                    <input type="text"  id="ceippImportDuty" class="disabled-input w-200 pad-9-0-7-0" disabled>
                 </div>
                 <div class="div-input">
                     <label class="label-std disabled-label fs-13 l-3p">Gastos por volumen / UM</label>
@@ -174,7 +174,7 @@
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p">Factor de multiplicación</label>
-                    <input type="text" placeholder="" id="ceippSpecialPriceFactor" class="input-std ta-c w-180 pad-9-0-7-0">
+                    <input type="text" placeholder="" id="ceippSpecialPriceFactor" class="input-std ta-c w-180 pad-9-0-7-0" autocomplete="off">
                 </div>
                 <div class="div-input">
                     <label class="label-std fs-13 l-3p fw-b">Precio de venta (ARS)</label>
@@ -193,7 +193,7 @@
             <div class="inputs-row cg-15 mt-25 mb-15">
                 <div class="div-input" style="width:95%">
                     <label class="label-std fs-13 l-3p" id="ceippObservationsLabel">Observaciones</label>
-                    <input type="text" id="ceippObservations" class="input-std w-95p pad-9-0-7-0">
+                    <input type="text" id="ceippObservations" class="input-std w-95p pad-9-0-7-0" autocomplete="off">
                 </div>
             </div>
         </div>

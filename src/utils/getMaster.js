@@ -7,8 +7,8 @@ async function getMaster(data, idBranch) {
 
     // get factors 
     const filters = {id_branches: idBranch, enabled:1}
-    const factorsCoeficient = await factorsCoeficientQueries.get({filters})
-    const factorsVolume = await factorsVolumeQueries.get({filters})
+    const factorsCoeficient = (await factorsCoeficientQueries.get({filters})).rows
+    const factorsVolume = (await factorsVolumeQueries.get({filters})).rows
 
     // get currencies
     const currenciesExchanges = await currenciesExchangesQueries.getLastExchange(idBranch)
@@ -40,18 +40,18 @@ async function getMaster(data, idBranch) {
         // volume factors data
         const freight = (factors && row.supplier_data.cost_calculation == 'volume')  ? parseFloat(factors.freight) : null
         const insurance = (factors && row.supplier_data.cost_calculation == 'volume') ? parseFloat(factors.insurance) : null
-        const dispatchExpenses = (factors && row.supplier_data.cost_calculation == 'volume') ? parseFloat(factors.dispatch_expenses) : null
+        const importDuty = (factors && row.supplier_data.cost_calculation == 'volume') ? parseFloat(factors.import_duty) : null
         const customAgent = (factors && row.supplier_data.cost_calculation == 'volume') ? parseFloat(factors.custom_agent) : null
         const transference = (factors && row.supplier_data.cost_calculation == 'volume') ? parseFloat(factors.transference) : null
         const volumeExpenses = (factors && row.supplier_data.cost_calculation == 'volume') ? parseFloat(factors.total_volume_expenses) : null
         row.freight = (factors && row.supplier_data.cost_calculation == 'volume') ? utils.round(freight * volume / muPerBox,3) : null
         row.cif = (factors && row.supplier_data.cost_calculation == 'volume') ? utils.round((fob + row.freight) * ( 1 + insurance),3) : null
-        row.dispatch_expenses = (factors && row.supplier_data.cost_calculation == 'volume') ? utils.round(row.cif * dispatchExpenses,3) : null
+        row.import_duty = (factors && row.supplier_data.cost_calculation == 'volume') ? utils.round(row.cif * importDuty,4) : null
         row.volume_expenses = (factors && row.supplier_data.cost_calculation == 'volume') ? utils.round(volumeExpenses * volume / muPerBox,3) : null
         row.price_expenses = (factors && row.supplier_data.cost_calculation == 'volume') ? utils.round(row.cif * (customAgent + transference),3) : null
 
         if (row.supplier_data.cost_calculation == 'volume') {            
-            row.estimated_mu_cost = factors ? utils.round(row.cif + row.dispatch_expenses + row.volume_expenses + row.price_expenses,3) : null
+            row.estimated_mu_cost = factors ? utils.round(row.cif + row.import_duty + row.volume_expenses + row.price_expenses,3) : null
             row.estimated_unit_cost = factors ? utils.round(row.estimated_mu_cost / unitsPerMu,3) : null
         }else{
             const coeficient = factors ? Number(row.factors.factor) : null

@@ -1,8 +1,8 @@
 const db = require('../../database/models')
 const { Op,literal,fn,col } = require('sequelize')
-const model = db.Prices_lists_to_print
+const model = db.Prices_lists_names
 
-const pricesListsToPrintQueries = {
+const pricesListsQueries = {
     get: async({ limit,offset,filters }) => {
 
         // order
@@ -22,24 +22,16 @@ const pricesListsToPrintQueries = {
             where.id_branches = filters.id_branches
         }
 
-        if (filters.id_prices_lists) {
-            where.id_prices_lists = filters.id_prices_lists
-        }
-
         if (filters.price_list_name) {
             where.price_list_name = filters.price_list_name
         }
 
-        if (filters.include_in_consolidated_list) {
-            where.include_in_consolidated_list = filters.include_in_consolidated_list
+        if (filters.image) {
+            where.image = filters.image
         }
 
         const data = await model.findAndCountAll({
-            include:[
-                {
-                    association: 'price_list_data',
-                include:{association:'prices_lists_categories'}}
-            ],
+            include:[],
             order,
             where,
             limit,
@@ -80,4 +72,4 @@ const pricesListsToPrintQueries = {
     },
 }
 
-module.exports = pricesListsToPrintQueries
+module.exports = pricesListsQueries

@@ -11,6 +11,7 @@ router.post('/get-master',composedController.getMaster)
 router.post('/download-master',composedController.downloadMaster)
 
 // prices lists
+router.get('/get-lists-to-print',composedController.getListsToPrint)
 router.post('/print-excel',composedController.printExcel)
 router.post('/print-pdf',composedController.printPdf)
 router.post('/print-erp',composedController.printErp)

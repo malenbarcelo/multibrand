@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Rename Table Models & Queries",
+  "description": "Cuando se guarda un archivo .sql y alguna tabla tiene el comentario /* before old_table_name */ en la primera línea del CREATE TABLE, renombra el modelo, el archivo de queries y todas las referencias en el proyecto.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "sqlScriptsAndData/*.sql"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "El usuario acaba de guardar un archivo .sql. Leé el archivo y buscá tablas que tengan el comentario `/* before old_table_name */` justo después del nombre de la tabla en el CREATE TABLE. El formato es:\n\nCREATE TABLE multibrand_db.new_table_name (\n/* before old_table_name */\n\nEsto significa que la tabla antes se llamaba `old_table_name` y ahora se llama `new_table_name`. Para cada tabla que tenga este comentario, hacé lo siguiente:\n\n1. **Modelo (database/models/):**\n   - Buscar el archivo del modelo viejo. El nombre del archivo sigue la convención: nombre de tabla en singular, primera letra mayúscula (ej: `prices_lists_items` → `Price_list_item.js`, `imports_details` → `Import_detail.js`, `master` → `Master.js`).\n   - Renombrar el archivo al nuevo nombre siguiendo la misma convención.\n   - Dentro del archivo, actualizar: el alias (nombre en plural/como estaba pero con el nuevo nombre), el tableName, y el nombre de la variable del define.\n\n2. **Queries (src/dbQueries/):**\n   - Buscar el archivo de queries viejo. El nombre sigue la convención: alias del modelo en camelCase + 'Queries.js' (ej: alias `Prices_lists_items` → `pricesListsItemsQueries.js`).\n   - Renombrar el archivo al nuevo nombre siguiendo la misma convención.\n   - Dentro del archivo, actualizar: el nombre del modelo importado (db.NuevoAlias), el nombre del objeto de queries, y el module.exports.\n\n3. **Referencias en todo el proyecto:**\n   - Buscar en TODOS los archivos del proyecto (controllers, utils, routes, otros models, otros queries, vistas) cualquier referencia al nombre viejo del modelo, alias, o archivo de queries, y actualizarlas al nuevo nombre.\n   - Esto incluye: requires/imports, nombres de variables, asociaciones en otros modelos que referencien al modelo viejo, y cualquier otra referencia.\n\n4. **Limpiar:** Una vez completado el renombrado, eliminar el comentario `/* before old_table_name */` del archivo .sql para que no se vuelva a procesar.\n\nSolo procesá las tablas que tengan el comentario `/* before ... */`. Si no hay ninguna, no hagas nada."
+  }
+}

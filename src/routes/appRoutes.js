@@ -21,7 +21,7 @@ router.get('/maestro',appController.master)
 
 // prices lists
 router.get('/impresiones',appController.printings)
-router.get('/items',appController.items)
+router.get('/prices-lists',appController.pricesLists)
 
 
 // general data

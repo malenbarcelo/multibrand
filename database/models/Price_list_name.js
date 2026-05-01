@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-   const alias = "Prices_lists"
+   const alias = "Prices_lists_names"
 
    const cols = {
       id:{
@@ -13,33 +13,33 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      price_list:{
+      price_list_name:{
          type: DataTypes.STRING,
          allowNull: false,
+      },
+      image:{
+         type: DataTypes.STRING(45),
+         allowNull: true,
       }
    }
 
    const config = {
-      tableName : 'prices_lists',
+      tableName : 'prices_lists_names',
       timestamps : false
    }
 
-   const Price_list = sequelize.define(alias, cols, config)
+   const Price_list_name = sequelize.define(alias, cols, config)
 
-   Price_list.associate = (models) => {
-      Price_list.belongsTo(models.Branches,{
+   Price_list_name.associate = (models) => {
+      Price_list_name.belongsTo(models.Branches,{
           as:'branch_data',
           foreignKey: 'id_branches'
       }),
-      Price_list.hasMany(models.Prices_lists_to_print,{
-          as:'prices_lists_to_print',
-          foreignKey: 'id_prices_lists'
-      }),
-      Price_list.hasMany(models.Prices_lists_categories,{
+      Price_list_name.hasMany(models.Prices_lists_categories,{
           as:'prices_lists_categories',
-          foreignKey: 'id_prices_lists'
+          foreignKey: 'id_prices_lists_names'
       })
    }
 
-   return Price_list
+   return Price_list_name
 }

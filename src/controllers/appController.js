@@ -102,12 +102,16 @@ const appController = {
             return res.send('Ha ocurrido un error')
             }
     },
-    items: async(req,res) => {
+    pricesLists: async(req,res) => {
         try{
             const selectedItem = 'LISTAS DE PRECIOS'
             const selectedSubitem = 'ITEMS'
             const branch = req.session.branch
-            return res.render('items/items',{title:'Multibrand', selectedItem, selectedSubitem, bottomHeaderMenu, branch})
+            const date = new Date()
+            const year = date.getFullYear()
+            const years = [year-1,year,year+1]
+
+            return res.render('pricesLists/pricesLists',{title:'Multibrand', selectedItem, selectedSubitem, bottomHeaderMenu, branch, years})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

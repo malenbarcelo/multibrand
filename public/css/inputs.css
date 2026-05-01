@@ -26,6 +26,7 @@
     font-size: 13px;
     text-align: center;
     border:rgb(79, 78, 78) solid 1px;
+    border-radius: 6px;
 }
 
 .disabled-input{
@@ -33,6 +34,7 @@
     text-align: center;
     border:rgb(134, 130, 130) solid 1px;
     color: rgb(120, 116, 116) ;
+    border-radius: 6px;
 }
 
 .invalid-input{
@@ -57,3 +59,47 @@
     color:rgb(103, 99, 99);
 }
 
+
+/* filter bar */
+.filter-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-bottom: none;
+    padding: 14px 15px 10px 15px;
+    margin: 0 3%;
+    border-radius: 6px 6px 0 0;
+}
+
+.filter-bar-inputs{
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.filter-bar .label-std{
+    background-color: #f5f5f5;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+.filter-bar .input-std{
+    font-size: 12px;
+    padding: 7px 10px;
+}
+
+.filter-bar-clear{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.filter-bar-clear:hover{
+    color: var(--errorColor);
+}

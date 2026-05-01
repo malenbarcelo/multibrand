@@ -67,11 +67,12 @@ function eventListeners(data) {
             ceippMu.value = element.id_measurement_units
             ceippMuPerBox.value = Number(element.mu_per_box).toFixed(3).replace('.',',')
             ceippWeight.value = element.weight_kg == null ? '' : Number(element.weight_kg).toFixed(3).replace('.',',')
-            ceippVolume.value = Number(element.volume_m3).toFixed(4).replace('.',',')
+            ceippVolume.value = element.volume_m3 == null ? '' : Number(element.volume_m3).toFixed(4).replace('.',',')
             ceippBrand.value = element.brand
             ceippOrigin.value = element.origin
             ceippBreaks.value = element.has_breaks
             ceippSpecialPriceFactor.value = element.special_price_factor == null ? '' : Number(element.special_price_factor).toFixed(3).replace('.',',')
+            ceippObservations.value = element.observations || ''
 
             ceippSupplier.dispatchEvent(new Event('change'))
             ceippSupplier.focus()

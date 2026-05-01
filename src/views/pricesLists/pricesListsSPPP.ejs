@@ -1,0 +1,55 @@
+<!--- select period popup (sppp) --->
+<div class="popup pp-std" id="sppp">
+
+    <div class="pp-content w-400 top-100" id="spppContent">
+
+        <div class="pp-close pad-6" id="spppClose">
+            <div class="pp-close-icon w-20 h-20">x</div>
+        </div>
+
+        <div class="ta-c fw-b fs-17 " id="spppTitle">Seleccione un período</div>
+
+        <div class="fw-b fc-error fs-13 ta-c mt-10 not-visible" id="spppError">Debe completar todos los campos</div>
+
+        <div class="inputs-row cg-15 mt-30">
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p" id="spppSupplierLabel">Mes</label>
+                <select id="spppMonth" class="input-std ta-c w-150 pad-9-0-7-0" autocomplete="off">
+                    <option value=""></option>
+                    <option value="Enero">Enero</option>
+                    <option value="Febrero">Febrero</option>
+                    <option value="Marzo">Marzo</option>
+                    <option value="Abril">Abril</option>
+                    <option value="Mayo">Mayo</option>
+                    <option value="Junio">Junio</option>
+                    <option value="Julio">Julio</option>
+                    <option value="Agosto">Agosto</option>
+                    <option value="Septiembre">Septiembre</option>
+                    <option value="Octubre">Octubre</option>
+                    <option value="Noviembre">Noviembre</option>
+                    <option value="Diciembre">Diciembre</option>
+                </select>
+            </div>
+            <div class="div-input">
+                <label class="label-std fs-13 l-3p" id="spppSupplierLabel">Año</label>
+                <select id="spppYear" class="input-std ta-c w-100 pad-9-0-7-0" autocomplete="off">
+                    <option value=""></option>
+                    <% years.forEach(year => { %>
+                        <option value="<%= year %>">
+                            <%= year %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex-r jc-c cg-10 mt-30 mb-10">
+            <div class="btn-std fs-13 w-100 pad-5-0" id="spppAccept">Aceptar</div>
+            <div class="btn-std fs-13 w-100 pad-5-0" id="spppCancel">Cerrar</div>
+        </div>
+
+    </div>
+
+        
+</div>
+

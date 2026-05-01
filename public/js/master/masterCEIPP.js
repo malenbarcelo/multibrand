@@ -13,38 +13,38 @@ async function ceippEventListeners() {
     let row
 
     // view factors
-    ceippViewFactors.addEventListener('click',async()=>{
+    // ceippViewFactors.addEventListener('click',async()=>{
 
-        ceippLoader.style.display = 'block'
+    //     ceippLoader.style.display = 'block'
 
-        const costCalculation = supplierData.cost_calculation
+    //     const costCalculation = supplierData.cost_calculation
 
-        const factors = costCalculation == 'volume' ? supplierData.factors_volume.find( fv => fv.id_branches == g.branchData.id) : supplierData.factors_coeficient.find( fc => fc.id_branches == g.branchData.id)
-        const currency = supplierData.currency_data.currency
-        const currencyExchange = g.currenciesExchanges.find( ce => ce.id == supplierData.id_currencies)
+    //     const factors = costCalculation == 'volume' ? supplierData.factors_volume.find( fv => fv.id_branches == g.branchData.id) : supplierData.factors_coeficient.find( fc => fc.id_branches == g.branchData.id)
+    //     const currency = supplierData.currency_data.currency
+    //     const currencyExchange = g.currenciesExchanges.find( ce => ce.id == supplierData.id_currencies)
 
 
-        // currency and margin data
-        fappSubtitle.innerText = supplierData.supplier
-        fappCurrency.innerText = currency
-        fappCurrencyExchange.innerText = gg.formatter2.format(currencyExchange.currency_exchange)
+    //     // currency and margin data
+    //     fappSubtitle.innerText = supplierData.supplier
+    //     fappCurrency.innerText = currency
+    //     fappCurrencyExchange.innerText = gg.formatter2.format(currencyExchange.currency_exchange)
 
-        if (costCalculation == 'volume') {
-            fappStandardVolume.innerText = gg.formatter0.format(factors.std_volume) + ' ' + factors.volume_mu
-            fappStandardContainer.innerText = gg.formatter0.format(factors.std_container) + ' ft3'
-            //fappFreight.innerText = gg.formatter0.format(factors.std_freight) + ' ' + 
-            fappFactorsVolume.style.display = 'block'
-            fappFactorsCoeficient.style.display = 'none'
+    //     if (costCalculation == 'volume') {
+    //         fappStandardVolume.innerText = gg.formatter0.format(factors.std_volume) + ' ' + factors.volume_mu
+    //         fappStandardContainer.innerText = gg.formatter0.format(factors.std_container) + ' ft3'
+    //         //fappFreight.innerText = gg.formatter0.format(factors.std_freight) + ' ' + 
+    //         fappFactorsVolume.style.display = 'block'
+    //         fappFactorsCoeficient.style.display = 'none'
             
-        }else{
-            fappFactorsVolume.style.display = 'none'
-            fappFactorsCoeficient.style.display = 'block'
-        }
+    //     }else{
+    //         fappFactorsVolume.style.display = 'none'
+    //         fappFactorsCoeficient.style.display = 'block'
+    //     }
 
-        fapp.style.display = 'block'
+    //     fapp.style.display = 'block'
 
-        ceippLoader.style.display = 'none'
-    })
+    //     ceippLoader.style.display = 'none'
+    // })
 
     // delete item
     ceippDestroy.addEventListener('click',async()=>{
@@ -64,11 +64,11 @@ async function ceippEventListeners() {
             const costCalculation = supplierData ? supplierData.cost_calculation : undefined
 
             // show factors if applies
-            if (ceippSupplier.value != '') {
-                ceippViewFactors.classList.remove('not-visible')                
-            }else{
-                ceippViewFactors.classList.add('not-visible')
-            }
+            // if (ceippSupplier.value != '') {
+            //     ceippViewFactors.classList.remove('not-visible')                
+            // }else{
+            //     ceippViewFactors.classList.add('not-visible')
+            // }
 
             // add volume to elementsToChange if applies
             if (supplierData && supplierData.cost_calculation == 'volume') {
@@ -87,7 +87,7 @@ async function ceippEventListeners() {
                     idBranch: idBranch,
                     rows:[{
                         id_suppliers: Number(supplierData.id),
-                        volume_m3: Number(ceippVolume.value.replace(',','.')),
+                        volume_m3: ceippVolume.value == '' ? null : Number(ceippVolume.value.replace(',','.')),
                         supplier_data: supplierData,
                         id_currencies: supplierData.id_currencies,
                         fob: Number(ceippFob.value.replace(',','.')),
@@ -105,12 +105,14 @@ async function ceippEventListeners() {
 
                 const responseData = await response.json()
                 row = responseData.data.rows[0]
+            } else {
+                if (!ceippSupplier.value) row = null
             }
 
             // complete inputs
             ceippFreight.value = row ? (row.freight == null ? '' : row.freight.toFixed(3).replace('.',',')) : ''
             ceippCif.value = row ? (row.cif == null ? '' : row.cif.toFixed(3).replace('.',',')) : ''
-            ceippDispatchExpenses.value = row ? (row.dispatch_expenses == null ? '' : row.dispatch_expenses.toFixed(3).replace('.',',')) : ''
+            ceippImportDuty.value = row ? (row.import_duty == null ? '' : row.import_duty.toFixed(3).replace('.',',')) : ''
             ceippVolumeExpenses.value = row ? (row.volume_expenses == null ? '' : row.volume_expenses.toFixed(3).replace('.',',')) : ''
             ceippPriceExpenses.value = row ? (row.price_expenses == null ? '' : row.price_expenses.toFixed(3).replace('.',',')) : ''
             ceippMuCost.value = row ? (row.estimated_mu_cost.toFixed(3).replace('.',',')) : ''
@@ -157,7 +159,7 @@ async function ceippEventListeners() {
         ceippLoader.style.display = 'block'
         
         // empty elements
-        const requiredElements = g.ceippInputs.filter( i => i != ceippSpecialPriceFactor && i != ceippWeight)
+        const requiredElements = g.ceippInputs.filter( i => i != ceippSpecialPriceFactor && i != ceippWeight && i != ceippVolume && i != ceippObservations)
         const emptyElement = requiredElements.filter( re => re.value == '')
         if (emptyElement.length > 0) {
             errors += 1
@@ -183,9 +185,11 @@ async function ceippEventListeners() {
             row.description = ceippDescription.value
             row.id_measurement_units = row.mu_data.id
             row.weight_kg = ceippWeight.value == '' ? null : Number(ceippWeight.value.replace(',','.'))
+            row.volume_m3 = ceippVolume.value == '' ? null : Number(ceippVolume.value.replace(',','.'))
             row.brand = ceippBrand.value
             row.has_breaks = ceippBreaks.value
             row.origin = ceippOrigin.value
+            row.observations = ceippObservations.value || null
 
             // create
             let response

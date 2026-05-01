@@ -1,13 +1,19 @@
 
 const { getDevSession } = require("../utils/getDevSession")
 const { getMaster } = require("../utils/getMaster")
+const { addMasterData } = require("../utils/addMasterData")
 const currenciesExchangesQueries = require("../dbQueries/currenciesExchangesQueries")
 const importsQueries = require("../dbQueries/importsQueries")
 const branchesQueries = require("../dbQueries/branchesQueries")
 const masterQueries = require("../dbQueries/masterQueries")
-const pricesListsToPrintQueries = require("../dbQueries/pricesListsToPrintQueries")
-const pricesListsItemsQueries = require("../dbQueries/pricesListsItemsQueries")
+const pricesListsDetailsQueries = require("../dbQueries/pricesListsDetailsQueries")
 const excelJs = require('exceljs')
+const PDFDocument = require('pdfkit')
+const ppdf = require('../utils/printPdfUtils')
+const mnths = require('../data/months')
+const path = require('path')
+const months = require("../data/months")
+const { get } = require("http")
 
 const composedController = {
 
@@ -49,6 +55,7 @@ const composedController = {
 
             const filters = req.body
             const idBranch = req.session.branch.id
+            console.log(req.session)
             const currency = req.session.branch.currency_data.currency
             const fileName = 'Lista de precios ' + req.session.branch.branch + '.xlsx'
             filters.id_branches = idBranch
@@ -230,14 +237,27 @@ const composedController = {
     printExcel: async(req,res) =>{
         try{
 
-            const listData = req.body
-            const categories = listData.price_list_data.prices_lists_categories.map(c => c.id)
-            const idBranch = listData.id_branches
-            const fileName = 'Lista de precios ' + listData.price_list_name + ' - Abril 2026' + '.xlsx'
+            // get session if DEV and branch id
+            getDevSession(req)
+            const idBranch = req.session.branch.id
 
-            let items = await pricesListsItemsQueries.get({undefined,undefined,filters:{id_branches:idBranch, enabled: 1, id_prices_lists_categories:categories,order:[['id_prices_lists_categories','ASC'],['price_list_item','ASC']]} })
-            items = items.rows
-            const dataToPrint = items.filter(i => i. price_list_item != '' && i.supplier_item != '')
+            // get data to print
+            const filters = {
+                id_branches: idBranch,
+                order:[["list_name","ASC"],["list_category","ASC"],["price_list_item","ASC"]],
+                price_list_item_null: false,
+                enabled: 1
+            }   
+
+            let dataToPrint = await pricesListsDetailsQueries.get({undefined,undefined,filters})
+
+            // add master details
+            dataToPrint = await addMasterData(dataToPrint, idBranch)
+
+            dataToPrint = dataToPrint.rows
+
+            // file name
+            const fileName = 'Lista de precios Distribuidor.xlsx'
 
             // create woorkbook
             const workbook = new excelJs.Workbook()
@@ -245,12 +265,11 @@ const composedController = {
       
             const columns = [
                 { header: 'LISTA', key: 'list', width: 20, style: {alignment:{horizontal: 'center'}}},
-                { header: 'CATEGORÍA', key: 'category', width: 40, style: {alignment:{horizontal: 'center'}}},
+                { header: 'CATEGORÍA', key: 'category', width: 50, style: {alignment:{horizontal: 'center'}}},
                 { header: 'ITEM', key: 'item', width: 15, style: {alignment:{horizontal: 'center'}}},
-                { header: 'DESCRIPCIÓN', key: 'description', width: 40, style: {alignment:{horizontal: 'center'}}},
-                { header: 'PRECIO UNITARIO + IVA', key: 'price', width: 17, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0.00'}},
-                { header: 'UNIDADES POR CAJA', key: 'muPerBox', width: 12, style: {alignment:{horizontal: 'center'}}},
-                
+                { header: 'DESCRIPCIÓN', key: 'description', width: 60, style: {alignment:{horizontal: 'center'}}},
+                { header: 'PRECIO UNITARIO + IVA', key: 'price', width: 17, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0'}},
+                { header: 'UNIDADES POR CAJA', key: 'muPerBox', width: 12, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0'}}                
             ]
       
             worksheet.columns = columns
@@ -271,15 +290,16 @@ const composedController = {
       
             dataToPrint.forEach(element => {
                 const data = {
-                    'list': listData.price_list_name,
+                    'list': element.list_name_data.price_list_name,
                     'category': element.category_data.category_name,
                     'item': element.price_list_item,
-                    'description': '',
-                    'price':0,
-                    'muPerBox': 0,
+                    'description': element.description,
+                    'price': element.master_details.sells_price_local_currency == null ? '' : Number(element.master_details.sells_price_local_currency),
+                    'muPerBox': Number(element.master_data.mu_per_box),
                 }
             
                 const row = worksheet.addRow(data)
+
                 row.eachCell((cell) => {
                     cell.border = {
                         top: { style: 'thin', color: { argb: 'FF000000' } },
@@ -307,12 +327,125 @@ const composedController = {
     },
 
     printPdf: async(req,res) =>{
+        try{
+            
+            const data = req.body
 
+            // get session if DEV and branch id
+            getDevSession(req)
+            const idBranch = req.session.branch.id
+
+            // get data to print
+            const filters = {
+                id_branches: idBranch,
+                order:[["list_name","ASC"],["list_category","ASC"],["price_list_item","ASC"]],
+                price_list_item_null: false,
+                id_prices_lists_names: data.id_prices_lists_name,
+                enabled: 1
+            }   
+
+            let dataToPrint = await pricesListsDetailsQueries.get({undefined,undefined,filters})
+
+            // add master details
+            dataToPrint = await addMasterData(dataToPrint, idBranch)
+
+            dataToPrint = dataToPrint.rows
+
+            console.log(dataToPrint[0])
+
+            // file name
+            const listName = dataToPrint[0].list_name_data.price_list_name 
+            const period = data.month + ' ' + data.year
+            const fileName = 'Lista de precios ' + listName + ' - ' + period + '.pdf'
+
+            const PDFDocument = require('pdfkit')
+            const doc = new PDFDocument({ margin: 27, size: 'A4' })
+
+            // register fonts
+            doc.registerFont('Arial', path.resolve(__dirname, '../../public/fonts/arial.ttf'))
+            doc.registerFont('Arial-Bold', path.resolve(__dirname, '../../public/fonts/arialbd.ttf'))
+            doc.registerFont('Arial-Italic', path.resolve(__dirname, '../../public/fonts/ariali.ttf'))
+            doc.registerFont('Arial-BoldItalic', path.resolve(__dirname, '../../public/fonts/arialbi.ttf'))
+
+            // page with
+            const pageWidth = doc.page.width
+
+            // print header
+            ppdf.drawHeader(doc,pageWidth)
+
+            // print title
+            ppdf.drawTitle(doc, listName, period)
+
+            // prepare table params (startX and columnWidths for drawData)
+            const columnWidths = [80, 230, 80, 60]
+            const pageWidth2 = doc.page.width
+            const tableWidth = columnWidths.reduce((a, b) => a + b, 0)
+            const startX = (pageWidth2 - tableWidth) / 2
+            const tableParams = {
+                startX: startX,
+                columnWidths: columnWidths,
+                currentY: doc.y
+            }
+
+            // group data by category
+            const grouped = []
+            const categoryMap = {}
+            dataToPrint.forEach(row => {
+                const catId = row.id_prices_lists_categories
+                if (!categoryMap[catId]) {
+                    categoryMap[catId] = {
+                        product_type: row.category_data.category_name,
+                        data: []
+                    }
+                    grouped.push(categoryMap[catId])
+                }
+                categoryMap[catId].data.push([
+                    row.price_list_item || '',
+                    row.master_details ? row.master_details.description : (row.description || ''),
+                    row.master_details && row.master_details.sells_price_local_currency ? Math.ceil(row.master_details.sells_price_local_currency).toLocaleString() : '',
+                    row.units_per_item || ''
+                ])
+            })
+
+            // print data
+            ppdf.drawData(doc, tableParams, listName, period, '', grouped, 1)
+
+            // print footer
+            ppdf.drawFooter(doc)
+
+            res.setHeader('Content-Type', 'application/pdf')
+            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName)
+
+            doc.pipe(res)
+            doc.end()
+          
+        }catch(error){
+            console.log(error)
+            return res.status(500).json({ response: 'error' })
+        }
     },
 
     printErp: async(req,res) =>{
 
-    }    
+    },
+    
+    getListsToPrint: async(req,res) =>{
+        try{
+
+            // branch id
+            getDevSession(req)
+            const idBranch = req.session.branch.id
+            
+            // get data
+            let data = await pricesListsDetailsQueries.getListsToPrint(idBranch)
+            
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({error:'Error al obtener datos'})
+        }
+    },
 
 
 }
