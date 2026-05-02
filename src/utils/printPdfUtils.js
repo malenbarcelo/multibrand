@@ -21,7 +21,7 @@ const printPdfUtils = {
 
         doc.image(logoPath, logoX, logoY, { height: logoHeight })
 
-        doc.y = headerHeight + 10
+        doc.y = headerHeight
 
     },
 
@@ -62,7 +62,7 @@ const printPdfUtils = {
         // main title
         doc        
          .fillColor('#15A89D')
-         .font('Arial-Bold')
+         .font('Helvetica-BoldOblique')
          .fontSize(20)
          .text(name, { align: 'center' })
 
@@ -71,7 +71,7 @@ const printPdfUtils = {
         // period
         doc
          .fillColor('#666666')
-         .font('Arial')
+         .font('Helvetica-Oblique')
          .fontSize(10)
          .text(period, { align: 'center' })
     },
@@ -82,7 +82,7 @@ const printPdfUtils = {
 
         doc        
          .fillColor('#F60000')
-         .font('Arial-BoldItalic')
+         .font('Helvetica-BoldOblique')
          .fontSize(26)
          .text('LISTAS DE PRECIOS', { align: 'center' })
 
@@ -90,7 +90,7 @@ const printPdfUtils = {
         
         doc        
          .fillColor('black')
-         .font('Arial-BoldItalic')
+         .font('Helvetica-BoldOblique')
          .fontSize(25)
          .text(name, { align: 'center' })
 
@@ -98,7 +98,7 @@ const printPdfUtils = {
 
         doc
          .fillColor('#000000')
-         .font('Arial-Italic')
+         .font('Helvetica-Oblique')
          .fontSize(18)
          .text(period, { align: 'center' })
 
@@ -113,7 +113,7 @@ const printPdfUtils = {
         
         doc
         .fillColor('#999999')
-        .font('Arial')
+        .font('Helvetica')
         .fontSize(7)
         .text('MULTIBRAND  |  ventas@multibrand.com  |  www.multibrand.com', { align: 'center' })
 
@@ -122,8 +122,8 @@ const printPdfUtils = {
     drawTableTitle:(doc) => {
 
         const headers = ['Artículo','Descripción','Precio unitario\n+ IVA', 'Unidades\npor caja']
-        let currentY = doc.y + 10
-        const columnWidths = [80, 230, 80, 60]
+        let currentY = doc.y + 6
+        const columnWidths = [80, 280, 80, 60]
         const rowHeight = 26
         const fontSize = 8
         const pageWidth = doc.page.width
@@ -138,7 +138,7 @@ const printPdfUtils = {
             .restore()
 
         // titles - vertically centered
-        doc.font('Arial-Bold').fontSize(fontSize).fillColor('white')
+        doc.font('Helvetica-Bold').fontSize(fontSize).fillColor('white')
 
         headers.forEach((text, i) => {
             const cellX = startX + columnWidths.slice(0, i).reduce((a, b) => a + b, 0)
@@ -172,9 +172,13 @@ const printPdfUtils = {
         let globalRowIdx = 0
         let isFirstCategory = true
 
+        let currentCategory = ''
+
         data.forEach((element) => {
 
             if (printType == 1) {
+
+                currentCategory = element.product_type
 
                 const maxHeightPage = 770
                 const pageWidth = doc.page.width
@@ -190,19 +194,21 @@ const printPdfUtils = {
                     currentY = doc.y + 10
                 }
 
-                // spacing before category (except first)
+                // spacing before category
                 if (!isFirstCategory) {
                     currentY += 16
+                } else {
+                    currentY += 20
                 }
 
-                // category subtitle in black
-                doc.font('Arial-Bold').fontSize(9).fillColor('#333333')
+                // category subtitle centered, black, larger
+                doc.font('Helvetica-Bold').fontSize(11).fillColor('#333333')
                 doc.text(element.product_type, startX, currentY, {
                     width: columnWidths.reduce((a, b) => a + b, 0),
-                    align: 'left'
+                    align: 'center'
                 })
 
-                currentY += 14
+                currentY += 16
 
                 // draw new table header
                 doc.y = currentY
@@ -223,7 +229,7 @@ const printPdfUtils = {
                 const pageWidth = doc.page.width
 
                 // calculate row height
-                doc.font('Arial').fontSize(fontSize)
+                doc.font('Helvetica').fontSize(fontSize)
                 doc.lineGap(0)
 
                 row.forEach((raw, i) => {
@@ -244,8 +250,22 @@ const printPdfUtils = {
                     doc.addPage()
                     printPdfUtils.drawHeader(doc, pageWidth)
                     printPdfUtils.drawTitle(doc, name, period)
+                    
+                    // redraw category subtitle
+                    currentY = doc.y + 20
+                    doc.font('Helvetica-Bold').fontSize(11).fillColor('#333333')
+                    doc.text(currentCategory, startX, currentY, {
+                        width: columnWidths.reduce((a, b) => a + b, 0),
+                        align: 'center'
+                    })
+                    currentY += 16
+                    doc.y = currentY
+
                     const tableNewParams = printPdfUtils.drawTableTitle(doc)
+                    startX = tableNewParams.startX
+                    columnWidths = tableNewParams.columnWidths
                     currentY = tableNewParams.currentY
+                    globalRowIdx = 0
                 }
 
                 // zebra striping
@@ -262,8 +282,8 @@ const printPdfUtils = {
                         .restore()
 
                     // text
-                    doc.font('Arial').fontSize(fontSize).fillColor('#333333')
-                    const cellAlign = i === 1 ? 'left' : 'center'
+                    doc.font('Helvetica').fontSize(fontSize).fillColor('#333333')
+                    const cellAlign = 'center'
                     const textHeight = doc.heightOfString(text, {
                         width: columnWidths[i] - 10,
                         align: cellAlign
@@ -292,16 +312,6 @@ const printPdfUtils = {
             })
 
         })
-
-        // bottom line to close table
-        const tableTotalWidth = columnWidths.reduce((a, b) => a + b, 0)
-        doc.save()
-            .moveTo(startX, currentY)
-            .lineTo(startX + tableTotalWidth, currentY)
-            .lineWidth(1)
-            .strokeColor('#15A89D')
-            .stroke()
-            .restore()
 
     },
 }

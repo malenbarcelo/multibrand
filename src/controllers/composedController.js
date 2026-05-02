@@ -351,8 +351,6 @@ const composedController = {
 
             dataToPrint = dataToPrint.rows
 
-            console.log(dataToPrint[0])
-
             // file name
             const listName = dataToPrint[0].list_name_data.price_list_name 
             const period = data.month + ' ' + data.year
@@ -360,12 +358,6 @@ const composedController = {
 
             const PDFDocument = require('pdfkit')
             const doc = new PDFDocument({ margin: 27, size: 'A4' })
-
-            // register fonts
-            doc.registerFont('Arial', path.resolve(__dirname, '../../public/fonts/arial.ttf'))
-            doc.registerFont('Arial-Bold', path.resolve(__dirname, '../../public/fonts/arialbd.ttf'))
-            doc.registerFont('Arial-Italic', path.resolve(__dirname, '../../public/fonts/ariali.ttf'))
-            doc.registerFont('Arial-BoldItalic', path.resolve(__dirname, '../../public/fonts/arialbi.ttf'))
 
             // page with
             const pageWidth = doc.page.width
@@ -377,7 +369,7 @@ const composedController = {
             ppdf.drawTitle(doc, listName, period)
 
             // prepare table params (startX and columnWidths for drawData)
-            const columnWidths = [80, 230, 80, 60]
+            const columnWidths = [80, 280, 80, 60]
             const pageWidth2 = doc.page.width
             const tableWidth = columnWidths.reduce((a, b) => a + b, 0)
             const startX = (pageWidth2 - tableWidth) / 2
