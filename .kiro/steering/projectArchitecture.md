@@ -1,5 +1,6 @@
 ---
 inclusion: auto
+description: Arquitectura general del proyecto, tecnologías y estructura de carpetas
 ---
 
 # Arquitectura del Proyecto

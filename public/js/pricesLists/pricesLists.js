@@ -122,6 +122,37 @@ window.addEventListener('load',async()=>{
         sppp.style.display = 'block'
     })
 
+    // print erp prices
+    printErp.addEventListener('click',async()=>{
+        
+        loader.style.display = 'block'
+
+        const response = await fetch(domain + 'composed/print-erp',{
+            method:'POST',
+            headers: {'Content-Type': 'application/json'},
+        })
+
+        if (response.ok) {
+            const contentType = response.headers.get('Content-Type')
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = contentType.includes('zip') ? 'Flexxus Listas.zip' : 'Listas Defontana.xlsx'
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+            window.URL.revokeObjectURL(url)
+        } else {
+            console.error('Error al descargar el archivo:', response.statusText)
+        }
+
+        loader.style.display = 'none'
+    })
+
+
+
+
     loader.style.display = 'none'
     
 })

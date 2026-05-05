@@ -14,6 +14,7 @@ router.post('/download-master',composedController.downloadMaster)
 router.get('/get-lists-to-print',composedController.getListsToPrint)
 router.post('/print-excel',composedController.printExcel)
 router.post('/print-pdf',composedController.printPdf)
+router.post('/print-all-pdfs',composedController.printAllPdfs)
 router.post('/print-erp',composedController.printErp)
 
 // imports

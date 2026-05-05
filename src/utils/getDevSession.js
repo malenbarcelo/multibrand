@@ -10,6 +10,9 @@ function getDevSession(req) {
             branch: 'Argentina',
             pos_suffix: 'AR',
             id_currencies: 1,
+            email: 'ventas@multibrand.com.ar',
+            web: 'www.multibrand.com.ar',
+            erp: 'Flexxus',
             currency_data:{
                 id:1,
                 currency:'ARS',

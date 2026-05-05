@@ -1,67 +1,124 @@
 <div class="header">
     <div class="top-header">
-        <div class="top-header-element">
-            <img src="/images/companyLogo.jpg" alt="multibrand" class="company-logo">
-        </div>
-        <div class="top-header-element top-header-right">
-            <div class="user-logged">
-                <% if (locals.userLogged) { %>
-                    <i class="fa-solid fa-user user-logged-icon"></i>
-                    <div class="user-logged-name">
-                        <%= userLogged.first_name + ' ' + userLogged.last_name %>
-                        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></a>
-                    </div>
-                <% } %>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-header <%= locals.bottomHeaderMenu ? 'bottom-header-border' : '' %>">
-        
-        <% if (locals.bottomHeaderMenu) { %>
-
-            <% bottomHeaderMenu.forEach(itemMenu => { %>
-                
-                <div class="<%= locals.selectedItem == itemMenu.name ? 'bottom-header-item bhi-selected' : 'bottom-header-item' %>">
-                    <a href="<%= itemMenu.href %>"><%= itemMenu.name %></a>                
-
-                    <% if (itemMenu.subitems.length > 0) { %>
-                        <div class="bottom-header-subitems" id="<%= 'subItems_' + itemMenu.id %>">
-                            <% itemMenu.subitems.forEach(subitem => { %>
-                                <a href="<%= subitem.href %>" class="<%= locals.selectedSubitem == subitem.name ? 'bottom-header-subitem bhs-selected' : 'bottom-header-subitem' %>"><%= subitem.name %></a>                                
-                            <% }) %>
-                        </div>
-                        <div class="bottom-header-show-subitems"><i class="fa-solid fa-chevron-down"></i></div>
-                    <% } %>
-                </div>
-            <% }) %>
-
-            <% if (locals.branch) { %>
-                <div class="bottom-header-right-element">
-                    <span class="branch-name"><%= branch.branch.toUpperCase() %></span>
-                    <% 
-                        const branchLower = branch.branch.toLowerCase();
-                        let flagImage = '';
-                        if (branchLower.includes('argentina')) {
-                            flagImage = '/images/argentina.jpg';
-                        } else if (branchLower.includes('chile')) {
-                            flagImage = '/images/chile.jpg';
-                        }
-                    %>
-                    <% if (flagImage) { %>
-                        <img src="<%= flagImage %>" alt="<%= branch.branch %>" class="branch-flag">
-                    <% } %>
-                    <a href="/menu" class="branch-edit-icon">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
+        <div class="top-header-left">
+            <% if (locals.bottomHeaderMenu) { %>
+                <div class="burger-menu" id="burgerMenu">
+                    <i class="fa-solid fa-bars"></i>
                 </div>
             <% } %>
-            
+            <img src="/images/companyLogo.jpg" alt="multibrand" class="company-logo">
+        </div>
+        <div class="top-header-right">
+            <% if (locals.userLogged) { %>
+                <div class="user-logged">
+                    <div class="user-icon-circle">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span class="user-logged-name"><%= userLogged.first_name + ' ' + userLogged.last_name %></span>
+                    <a href="/logout" class="logout-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- Side Menu Overlay -->
+<div class="side-menu-overlay" id="sideMenuOverlay"></div>
+
+<!-- Side Menu -->
+<div class="side-menu" id="sideMenu">
+    <div class="side-menu-header">
+        <i class="fa-solid fa-bars side-menu-header-icon"></i>
+        <span class="side-menu-header-title">Menú</span>
+    </div>
+
+    <div class="side-menu-items">
+        <% if (locals.bottomHeaderMenu) { %>
+            <% bottomHeaderMenu.forEach(itemMenu => { %>
+                <% if (itemMenu.subitems.length === 0) { %>
+                    <a href="<%= itemMenu.href %>" class="side-menu-item <%= locals.selectedItem == itemMenu.name ? 'smi-selected' : '' %>">
+                        <%= itemMenu.name %>
+                    </a>
+                <% } else { %>
+                    <% const hasSelectedSubitem = itemMenu.subitems.some(s => locals.selectedSubitem == s.name) %>
+                    <div class="side-menu-expandable-wrapper">
+                        <div class="side-menu-item side-menu-expandable <%= hasSelectedSubitem ? 'smi-selected' : '' %>">
+                            <span><%= itemMenu.name %></span>
+                            <i class="fa-solid fa-chevron-down side-menu-chevron"></i>
+                        </div>
+                        <div class="side-menu-subitems">
+                            <% itemMenu.subitems.forEach(subitem => { %>
+                                <a href="<%= subitem.href %>" class="side-menu-subitem <%= locals.selectedSubitem == subitem.name ? 'smi-subitem-selected' : '' %>">
+                                    <%= subitem.name %>
+                                </a>
+                            <% }) %>
+                        </div>
+                    </div>
+                <% } %>
+            <% }) %>
         <% } %>
     </div>
-</div>  
 
+    <% if (locals.branch) { %>
+        <div class="side-menu-branch">
+            <div class="side-menu-branch-info">
+                <span class="side-menu-branch-name"><%= branch.branch.toUpperCase() %></span>
+                <% 
+                    const branchLower = branch.branch.toLowerCase();
+                    let flagImage = '';
+                    if (branchLower.includes('argentina')) {
+                        flagImage = '/images/argentina.jpg';
+                    } else if (branchLower.includes('chile')) {
+                        flagImage = '/images/chile.jpg';
+                    }
+                %>
+                <% if (flagImage) { %>
+                    <img src="<%= flagImage %>" alt="<%= branch.branch %>" class="side-menu-flag">
+                <% } %>
+            </div>
+            <a href="/menu" class="side-menu-change-branch">Cambiar país</a>
+        </div>
+    <% } %>
+</div>
 
+<script>
+    const burgerMenu = document.getElementById('burgerMenu')
+    const sideMenu = document.getElementById('sideMenu')
+    const sideMenuOverlay = document.getElementById('sideMenuOverlay')
 
+    if (burgerMenu && sideMenu) {
+        burgerMenu.addEventListener('mouseenter', () => {
+            sideMenu.classList.add('side-menu-open')
+            sideMenuOverlay.classList.add('overlay-visible')
+        })
 
+        sideMenu.addEventListener('mouseleave', () => {
+            sideMenu.classList.remove('side-menu-open')
+            sideMenuOverlay.classList.remove('overlay-visible')
+        })
 
+        sideMenuOverlay.addEventListener('click', () => {
+            sideMenu.classList.remove('side-menu-open')
+            sideMenuOverlay.classList.remove('overlay-visible')
+        })
+    }
+
+    // expandable items open on hover via CSS (.side-menu-expandable-wrapper:hover)
+</script>
+
+<% if (locals.branch) { %>
+    <%
+        const hBranchLower = branch.branch.toLowerCase();
+        let hFlagImage = '';
+        if (hBranchLower.includes('argentina')) {
+            hFlagImage = '/images/argentina.jpg';
+        } else if (hBranchLower.includes('chile')) {
+            hFlagImage = '/images/chile.jpg';
+        }
+    %>
+    <% if (hFlagImage) { %>
+        <div class="header-flag-fixed">
+            <img src="<%= hFlagImage %>" alt="<%= branch.branch %>" class="header-flag">
+        </div>
+    <% } %>
+<% } %>

@@ -1,18 +1,91 @@
 <%- include('./partials/head') %>
 <%- include('./partials/header') %>
 
-<div class="fs-18 fw-b mt-35 mb-100 ta-c">SELECCIONE UNA OPCIÓN</div>
-
-<form action="/set-branch" method="POST">
-    <div class="flex-c rg-30">
-        <% branches.forEach(branch => { %>
-            <button type="submit" class="btn-std pad-17-0 w-400 m-a" name="<%= branch.id %>">
-                <div class="flex-r ai-c jc-c fs-17 cg-10">
-                    <%= branch.branch.toUpperCase() %>
-                    <img src="/images/<%= branch.branch.toLowerCase() %>.jpg" class="h-20" alt="logo">
-                </div>
-            </button>
-        <% }) %>
+<div class="select-branch-page">
+    <div class="select-branch-card">
+        <form action="/set-branch" method="POST" class="select-branch-form">
+            <% branches.forEach(branch => { %>
+                <button type="submit" class="select-branch-btn" name="<%= branch.id %>">
+                    <span class="select-branch-btn-name"><%= branch.branch.toUpperCase() %></span>
+                    <img src="/images/<%= branch.branch.toLowerCase() %>.jpg" class="select-branch-btn-flag" alt="<%= branch.branch %>">
+                </button>
+            <% }) %>
+        </form>
     </div>
-</form>
+</div>
 
+<style>
+    .select-branch-page {
+        height: calc(100vh - 60px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e8ecef;
+    }
+
+    .select-branch-card {
+        background: white;
+        border-radius: 16px;
+        padding: 40px 40px;
+        width: 380px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .select-branch-logo {
+        margin-bottom: 30px;
+    }
+
+    .select-branch-logo-img {
+        height: 55px;
+    }
+
+    .select-branch-title {
+        font-size: 16px;
+        color: #444;
+        font-weight: 500;
+        margin-bottom: 25px;
+    }
+
+    .select-branch-form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    .select-branch-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 12px;
+        padding: 16px 20px;
+        background-color: #f0f2f5;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .select-branch-btn:hover {
+        background-color: var(--color1);
+        border-color: var(--color1);
+    }
+
+    .select-branch-btn-name {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .select-branch-btn:hover .select-branch-btn-name {
+        color: white;
+    }
+
+    .select-branch-btn-flag {
+        height: 18px;
+        width: 27px;
+        object-fit: cover;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+    }
+</style>

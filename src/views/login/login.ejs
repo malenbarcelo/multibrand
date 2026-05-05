@@ -1,36 +1,168 @@
 <%- include('../partials/head') %>
-<%- include('../partials/header') %>
 
-<div class="fs-18 fw-b mt-35 mb-70 ta-c">INICIAR SESIÓN</div>
-
-<form action="/login" method="POST">
-    <div class="inputs-column">
-        <div class="div-input">
-            <label for="email" class="label-std l-3p ts <%= locals.errors && errors.userName ? 'invalid-label' : null %>">USUARIO</label>
-            <input type="text" name="userName" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? 'invalid-input' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
-            <div class="fw-b fc-error txs">
-                <% if (locals.errors && errors.userName) { %>
-                    <%= errors.userName.msg %>
-                <% } %>
-            </div>
+<div class="login-page">
+    <div class="login-card">
+        <div class="login-logo">
+            <img src="/images/companyLogo3.jpg" alt="multibrand" class="login-logo-img">
         </div>
-        <div class="div-input mt-25">
-            <label for="password" class="label-std l-3p ts <%= locals.errors && errors.password ? 'invalid-label' : null %>">CONTRASEÑA</label>
-            <input type="password" name="password" class="input-std w-350 pad-12-0 <%= locals.errors && errors.password ? 'invalid-input' : null %>" value="<%= locals.oldData ? oldData.password : null %>" autocomplete="off">
-            <div class="fw-b fc-error txs   ">
-                <% if (locals.errors && errors.password) { %>
-                    <%= errors.password.msg %>
+
+        <form action="/login" method="POST" class="login-form">
+            <div class="login-field">
+                <label class="login-label <%= locals.errors && errors.userName ? 'login-label-error' : '' %>">Usuario</label>
+                <div class="login-input-wrapper">
+                    <i class="fa-solid fa-user login-input-icon"></i>
+                    <input type="text" name="userName" class="login-input <%= locals.errors && errors.userName ? 'login-input-error' : '' %>" value="<%= locals.oldData ? oldData.userName : '' %>" autocomplete="off" placeholder="Ingrese su usuario">
+                </div>
+                <% if (locals.errors && errors.userName) { %>
+                    <span class="login-error-msg"><%= errors.userName.msg %></span>
                 <% } %>
             </div>
-        </div>        
-    </div>
 
-    <div class="buttons-row mt-xl">
-        <button type="submit" class="btn-std mt-35 w-350 pad-12-0" id="loginBtn">LOGIN</button>
-    </div>
+            <div class="login-field">
+                <label class="login-label <%= locals.errors && errors.password ? 'login-label-error' : '' %>">Contraseña</label>
+                <div class="login-input-wrapper">
+                    <i class="fa-solid fa-lock login-input-icon"></i>
+                    <input type="password" name="password" class="login-input <%= locals.errors && errors.password ? 'login-input-error' : '' %>" value="<%= locals.oldData ? oldData.password : '' %>" autocomplete="off" placeholder="Ingrese su contraseña">
+                </div>
+                <% if (locals.errors && errors.password) { %>
+                    <span class="login-error-msg"><%= errors.password.msg %></span>
+                <% } %>
+            </div>
 
-    <div class="flex jc-c"><div class="ts ta-c mt-35 underline pointer fc-blue" id="restorePassword">Olvidé mi contraseña</div></div>
-    <div class="flex jc-c" ><div class="ts ta-c mt-10 underline pointer fc-blue">Cambiar mi contraseña</div></div>
-    
-    
-</form>
+            <button type="submit" class="login-btn" id="loginBtn">Iniciar Sesión</button>
+        </form>
+
+        <div class="login-links">
+            <a href="#" class="login-link" id="restorePassword">¿Olvidaste tu contraseña?</a>
+            <a href="#" class="login-link">Cambiar contraseña</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e8ecef;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 16px;
+        padding: 50px 40px 40px;
+        width: 360px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .login-logo {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .login-logo-img {
+        height: 55px;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 22px;
+    }
+
+    .login-field {
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+    }
+
+    .login-label {
+        font-size: 13px;
+        color: #444;
+        font-weight: 500;
+    }
+
+    .login-label-error {
+        color: var(--errorColor);
+    }
+
+    .login-input-wrapper {
+        display: flex;
+        align-items: center;
+        background-color: #f0f2f5;
+        border-radius: 8px;
+        padding: 0 14px;
+        border: 1px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .login-input-wrapper:focus-within {
+        border-color: var(--color1);
+    }
+
+    .login-input-icon {
+        color: #999;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .login-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 13px 0;
+        font-size: 14px;
+        outline: none;
+        color: #333;
+    }
+
+    .login-input::placeholder {
+        color: #aaa;
+    }
+
+    .login-input-error {
+        border-color: var(--errorColor);
+    }
+
+    .login-error-msg {
+        font-size: 11px;
+        color: var(--errorColor);
+        font-weight: bold;
+    }
+
+    .login-btn {
+        margin-top: 10px;
+        padding: 13px;
+        background-color: var(--color1);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .login-btn:hover {
+        background-color: var(--color4);
+    }
+
+    .login-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 6px;
+        margin-top: 25px;
+    }
+
+    .login-link {
+        font-size: 12px;
+        color: var(--color1);
+        text-decoration: none;
+    }
+
+    .login-link:hover {
+        text-decoration: underline;
+    }
+</style>

@@ -3,7 +3,7 @@ const path = require('path')
 
 const printPdfUtils = {
 
-    drawHeader:(doc,pageWidth) => {
+    drawHeader:(doc,pageWidth,listImage) => {
         
         const headerHeight = 70
         const padding = 20
@@ -21,40 +21,57 @@ const printPdfUtils = {
 
         doc.image(logoPath, logoX, logoY, { height: logoHeight })
 
+        // list image (top right, aligned to right edge)
+        if (listImage) {
+            const listLogoPath = path.resolve(__dirname, '../../public/images/pricesListsLogos/' + listImage)
+            if (fs.existsSync(listLogoPath)) {
+                const maxWidth = 70
+                const maxHeight = 30
+                const listLogoX = pageWidth - padding - maxWidth
+                const listLogoY = (headerHeight - maxHeight) / 2
+                doc.image(listLogoPath, listLogoX, listLogoY, { 
+                    fit: [maxWidth, maxHeight],
+                    align: 'right',
+                    valign: 'center'
+                })
+            }
+        }
+
         doc.y = headerHeight
 
     },
 
     drawFrontPageHeader:(doc,pageWidth) => {
         
-        const headerHeight = 100
-        const padding = 390
+        const pageHeight = doc.page.height
 
+        // full page light gray background
         doc.save()
-        doc.rect(0, 0, pageWidth, headerHeight).fill('#F60000')
+        doc.rect(0, 0, pageWidth, pageHeight).fill('#F4F4F4')
         doc.restore()
 
-        const logoPath = path.resolve(__dirname, '../../../public/images/companyLogo.jpg')
-        const logoHeight = 45
-        const logoX = padding
-        const logoY = (headerHeight - logoHeight) / 2
+        // logo centered
+        const logoPath = path.resolve(__dirname, '../../public/images/companyLogo.jpg')
+        const logoHeight = 60
+        const logoX = (pageWidth - 160) / 2
+        const logoY = 200
 
-        doc.image(logoPath, logoX, logoY, { height: logoHeight })
+        doc.image(logoPath, logoX, logoY, { fit: [160, logoHeight], align: 'center', valign: 'center' })
 
-        doc.y = headerHeight + 20
+        doc.y = logoY + logoHeight + 60
 
     },
 
     drawFrontPageFooter: (doc, pageWidth, pageHeight) => {
         
-        const footerHeight = 50
-        const footerY = pageHeight - footerHeight
+        doc.x = 0
+        doc.y = pageHeight - 40
 
-        doc.save()
-        doc.rect(0, footerY, pageWidth, footerHeight).fill('#F60000')
-        doc.restore()
-
-        doc.y = footerY - 20
+        doc
+        .fillColor('#999999')
+        .font('Helvetica')
+        .fontSize(8)
+        .text('ventas@multibrand.com.ar  |  www.multibrand.com.ar', { align: 'center' })
     },
 
     drawTitle:(doc,name,period) => {
@@ -78,35 +95,49 @@ const printPdfUtils = {
 
     drawFrontPageTitles:(doc,name,period) => {
 
-        doc.moveDown(10)
+        doc.moveDown(1)
 
+        // main title
         doc        
-         .fillColor('#F60000')
+         .fillColor('#15A89D')
          .font('Helvetica-BoldOblique')
-         .fontSize(26)
+         .fontSize(28)
          .text('LISTAS DE PRECIOS', { align: 'center' })
 
-         doc.moveDown(1)
-        
-        doc        
-         .fillColor('black')
-         .font('Helvetica-BoldOblique')
-         .fontSize(25)
-         .text(name, { align: 'center' })
+        // decorative line under title
+        const lineWidth = 80
+        const pageWidth = doc.page.width
+        const lineX = (pageWidth - lineWidth) / 2
+        const lineY = doc.y + 8
 
-         doc.moveDown(0.25)
+        doc.save()
+            .moveTo(lineX, lineY)
+            .lineTo(lineX + lineWidth, lineY)
+            .lineWidth(2.5)
+            .strokeColor('#15A89D')
+            .stroke()
+            .restore()
 
+        doc.y = lineY + 20
+
+        // company + period
         doc
-         .fillColor('#000000')
-         .font('Helvetica-Oblique')
+         .fillColor('#666666')
+         .font('Helvetica')
          .fontSize(18)
-         .text(period, { align: 'center' })
+         .text(name + '  •  ' + period, { align: 'center' })
 
     },
 
-    drawFooter:(doc) => {
+    drawFooter:(doc, branchData) => {
 
         const pageWidth = doc.page.width
+        const email = branchData && branchData.email ? branchData.email : ''
+        const web = branchData && branchData.web ? branchData.web : ''
+
+        let footerText = 'MULTIBRAND'
+        if (email) footerText += '  |  ' + email
+        if (web) footerText += '  |  ' + web
 
         doc.x = 0
         doc.y = 780
@@ -115,7 +146,7 @@ const printPdfUtils = {
         .fillColor('#999999')
         .font('Helvetica')
         .fontSize(7)
-        .text('MULTIBRAND  |  ventas@multibrand.com  |  www.multibrand.com', { align: 'center' })
+        .text(footerText, { align: 'center' })
 
     },
 
@@ -143,7 +174,7 @@ const printPdfUtils = {
         headers.forEach((text, i) => {
             const cellX = startX + columnWidths.slice(0, i).reduce((a, b) => a + b, 0)
             const textHeight = doc.heightOfString(text, { width: columnWidths[i] - 10, align: 'center' })
-            const verticalOffset = (rowHeight - textHeight) / 2
+            const verticalOffset = (rowHeight - textHeight) / 2 + 1
             doc.text(text, cellX + 5, currentY + verticalOffset, {
                 width: columnWidths[i] - 10,
                 align: 'center'
@@ -162,7 +193,7 @@ const printPdfUtils = {
 
     },
 
-    drawData:(doc,tableParams,name,period,unused,data, printType) => {
+    drawData:(doc,tableParams,name,period,listImage,data, printType, branchData) => {
 
         let startX = tableParams.startX
         let columnWidths = tableParams.columnWidths
@@ -187,9 +218,9 @@ const printPdfUtils = {
                 const spaceNeeded = isFirstCategory ? 0 : 60
 
                 if (currentY + spaceNeeded > maxHeightPage) {
-                    printPdfUtils.drawFooter(doc)
+                    printPdfUtils.drawFooter(doc, branchData)
                     doc.addPage()
-                    printPdfUtils.drawHeader(doc, pageWidth)
+                    printPdfUtils.drawHeader(doc, pageWidth, listImage)
                     printPdfUtils.drawTitle(doc, name, period)
                     currentY = doc.y + 10
                 }
@@ -246,9 +277,9 @@ const printPdfUtils = {
                 // check if there is space, otherwise add page
                 if (currentY + maxHeight > maxHeightPage) {
                     
-                    printPdfUtils.drawFooter(doc)
+                    printPdfUtils.drawFooter(doc, branchData)
                     doc.addPage()
-                    printPdfUtils.drawHeader(doc, pageWidth)
+                    printPdfUtils.drawHeader(doc, pageWidth, listImage)
                     printPdfUtils.drawTitle(doc, name, period)
                     
                     // redraw category subtitle
@@ -269,7 +300,7 @@ const printPdfUtils = {
                 }
 
                 // zebra striping
-                const bgColor = globalRowIdx % 2 === 0 ? '#FFFFFF' : '#F7F7F7'
+                const bgColor = globalRowIdx % 2 === 0 ? '#FFFFFF' : '#EEEEEE'
 
                 // draw cells
                 cellX = startX
@@ -288,7 +319,7 @@ const printPdfUtils = {
                         width: columnWidths[i] - 10,
                         align: cellAlign
                     })
-                    const verticalOffset = (maxHeight - textHeight) / 2 - 1 
+                    const verticalOffset = (maxHeight - textHeight) / 2 + 1 
 
                     doc.text(text, cellX + 5, currentY + verticalOffset, {
                         width: columnWidths[i] - 10,

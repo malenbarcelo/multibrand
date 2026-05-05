@@ -45,6 +45,19 @@ async function spppEventListeners() {
             }
         }
 
+        // generate merged PDF with all lists
+        const allPdfsResponse = await fetch(domain + 'composed/print-all-pdfs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ month: spppMonth.value, year: spppYear.value })
+        })
+
+        if (allPdfsResponse.ok) {
+            const allPdfsBlob = await allPdfsResponse.blob()
+            const allPdfsFileName = 'Listas de precios - ' + spppMonth.value + ' ' + spppYear.value + '.pdf'
+            zip.file(allPdfsFileName, allPdfsBlob)
+        }
+
         const zipBlob = await zip.generateAsync({ type: 'blob' })
         const url = window.URL.createObjectURL(zipBlob)
         const a = document.createElement('a')
