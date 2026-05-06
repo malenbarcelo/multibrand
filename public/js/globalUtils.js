@@ -36,12 +36,14 @@ const gu = {
 
     showResultPopup: function(popupToShow) {
 
+        popupToShow.style.display = 'block'
         popupToShow.classList.add('okSlideIn')
 
-        //hide okPopup after one second
+        //hide okPopup after 4 seconds
         setTimeout(function() {
             popupToShow.classList.remove('okSlideIn')
-        }, 4000)    
+            popupToShow.style.display = 'none'
+        }, 3000)    
     },
 
     clearInputs: function(inputs) {

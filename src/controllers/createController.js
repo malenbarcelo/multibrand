@@ -8,7 +8,9 @@ const createController = {
     master: async(req,res) =>{
         try{
 
-            const data = req.body
+            let data = req.body
+            const date = new Date()
+            data.created_date = date
 
             await masterQueries.create([data])
             

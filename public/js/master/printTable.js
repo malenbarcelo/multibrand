@@ -10,7 +10,7 @@ async function printTable() {
 
     data.forEach((element,index) => {
 
-        const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-4-0 body-even' : 'ta-c fs-12 pad-4-0 body-odd'
+        const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-5-0 body-even' : 'ta-c fs-12 pad-5-0 body-odd'
         
         html += `
             <tr class="pointer" id="tr_${element.id}">
@@ -72,6 +72,8 @@ function eventListeners(data) {
             ceippOrigin.value = element.origin
             ceippBreaks.value = element.has_breaks
             ceippSpecialPriceFactor.value = element.special_price_factor == null ? '' : Number(element.special_price_factor).toFixed(3).replace('.',',')
+            ceippCfFactor.value = element.end_consumer_factor == null ? '' : Number(element.end_consumer_factor).toFixed(3).replace('.',',')
+            ceippMeLiFactor.value = element.meli_factor == null ? '' : Number(element.meli_factor).toFixed(3).replace('.',',')
             ceippObservations.value = element.observations || ''
 
             ceippSupplier.dispatchEvent(new Event('change'))

@@ -7,7 +7,7 @@ import gg from "../globals.js"
 // create edit item popup (ceipp)
 async function ceippEventListeners() {
 
-    const elementsToChange = [ceippSupplier, ceippFob, ceippMu, ceippMuPerBox, ceippVolume, ceippSpecialPriceFactor]
+    const elementsToChange = [ceippSupplier, ceippFob, ceippMu, ceippMuPerBox, ceippVolume, ceippSpecialPriceFactor, ceippCfFactor, ceippMeLiFactor]
     let elementsForCosting = [ceippSupplier, ceippFob, ceippMu, ceippMuPerBox]
     let supplierData
     let row
@@ -93,7 +93,9 @@ async function ceippEventListeners() {
                         fob: Number(ceippFob.value.replace(',','.')),
                         mu_data: g.mus.find( mu => mu.id == ceippMu.value),
                         mu_per_box: Number(ceippMuPerBox.value.replace(',','.')),
-                        special_price_factor: ceippSpecialPriceFactor.value == '' ? null : Number(ceippSpecialPriceFactor.value.replace(',','.'))
+                        special_price_factor: ceippSpecialPriceFactor.value == '' ? null : Number(ceippSpecialPriceFactor.value.replace(',','.')),
+                        end_consumer_factor: ceippCfFactor.value == '' ? null : Number(ceippCfFactor.value.replace(',','.')),
+                        meli_factor: ceippMeLiFactor.value == '' ? null : Number(ceippMeLiFactor.value.replace(',','.')),
                     }]
                 }
 
@@ -123,7 +125,10 @@ async function ceippEventListeners() {
             ceippSellsPriceLocalCurrency.value = row ? (row.sells_price_local_currency) : ''
             ceippCoefFactor.value = row ? (row.factors.factor ? (Number(row.factors.factor) * 100).toFixed(2).replace('.',',') : '') : ''
             ceippMargin.value = row ? (row.margin.toFixed(1).replace('.',',')) : ''
-            
+            ceippCfPriceLocalCurrency.value = row ? row.end_consumer_price_local_currency : ''
+            ceippMeLiSuggestedPriceLocalCurrency.value = row ? (row.suggested_meli_price_local_currency) : ''
+            ceippMeLiPriceLocalCurrency.value = row ? (row.meli_price_local_currency) : ''
+
             // complete lables
             ceippFobLabel.innerText = `Precio por UM ${ currency ? '(' + currency.currency + ')' : ''} *`
             ceippMuCostLabel.innerText = `Costo estimado / UM ${ currency ? '(' + currency.currency + ')' : ''}`
@@ -159,7 +164,7 @@ async function ceippEventListeners() {
         ceippLoader.style.display = 'block'
         
         // empty elements
-        const requiredElements = g.ceippInputs.filter( i => i != ceippSpecialPriceFactor && i != ceippWeight && i != ceippVolume && i != ceippObservations)
+        const requiredElements = g.ceippInputs.filter( i => i != ceippSpecialPriceFactor && i != ceippWeight && i != ceippVolume && i != ceippObservations && i != ceippCfFactor && i != ceippMeLiFactor)
         const emptyElement = requiredElements.filter( re => re.value == '')
         if (emptyElement.length > 0) {
             errors += 1
@@ -238,10 +243,11 @@ async function ceippEventListeners() {
                 gu.showResultPopup(errorPopup)
             }
 
-            // reset data
-            await utils.resetData()
+            // close ceipp
             ceipp.style.display = 'none'
             ceippLoader.style.display = 'none'
+            await utils.resetData()
+            
         }
     })  
 }

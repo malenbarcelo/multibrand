@@ -105,20 +105,3 @@
 
     // expandable items open on hover via CSS (.side-menu-expandable-wrapper:hover)
 </script>
-
-<% if (locals.branch) { %>
-    <%
-        const hBranchLower = branch.branch.toLowerCase();
-        let hFlagImage = '';
-        if (hBranchLower.includes('argentina')) {
-            hFlagImage = '/images/argentina.jpg';
-        } else if (hBranchLower.includes('chile')) {
-            hFlagImage = '/images/chile.jpg';
-        }
-    %>
-    <% if (hFlagImage) { %>
-        <div class="header-flag-fixed">
-            <img src="<%= hFlagImage %>" alt="<%= branch.branch %>" class="header-flag">
-        </div>
-    <% } %>
-<% } %>

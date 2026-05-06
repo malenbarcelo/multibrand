@@ -87,8 +87,20 @@
     max-height: 470px;
     overflow-y: auto;
 }
+.max-h-480{
+    max-height: 480px;
+    overflow-y: auto;
+}
+.max-h-490{
+    max-height: 490px;
+    overflow-y: auto;
+}
 .max-h-500{
     max-height: 500px;
+    overflow-y: auto;
+}
+.max-h-550{
+    max-height: 550px;
     overflow-y: auto;
 }
 .max-h-600{

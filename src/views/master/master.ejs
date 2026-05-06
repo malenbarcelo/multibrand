@@ -1,9 +1,16 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="page-title-bar mt-25 mb-20">
-    <div class="fs-18 fw-b">MAESTRO</div>
+<div class="page-title-bar mt-25 mb-35">
+    <div class="fs-18 fw-b">MAESTRO <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
     <div class="action-bar">
+        <div class="action-btn" id="openFilters">
+            <i class="fa-solid fa-filter"></i>
+            <span>Filtros</span>
+        </div>
+        <div class="action-btn filter-clear-btn not-visible" id="clearFiltersBtn">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+        </div>
         <div class="action-btn" id="create">
             <i class="fa-solid fa-plus"></i>
             <span>Crear</span>
@@ -19,39 +26,52 @@
     </div>
 </div>
 
-<!--- filters --->
-<div class="inputs-row cg-10 mb-25">
-    
-    <div class="div-input">
-        <label class="label-std fs-13 l-3p">Proveedor</label>
-        <select id="supplier" class="input-std w-250 pad-9-0-7-0">
-            <option value=""></option>
-            <% suppliers.forEach(supplier => { %>
-                <option value="<%= supplier.id %>">
-                    <%= supplier.supplier %>
-                </option>
-            <% }) %>
-        </select>
+<!--- filter drawer --->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+<div class="filter-drawer" id="filterDrawer">
+    <div class="filter-drawer-header">
+        <span class="filter-drawer-title">Filtros</span>
+        <div class="filter-drawer-close" id="filterDrawerClose">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
     </div>
-
-    <div class="div-input">
-        <label class="label-std fs-12 l-3p">Item</label>
-        <input type="text" class="input-std w-150 pad-9-0-7-0" id="item">
+    <div class="filter-drawer-body">
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Proveedor</label>
+            <select id="supplier" class="filter-drawer-input">
+                <option value="">Todos</option>
+                <% suppliers.forEach(supplier => { %>
+                    <option value="<%= supplier.id %>"><%= supplier.supplier %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Item</label>
+            <input type="text" class="filter-drawer-input" id="item" placeholder="Buscar por item...">
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Descripción</label>
+            <input type="text" class="filter-drawer-input" id="description" placeholder="Buscar por descripción...">
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-checkbox-group">
+                <input type="checkbox" id="volumeFilter" class="filter-drawer-checkbox">
+                <span>Items sin volumen</span>
+            </label>
+            <label class="filter-drawer-checkbox-group">
+                <input type="checkbox" id="weightFilter" class="filter-drawer-checkbox">
+                <span>Items sin peso</span>
+            </label>
+        </div>
     </div>
-
-    <div class="div-input">
-        <label class="label-std fs-12 l-3p">Descripción</label>
-        <input type="text" class="input-std w-250 pad-9-0-7-0" id="description">
-    </div>
-
-    <div id="unfilter" class="unfilter">
-        <i class="fa-solid fa-filter-circle-xmark"></i>
-        <div class="unfilter-info">Quitar filtros</div>
+    <div class="filter-drawer-footer">
+        <button class="filter-drawer-btn filter-drawer-btn-apply" id="applyFilters">Aplicar</button>
+        <button class="filter-drawer-btn filter-drawer-btn-clear" id="clearFilters">Limpiar</button>
     </div>
 </div>
 
 <!--- table --->
-<div class="div-table max-h-450" id="table">
+<div class="div-table max-h-550" id="table">
 
     <!-- table tooltip -->
     <div class="t-tooltip" id="eippInfo">Editar</div>    
@@ -68,7 +88,7 @@
                 <th class="th pad-3-0 w-90">Peso (kg)</th>
                 <th class="th pad-3-0 w-70">Volumen (m3)</th>
                 <th class="th pad-3-0 w-90">FOB / UM</th>
-                <th class="th pad-3-0 w-90">FOB / unidad</th>
+                <th class="th pad-3-0 w-90">FOB / U</th>
                 <th class="th pad-3-0 w-90">Moneda</th>                
                 <th class="th pad-3-0 w-120">Costo estimado por unidad</th>
                 <th class="th pad-3-0 w-120">Precio de venta (ARS)</th>
@@ -84,8 +104,8 @@
 </div>
 
 <!----------POPUPS---------->
-<%- include('./masterCEIPP') %>
 <%- include('../partials/resultsPopups') %>
+<%- include('./masterCEIPP') %>
 <%- include('../partials/confirmPopup') %>
 <%- include('./masterFAPP') %>
 

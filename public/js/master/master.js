@@ -59,44 +59,93 @@ window.addEventListener('load',async()=>{
         g.previousScrollTop = table.scrollTop
     })
 
-    // filters
-    const filters = [supplier, item, description]
+    // filter drawer
+    openFilters.addEventListener('click', () => {
+        filterDrawer.classList.add('fd-open')
+        filterDrawerOverlay.classList.add('fd-visible')
+    })
 
-    for (const filter of filters) {
-        
-        filter.addEventListener("change", async () => {
-            
-            // show loader
-            loader.style.display = 'block'
+    filterDrawerClose.addEventListener('click', () => {
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+    })
 
-            //complete filters
-            g.filters.id_suppliers = supplier.value
-            g.filters.item_string = item.value
-            g.filters.description = description.value
-            
-            await utils.resetData()
+    filterDrawerOverlay.addEventListener('click', () => {
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+    })
 
-            // hide loader
-            loader.style.display = 'none'
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && filterDrawer.classList.contains('fd-open')) {
+            filterDrawer.classList.remove('fd-open')
+            filterDrawerOverlay.classList.remove('fd-visible')
+        }
+    })
+
+    // apply filters
+    const filterInputs = [supplier, item, description, volumeFilter, weightFilter]
+    filterInputs.forEach(input => {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                applyFilters.click()
+            }
         })
-    }
+    })
 
-    // unfilter event listener
-    unfilter.addEventListener("click", async() => {        
-        
-        // show loader
+    applyFilters.addEventListener('click', async () => {
         loader.style.display = 'block'
-        
-        // reset filters
-        gu.clearInputs(filters)
+
+        g.filters.id_suppliers = supplier.value
+        g.filters.item_string = item.value
+        g.filters.description = description.value
+        g.filters.volume_null = volumeFilter.checked ? 'null' : ''
+        g.filters.weight_null = weightFilter.checked ? 'null' : ''
+
+        await utils.resetData()
+
+        // update filter button state
+        const hasFilters = supplier.value || item.value || description.value || volumeFilter.checked || weightFilter.checked
+        if (hasFilters) {
+            openFilters.classList.add('filter-active')
+            clearFiltersBtn.classList.remove('not-visible')
+        } else {
+            openFilters.classList.remove('filter-active')
+            clearFiltersBtn.classList.add('not-visible')
+        }
+
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+        loader.style.display = 'none'
+    })
+
+    // clear filters
+    clearFilters.addEventListener('click', async () => {
+        loader.style.display = 'block'
+
+        supplier.value = ''
+        item.value = ''
+        description.value = ''
+        volumeFilter.checked = false
+        weightFilter.checked = false
         g.filters.id_suppliers = ''
         g.filters.item_string = ''
         g.filters.description = ''
-        
+        g.filters.volume_null = ''
+        g.filters.weight_null = ''
+
         await utils.resetData()
-        
-        // hide loader
+
+        openFilters.classList.remove('filter-active')
+        clearFiltersBtn.classList.add('not-visible')
+
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
         loader.style.display = 'none'
+    })
+
+    // clear filters from button outside drawer
+    clearFiltersBtn.addEventListener('click', async () => {
+        clearFilters.click()
     })
 
     // create item

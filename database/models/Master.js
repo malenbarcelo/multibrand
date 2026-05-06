@@ -49,6 +49,14 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.DECIMAL,
          allowNull: true,
       },
+      end_consumer_factor:{
+         type: DataTypes.DECIMAL,
+         allowNull: true,
+      },
+      meli_factor:{
+         type: DataTypes.DECIMAL,
+         allowNull: true,
+      },
       brand:{
          type: DataTypes.STRING,
          allowNull: false,

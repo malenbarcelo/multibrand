@@ -56,6 +56,14 @@ const masterQueries = {
             )`)
         }
 
+        if (filters.volume_null) {
+            where.volume_m3 = { [Op.is]: null }
+        }
+
+        if (filters.weight_null) {
+            where.weight_kg = { [Op.is]: null }
+        }
+
         const data = await model.findAndCountAll({
             include:[
                 {association:'branch_data'},

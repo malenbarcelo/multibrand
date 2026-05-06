@@ -97,3 +97,10 @@
 .lh-1-8{
     line-height: 1.8;
 }
+
+.fw-n{
+    font-weight: normal;
+}
+.fst-i{
+    font-style: italic;
+}

@@ -69,6 +69,13 @@ async function getMaster(data, idBranch) {
         row.sells_price_local_currency = factors ? Math.ceil(row.sells_price * row.currency_exchange) : null
         row.margin = factors ? utils.round(((row.sells_price_local_currency / (row.estimated_unit_cost * row.currency_exchange)) - 1) * 100,3) : null
 
+        // end consumer price
+        row.end_consumer_price_local_currency = row.end_consumer_factor == null ? null : Math.ceil(row.sells_price_local_currency * Number(row.end_consumer_factor))
+
+        // meli price
+        row.suggested_meli_price_local_currency = 100
+        row.meli_price_local_currency = row.meli_factor == null ? row.suggested_meli_price_local_currency : Math.ceil(row.suggested_meli_price_local_currency * Number(row.meli_factor))        
+
     })
 
     return data

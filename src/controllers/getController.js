@@ -13,7 +13,7 @@ const getController = {
     master: async(req,res) =>{
         try{
 
-            const { page, size, order, id_suppliers, item_string, item, description, enabled, last_list_number  } = req.query
+            const { page, size, order, id_suppliers, item_string, item, description, enabled, last_list_number, volume_null, weight_null  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -50,6 +50,14 @@ const getController = {
 
             if (last_list_number) {
                 filters.last_list_number = last_list_number
+            }
+
+            if (volume_null === 'null') {
+                filters.volume_null = true
+            }
+
+            if (weight_null === 'null') {
+                filters.weight_null = true
             }
 
             // get data

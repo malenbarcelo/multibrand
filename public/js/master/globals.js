@@ -5,8 +5,8 @@ let g = {
     currenciesExchanges: [],
     branchData: null,
     popups: [copp, fapp, ceipp],
-    ceippInputs: [ceippSupplier, ceippItem, ceippDescription, ceippFob, ceippMu, ceippMuPerBox, ceippWeight, ceippVolume, ceippBrand, ceippOrigin, ceippBreaks, ceippSpecialPriceFactor, ceippObservations],
-    elementsToFormat: [ceippFob, ceippMuPerBox, ceippWeight, ceippVolume, ceippSpecialPriceFactor],
+    ceippInputs: [ceippSupplier, ceippItem, ceippDescription, ceippFob, ceippMu, ceippMuPerBox, ceippWeight, ceippVolume, ceippBrand, ceippOrigin, ceippBreaks, ceippSpecialPriceFactor, ceippCfFactor,ceippMeLiFactor,ceippObservations],
+    elementsToFormat: [ceippFob, ceippMuPerBox, ceippWeight, ceippVolume, ceippSpecialPriceFactor, ceippCfFactor, ceippMeLiFactor],
     // imports
     page:0,
     pages:0,
@@ -17,6 +17,8 @@ let g = {
         id_suppliers:'',
         item_string:'',
         description: '',
+        volume_null: '',
+        weight_null: '',
         last_list_number: 1,
         enabled: 1
     },

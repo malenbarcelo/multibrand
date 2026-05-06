@@ -15,6 +15,8 @@ const utils = {
         filters += g.filters.description == '' ? '' : `&description=${g.filters.description}`
         filters += g.filters.last_list_number == '' ? '' : `&last_list_number=${g.filters.last_list_number}`
         filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
+        filters += g.filters.volume_null == '' ? '' : `&volume_null=${g.filters.volume_null}`
+        filters += g.filters.weight_null == '' ? '' : `&weight_null=${g.filters.weight_null}`
 
         const fetchData = await (await fetch(`${domain}get/master?${filters}`)).json()
 
