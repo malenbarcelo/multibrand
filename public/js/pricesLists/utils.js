@@ -10,8 +10,11 @@ const utils = {
         filters += g.filters.page == '' ? '' : `&page=${g.filters.page}`
         filters += g.filters.size == '' ? '' : `&size=${g.filters.size}`
         filters += g.filters.order == '' ? '' : `&order=${g.filters.order}`
+        filters += g.filters.list_name == '' ? '' : `&list_name=${g.filters.list_name}`
+        filters += g.filters.category_name == '' ? '' : `&category_name=${g.filters.category_name}`
         filters += g.filters.item_string == '' ? '' : `&item_string=${g.filters.item_string}`
         filters += g.filters.description == '' ? '' : `&description=${g.filters.description}`
+        filters += g.filters.id_suppliers == '' ? '' : `&id_suppliers=${g.filters.id_suppliers}`
         filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
 
         const fetchData = await (await fetch(`${domain}get/prices-lists?${filters}`)).json()

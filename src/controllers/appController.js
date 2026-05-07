@@ -62,7 +62,7 @@ const appController = {
             const idBranch = Number(keys[0])
             const branchData = await branchesQueries.get({filters:{id:idBranch}})
             req.session.branch = branchData[0]
-            const redirection = '/importaciones'
+            const redirection = '/master'
             return res.redirect(redirection)
 
         }catch(error){
@@ -104,6 +104,10 @@ const appController = {
     },
     pricesLists: async(req,res) => {
         try{
+
+            // get session if DEV
+            getDevSession(req)
+
             const selectedItem = 'LISTAS DE PRECIOS'
             const selectedSubitem = 'ITEMS'
             const branch = req.session.branch

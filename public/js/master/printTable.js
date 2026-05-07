@@ -10,7 +10,7 @@ async function printTable() {
 
     data.forEach((element,index) => {
 
-        const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-5-0 body-even' : 'ta-c fs-12 pad-5-0 body-odd'
+        const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-7-0 body-even' : 'ta-c fs-12 pad-7-0 body-odd'
         
         html += `
             <tr class="pointer" id="tr_${element.id}">
@@ -27,8 +27,6 @@ async function printTable() {
                 <td class="${rowClass}">${element.estimated_unit_cost == null ? '' : gg.formatter3.format(element.estimated_unit_cost)}</td>
                 <td class="${rowClass}">${element.sells_price_local_currency == null ? '' : gg.formatter0.format(element.sells_price_local_currency)}</td>
                 <td class="${rowClass}">${element.margin == null ? '' : gg.formatter1.format(element.margin) + ' %'}</td>
-                <td class="${rowClass}"><i class="fa-regular fa-pen-to-square fs-12" id="edit_${element.id}"></i></td>
-                <td class="${rowClass}"><i class="fa-regular fa-trash-can fs-12" id="destroy_${element.id}"></i></td>
             </tr>
             `
     })
@@ -42,12 +40,10 @@ function eventListeners(data) {
 
     data.forEach(element => {
 
-        const edit = document.getElementById('edit_' + element.id)
-        const destroy = document.getElementById('destroy_' + element.id)
         const tr = document.getElementById('tr_' + element.id)
 
         // edit
-        edit.addEventListener('click',async()=>{
+        tr.addEventListener('click',async()=>{
             g.action = 'edit'
             g.elementToEdit = element
             ceippTitle.innerText = 'EDITAR ITEM'
@@ -80,20 +76,13 @@ function eventListeners(data) {
             ceippSupplier.focus()
         })
 
-        // edit row with double click
-        tr.addEventListener('dblclick',async()=>{
-            if (edit) {
-                edit.click()
-            }
-        })
-
         //destroy
-        destroy.addEventListener('click',async()=>{
-            g.confirmation = 'deleteItem'            
-            g.elementToEdit = element
-            coppText.innerHTML = '¿Confirma que desea eliminar el item <b>' + element.item + '</b> del proveedor <b>' + element.supplier_data.supplier + '</b>?'
-            copp.style.display = 'block'
-        })
+        // destroy.addEventListener('click',async()=>{
+        //     g.confirmation = 'deleteItem'            
+        //     g.elementToEdit = element
+        //     coppText.innerHTML = '¿Confirma que desea eliminar el item <b>' + element.item + '</b> del proveedor <b>' + element.supplier_data.supplier + '</b>?'
+        //     copp.style.display = 'block'
+        // })
     })
 }
 

@@ -74,7 +74,7 @@ const composedController = {
             const columns = [
                 { header: 'PROVEEDOR', key: 'supplier', width: 25, style: {alignment:{horizontal: 'center'}}},
                 { header: 'ITEM', key: 'item', width: 15, style: {alignment:{horizontal: 'center'}}},
-                { header: 'DESCRIPTION', key: 'description', width: 50, style: {alignment:{horizontal: 'center'}}},
+                { header: 'DESCRIPCIÓN', key: 'description', width: 50, style: {alignment:{horizontal: 'center'}}},
                 { header: 'UM', key: 'mu', width: 10, style: {alignment:{horizontal: 'center'}}},
                 { header: 'UM / CAJA', key: 'muPerBox', width: 12, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0.0'}},
                 { header: 'PESO NETO (kg)', key: 'weight', width: 15, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0.000'}},
@@ -195,7 +195,7 @@ const composedController = {
       
             const columns = [
                 { header: 'ITEM', key: 'item', width: 15, style: {alignment:{horizontal: 'center'}}},
-                { header: 'DESCRIPTION', key: 'description', width: 50, style: {alignment:{horizontal: 'center'}}},
+                { header: 'DESCRIPCIÓN', key: 'description', width: 50, style: {alignment:{horizontal: 'center'}}},
                 { header: 'QUANTITY', key: 'quantity', width: 12, style: {alignment:{horizontal: 'center'},numFmt: '#,##0.00'}},
                 { header: 'MU', key: 'mu', width: 10, style: {alignment:{horizontal: 'center'}}},
                 { header: 'UNIT PRICE', key: 'price', width: 12, style: {alignment:{horizontal: 'center'},numFmt: '#,##0.00'}},
@@ -278,7 +278,7 @@ const composedController = {
             const headerRow = worksheet.getRow(1)
             headerRow.eachCell((cell) => {
                 cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }
-                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF15A89D' } }
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF007174' } }
                 cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }
                 cell.border = {
                     top: { style: 'thin', color: { argb: 'FF000000' } },
@@ -549,27 +549,41 @@ const composedController = {
                     { header: 'Lista5', key: 'list5', width: 20, style: {alignment:{horizontal: 'center'}}}    
                 ]
 
+                const priceFields = [
+                    { field: 'sells_price_local_currency', column: 'list1' },
+                    { field: 'end_consumer_price_local_currency', column: 'list2' },
+                    { field: 'meli_price_local_currency', column: 'list5' }
+                ]
                 const fileNames = ['Flexxus Lista1.xlsx', 'Flexxus Lista2.xlsx', 'Flexxus Lista5.xlsx']
                 const buffers = []
 
-                for (const fileName of fileNames) {
+                for (let i = 0; i < fileNames.length; i++) {
+                    const { field: priceField, column: priceColumn } = priceFields[i]
                     const workbook = new excelJs.Workbook()
                     const worksheet = workbook.addWorksheet('Datos')
                     worksheet.columns = columns
 
                     dataToPrint.forEach(element => {
-                        worksheet.addRow({
-                            'item': element.erp_item || '',
+                        // only include if erp_item exists and the price field has value
+                        if (!element.erp_item || !element.master_details) return
+                        const price = element.master_details[priceField]
+                        if (price == null || price === '') return
+
+                        const row = {
+                            'item': element.erp_item,
                             'list1': '',
                             'list2': '',
                             'list3': '',
                             'list4': '',
                             'list5': '',
-                        })
+                        }
+                        row[priceColumn] = Math.ceil(Number(price))
+
+                        worksheet.addRow(row)
                     })
 
                     const buffer = await workbook.xlsx.writeBuffer()
-                    buffers.push({ name: fileName, buffer })
+                    buffers.push({ name: fileNames[i], buffer })
                 }
 
                 // zip all files
@@ -637,6 +651,115 @@ const composedController = {
         }catch(error){
             console.log(error)
             res.status(200).json({error:'Error al obtener datos'})
+        }
+    },
+
+    downloadPricesLists: async(req,res) =>{
+        try{
+
+            // get session if DEV and branch id
+            getDevSession(req)
+            const idBranch = req.session.branch.id
+
+            const body = req.body
+
+            // get data to print
+            const filters = {
+                id_branches: idBranch,
+                order: body.order ? JSON.parse(body.order) : [["list_name","ASC"],["list_category","ASC"],["price_list_item","ASC"]],
+                enabled: body.enabled || 1
+            }
+
+            if (body.list_name) filters.list_name = body.list_name
+            if (body.category_name) filters.category_name = body.category_name
+            if (body.id_suppliers) filters.id_suppliers = body.id_suppliers
+            if (body.item_string) filters.item_string = body.item_string
+            if (body.description) filters.description = body.description
+
+            let dataToPrint = await pricesListsDetailsQueries.get({undefined,undefined,filters})
+
+            // add master details
+            dataToPrint = await addMasterData(dataToPrint, idBranch)
+
+            dataToPrint = dataToPrint.rows
+
+            // file name
+            const fileName = 'Listas de precios.xlsx'
+
+            // create workbook
+            const workbook = new excelJs.Workbook()
+            const worksheet = workbook.addWorksheet('Listas de precios')
+      
+            const columns = [
+                { header: 'LISTA', key: 'list', width: 20, style: {alignment:{horizontal: 'center'}}},
+                { header: 'CATEGORÍA', key: 'category', width: 50, style: {alignment:{horizontal: 'center'}}},
+                { header: 'PROVEEDOR', key: 'supplier', width: 20, style: {alignment:{horizontal: 'center'}}},
+                { header: 'ITEM ERP', key: 'erpItem', width: 15, style: {alignment:{horizontal: 'center'}}},
+                { header: 'ITEM PROVEEDOR', key: 'supplierItem', width: 15, style: {alignment:{horizontal: 'center'}}},
+                { header: 'ITEM PDF', key: 'priceListItem', width: 15, style: {alignment:{horizontal: 'center'}}},
+                { header: 'DESCRIPCIÓN', key: 'description', width: 60, style: {alignment:{horizontal: 'center'}}},
+                { header: 'UNIDADES / CAJA', key: 'muPerBox', width: 12, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0'}},
+                { header: 'PRECIO DIST.\n(+ IVA)', key: 'price', width: 14, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0'}},
+                { header: 'PRECIO CF\n(+ IVA)', key: 'priceCf', width: 14, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0'}},
+                { header: 'PRECIO ML\n(+ IVA)', key: 'priceMl', width: 14, style: {alignment:{horizontal: 'center'}, numFmt: '#,##0'}}
+            ]
+      
+            worksheet.columns = columns
+
+            // style header row
+            const headerRow = worksheet.getRow(1)
+            headerRow.eachCell((cell) => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF007174' } }
+                cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }
+                cell.border = {
+                    top: { style: 'thin', color: { argb: 'FF000000' } },
+                    left: { style: 'thin', color: { argb: 'FF000000' } },
+                    bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                    right: { style: 'thin', color: { argb: 'FF000000' } }
+                }
+            })
+
+            dataToPrint.forEach(element => {
+                const rowData = {
+                    'list': element.list_name_data ? element.list_name_data.price_list_name : '',
+                    'category': element.category_data ? element.category_data.category_name : '',
+                    'supplier': element.supplier_data ? element.supplier_data.supplier : '',
+                    'erpItem': element.erp_item || '',
+                    'supplierItem': element.supplier_item || '',
+                    'priceListItem': element.price_list_item || '',
+                    'description': element.description || '',
+                    'muPerBox': element.master_details && element.master_details.mu_per_box ? Number(element.master_details.mu_per_box) : '',
+                    'price': element.master_details && element.master_details.sells_price_local_currency ? Math.ceil(Number(element.master_details.sells_price_local_currency)) : '',
+                    'priceCf': element.master_details && element.master_details.end_consumer_price_local_currency ? Math.ceil(Number(element.master_details.end_consumer_price_local_currency)) : '',
+                    'priceMl': element.master_details && element.master_details.meli_price_local_currency ? Math.ceil(Number(element.master_details.meli_price_local_currency)) : '',
+                }
+            
+                const row = worksheet.addRow(rowData)
+
+                row.eachCell((cell) => {
+                    cell.border = {
+                        top: { style: 'thin', color: { argb: 'FF000000' } },
+                        left: { style: 'thin', color: { argb: 'FF000000' } },
+                        bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                        right: { style: 'thin', color: { argb: 'FF000000' } }
+                    }
+                })
+            })
+
+            // remove grid lines
+            worksheet.views = [{ showGridLines: false }]
+      
+           res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+           res.setHeader('Content-Disposition', 'attachment; filename=' + fileName)
+        
+           await workbook.xlsx.write(res)
+          
+           res.end()
+          
+        }catch(error){
+          console.log(error)
+          return res.send('Ha ocurrido un error')
         }
     },
 

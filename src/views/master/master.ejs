@@ -1,8 +1,8 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="page-title-bar mt-25 mb-35">
-    <div class="fs-18 fw-b">MAESTRO <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
+<div class="page-title-bar mt-25 mb-15">
+    <div class="fs-18 fw-b fc-1">MAESTRO <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
     <div class="action-bar">
         <div class="action-btn" id="openFilters">
             <i class="fa-solid fa-filter"></i>
@@ -38,12 +38,7 @@
     <div class="filter-drawer-body">
         <div class="filter-drawer-field">
             <label class="filter-drawer-label">Proveedor</label>
-            <select id="supplier" class="filter-drawer-input">
-                <option value="">Todos</option>
-                <% suppliers.forEach(supplier => { %>
-                    <option value="<%= supplier.id %>"><%= supplier.supplier %></option>
-                <% }) %>
-            </select>
+            <input type="text" class="filter-drawer-input" id="supplier" placeholder="Buscar por proveedor...">
         </div>
         <div class="filter-drawer-field">
             <label class="filter-drawer-label">Item</label>
@@ -74,9 +69,6 @@
 <div class="div-table max-h-550" id="table">
 
     <!-- table tooltip -->
-    <div class="t-tooltip" id="eippInfo">Editar</div>    
-    <div class="t-tooltip" id="dippInfo">Eliminar</div>
-
     <table>
         <thead>
             <tr>
@@ -91,10 +83,8 @@
                 <th class="th pad-3-0 w-90">FOB / U</th>
                 <th class="th pad-3-0 w-90">Moneda</th>                
                 <th class="th pad-3-0 w-120">Costo estimado por unidad</th>
-                <th class="th pad-3-0 w-120">Precio de venta (ARS)</th>
+                <th class="th pad-3-0 w-120">Precio de lista (ARS)</th>
                 <th class="th pad-3-0 w-120">Margen %</th>
-                <th class="th pad-3-0 w-50 pointer" id="eippIcon"><i class="fa-regular fa-pen-to-square"></i></th>                
-                <th class="th pad-3-0 w-50 pointer" id="dippIcon"><i class="fa-regular fa-trash-can"></i></th>
             </tr>
         </thead>
 
@@ -111,7 +101,7 @@
 
 <!----------LOADER---------->
 <div class="loader ld-std" id="loader">
-    <div class="ld-content ld-main top-55p"></div>
+    <div class="ld-content ld-main top-45p"></div>
 </div>
 
 <!----------SCRIPTS---------->

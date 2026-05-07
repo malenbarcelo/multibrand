@@ -78,7 +78,7 @@ const printPdfUtils = {
         
         // main title
         doc        
-         .fillColor('#15A89D')
+         .fillColor('#007174')
          .font('Helvetica-BoldOblique')
          .fontSize(20)
          .text(name, { align: 'center' })
@@ -99,7 +99,7 @@ const printPdfUtils = {
 
         // main title
         doc        
-         .fillColor('#15A89D')
+         .fillColor('#007174')
          .font('Helvetica-BoldOblique')
          .fontSize(28)
          .text('LISTAS DE PRECIOS', { align: 'center' })
@@ -114,7 +114,7 @@ const printPdfUtils = {
             .moveTo(lineX, lineY)
             .lineTo(lineX + lineWidth, lineY)
             .lineWidth(2.5)
-            .strokeColor('#15A89D')
+            .strokeColor('#007174')
             .stroke()
             .restore()
 
@@ -165,7 +165,7 @@ const printPdfUtils = {
         // rounded background for full header row
         doc.save()
             .roundedRect(startX, currentY, tableWidth, rowHeight, radius)
-            .fill('#15A89D')
+            .fill('#007174')
             .restore()
 
         // titles - vertically centered

@@ -1,9 +1,16 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="page-title-bar mt-25 mb-20">
-    <div class="fs-18 fw-b">LISTA DE PRECIOS <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
+<div class="page-title-bar mt-25 mb-15">
+    <div class="fs-18 fw-b fc-1">LISTAS DE PRECIOS <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
     <div class="action-bar">
+        <div class="action-btn" id="openFilters">
+            <i class="fa-solid fa-filter"></i>
+            <span>Filtros</span>
+        </div>
+        <div class="action-btn filter-clear-btn not-visible" id="clearFiltersBtn">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+        </div>
         <div class="action-btn" id="printExcel">
             <i class="fa-solid fa-file-excel"></i>
             <span>Excel</span>
@@ -16,20 +23,52 @@
             <i class="fa-solid fa-print"></i>
             <span>ERP</span>
         </div>
+        <div class="action-btn" id="download">
+            <i class="fa-solid fa-download"></i>
+            <span>Descargar</span>
+        </div>
     </div>
 </div>
 
-<!--- filters --->
-<div class="inputs-row cg-10 mb-25">
-    
-    <div class="div-input">
-        <label class="label-std fs-12 l-3p">Item</label>
-        <input type="text" class="input-std w-150 pad-9-0-7-0" id="item">
+<!--- filter drawer --->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+<div class="filter-drawer" id="filterDrawer">
+    <div class="filter-drawer-header">
+        <span class="filter-drawer-title">Filtros</span>
+        <div class="filter-drawer-close" id="filterDrawerClose">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+    </div>
+    <div class="filter-drawer-body">
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Lista</label>
+            <input type="text" class="filter-drawer-input" id="listName" placeholder="Buscar por lista...">
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Categoría</label>
+            <input type="text" class="filter-drawer-input" id="category" placeholder="Buscar por categoría...">
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Proveedor</label>
+            <input type="text" class="filter-drawer-input" id="supplier" placeholder="Buscar por proveedor...">
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Item</label>
+            <input type="text" class="filter-drawer-input" id="item" placeholder="Buscar en ERP, proveedor o lista...">
+        </div>
+        <div class="filter-drawer-field">
+            <label class="filter-drawer-label">Descripción</label>
+            <input type="text" class="filter-drawer-input" id="description" placeholder="Buscar por descripción...">
+        </div>
+    </div>
+    <div class="filter-drawer-footer">
+        <button class="filter-drawer-btn filter-drawer-btn-apply" id="applyFilters">Aplicar</button>
+        <button class="filter-drawer-btn filter-drawer-btn-clear" id="clearFilters">Limpiar</button>
     </div>
 </div>
 
 <!--- table --->
-<div class="div-table max-h-450" id="table">
+<div class="div-table max-h-550" id="table">
 
     <!-- table tooltip -->
     <div class="t-tooltip" id="eippInfo">Editar</div>    
@@ -67,7 +106,7 @@
 
 <!----------LOADER---------->
 <div class="loader ld-std" id="loader">
-    <div class="ld-content ld-main top-55p"></div>
+    <div class="ld-content ld-main top-45p"></div>
 </div>
 
 <!----------SCRIPTS---------->

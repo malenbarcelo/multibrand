@@ -10,7 +10,7 @@ const utils = {
         filters += g.filters.page == '' ? '' : `&page=${g.filters.page}`
         filters += g.filters.size == '' ? '' : `&size=${g.filters.size}`
         filters += g.filters.order == '' ? '' : `&order=${g.filters.order}`
-        filters += g.filters.id_suppliers == '' ? '' : `&id_suppliers=${g.filters.id_suppliers}`
+        filters += g.filters.supplier_string == '' ? '' : `&supplier_string=${g.filters.supplier_string}`
         filters += g.filters.item_string == '' ? '' : `&item_string=${g.filters.item_string}`
         filters += g.filters.description == '' ? '' : `&description=${g.filters.description}`
         filters += g.filters.last_list_number == '' ? '' : `&last_list_number=${g.filters.last_list_number}`

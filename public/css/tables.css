@@ -24,9 +24,14 @@ thead{
 
 .th{
     text-align: center;
-    background-color: var(--color1);
-    color: white;
-    font-weight: lighter;
+    background-color: white;
+    color: #555;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 5px;
+    box-shadow: inset 0 -2px 0 var(--color1);
 }
 
 /* body */
@@ -38,28 +43,29 @@ thead{
 .body-std {
     font-weight: lighter;
     text-align: center;
-    max-height: 2rem; /* Maximum height */    
-    padding: 3px 5px;
-    overflow: hidden; /* Hides overflow */
-    text-overflow: ellipsis; /* Adds ellipsis (...) */
-    white-space: nowrap; /* Prevents text from wrapping into multiple lines*/
+    max-height: 2rem;
+    padding: 8px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .body-overflow{
     font-weight: lighter;
-    padding: 3px 0px;
+    padding: 8px 5px;
     text-align: center;
-    max-height: 2rem; /* Maximum height */    
-    padding: 3px 5px;
+    max-height: 2rem;
 }
 
 .body-even{
     background-color: white;
-}/*background when row number is even*/
+    border-bottom: 1px solid #f0f0f0;
+}
 
 .body-odd{
-    background-color: var(--color10);
-}/*background when row number is odd*/
+    background-color: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+}
 
 .allowed-icon{
     cursor:pointer;
@@ -77,3 +83,10 @@ thead{
     text-align: center;
 }
 
+
+/* row hover */
+tbody tr:hover td {
+    background-color: rgba(0, 113, 116, 0.08) !important;
+    color: var(--color1);
+    font-weight: bold;
+}

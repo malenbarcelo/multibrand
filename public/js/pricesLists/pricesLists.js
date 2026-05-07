@@ -15,9 +15,6 @@ window.addEventListener('load',async()=>{
     g.filters.size = 25
     utils.resetData()
 
-    // // show tooltips
-    // gu.showTooltips(g.tooltips,219,150)
-
     // close popups
     gu.closePopups(g.popups)
 
@@ -49,45 +46,94 @@ window.addEventListener('load',async()=>{
         g.previousScrollTop = table.scrollTop
     })
 
-    // // filters
-    // const filters = [supplier, item, description]
+    // filter drawer
+    openFilters.addEventListener('click', () => {
+        filterDrawer.classList.add('fd-open')
+        filterDrawerOverlay.classList.add('fd-visible')
+    })
 
-    // for (const filter of filters) {
-        
-    //     filter.addEventListener("change", async () => {
-            
-    //         // show loader
-    //         loader.style.display = 'block'
+    filterDrawerClose.addEventListener('click', () => {
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+    })
 
-    //         //complete filters
-    //         g.filters.id_suppliers = supplier.value
-    //         g.filters.item_string = item.value
-    //         g.filters.description = description.value
-            
-    //         await utils.resetData()
+    filterDrawerOverlay.addEventListener('click', () => {
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+    })
 
-    //         // hide loader
-    //         loader.style.display = 'none'
-    //     })
-    // }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && filterDrawer.classList.contains('fd-open')) {
+            filterDrawer.classList.remove('fd-open')
+            filterDrawerOverlay.classList.remove('fd-visible')
+        }
+    })
 
-    // // unfilter event listener
-    // unfilter.addEventListener("click", async() => {        
-        
-    //     // show loader
-    //     loader.style.display = 'block'
-        
-    //     // reset filters
-    //     gu.clearInputs(filters)
-    //     g.filters.id_suppliers = ''
-    //     g.filters.item_string = ''
-    //     g.filters.description = ''
-        
-    //     await utils.resetData()
-        
-    //     // hide loader
-    //     loader.style.display = 'none'
-    // })
+    // enter to apply
+    const filterInputs = [listName, category, supplier, item, description]
+    filterInputs.forEach(input => {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                applyFilters.click()
+            }
+        })
+    })
+
+    // apply filters
+    applyFilters.addEventListener('click', async () => {
+        loader.style.display = 'block'
+
+        g.filters.list_name = listName.value
+        g.filters.category_name = category.value
+        g.filters.id_suppliers = supplier.value
+        g.filters.item_string = item.value
+        g.filters.description = description.value
+
+        await utils.resetData()
+
+        const hasFilters = listName.value || category.value || supplier.value || item.value || description.value
+        if (hasFilters) {
+            openFilters.classList.add('filter-active')
+            clearFiltersBtn.classList.remove('not-visible')
+        } else {
+            openFilters.classList.remove('filter-active')
+            clearFiltersBtn.classList.add('not-visible')
+        }
+
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+        loader.style.display = 'none'
+    })
+
+    // clear filters
+    clearFilters.addEventListener('click', async () => {
+        loader.style.display = 'block'
+
+        listName.value = ''
+        category.value = ''
+        supplier.value = ''
+        item.value = ''
+        description.value = ''
+        g.filters.list_name = ''
+        g.filters.category_name = ''
+        g.filters.id_suppliers = ''
+        g.filters.item_string = ''
+        g.filters.description = ''
+
+        await utils.resetData()
+
+        openFilters.classList.remove('filter-active')
+        clearFiltersBtn.classList.add('not-visible')
+
+        filterDrawer.classList.remove('fd-open')
+        filterDrawerOverlay.classList.remove('fd-visible')
+        loader.style.display = 'none'
+    })
+
+    // clear filters from button outside drawer
+    clearFiltersBtn.addEventListener('click', async () => {
+        clearFilters.click()
+    })
 
     // print prices for customers in excel
     printExcel.addEventListener('click',async()=>{
@@ -145,6 +191,43 @@ window.addEventListener('load',async()=>{
             window.URL.revokeObjectURL(url)
         } else {
             console.error('Error al descargar el archivo:', response.statusText)
+        }
+
+        loader.style.display = 'none'
+    })
+
+    // download prices lists
+    download.addEventListener('click',async()=>{
+        
+        loader.style.display = 'block'
+
+        const data = {
+            list_name: g.filters.list_name,
+            category_name: g.filters.category_name,
+            id_suppliers: g.filters.id_suppliers,
+            item_string: g.filters.item_string,
+            description: g.filters.description,
+            enabled: g.filters.enabled,
+            order: g.filters.order
+        }
+
+        const response = await fetch(domain + 'composed/download-prices-lists',{
+            method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+
+        if (response.ok) {
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'Lista de precios.xlsx'
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+        } else {
+            console.error('Error al descargar el archivo:', response.statusText);
         }
 
         loader.style.display = 'none'

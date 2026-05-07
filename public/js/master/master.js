@@ -24,9 +24,6 @@ window.addEventListener('load',async()=>{
     // print table
     printTable()
 
-    // show tooltips
-    gu.showTooltips(g.tooltips,219,150)
-
     // close popups
     gu.closePopups(g.popups)
 
@@ -95,7 +92,7 @@ window.addEventListener('load',async()=>{
     applyFilters.addEventListener('click', async () => {
         loader.style.display = 'block'
 
-        g.filters.id_suppliers = supplier.value
+        g.filters.supplier_string = supplier.value
         g.filters.item_string = item.value
         g.filters.description = description.value
         g.filters.volume_null = volumeFilter.checked ? 'null' : ''
@@ -127,7 +124,7 @@ window.addEventListener('load',async()=>{
         description.value = ''
         volumeFilter.checked = false
         weightFilter.checked = false
-        g.filters.id_suppliers = ''
+        g.filters.supplier_string = ''
         g.filters.item_string = ''
         g.filters.description = ''
         g.filters.volume_null = ''

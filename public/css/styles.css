@@ -1,8 +1,8 @@
 /* colors */
 :root{
-    --color1:#15A89D;
+    --color1:#007174;
     --color2:#F4F4F4;
-    --color3:#94C6C4;
+    --color3:#6BC0C3;
     --color4:#11847c;
     --color5:#799f9d;
     --color10:#dae0e0;
@@ -20,6 +20,7 @@ body{
     margin: 0;    
     font-size: 14px;
     color: #333;
+    letter-spacing: 0.3px;
 }
 
 /* inputs */

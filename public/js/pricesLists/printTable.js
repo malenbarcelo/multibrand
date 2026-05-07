@@ -10,7 +10,9 @@ async function printTable() {
 
     data.forEach((element,index) => {
 
-        const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-4-0 body-even' : 'ta-c fs-12 pad-4-0 body-odd'
+        const rowClass = index % 2 === 0 ? 'ta-c fs-12 pad-7-0 body-even' : 'ta-c fs-12 pad-7-0 body-odd'
+
+        console.log(element)
         
         html += `
             <tr class="pointer" id="tr_${element.id}">                
@@ -23,8 +25,8 @@ async function printTable() {
                 <td class="${rowClass}">${element.description == null ? '' : element.description}</td>
                 <td class="${rowClass}">${gg.formatter0.format(element.master_data ? element.master_data.mu_per_box : '')}</td>
                 <td class="${rowClass}">${gg.formatter0.format(element.master_details ? element.master_details.sells_price_local_currency : '')}</td>
-                <td class="${rowClass}">${''}</td>
-                <td class="${rowClass}">${''}</td>
+                <td class="${rowClass}">${element.master_details.end_consumer_price_local_currency == null ? '' : gg.formatter0.format(element.master_details.end_consumer_price_local_currency)}</td>
+                <td class="${rowClass}">${element.master_details.meli_price_local_currency == null ? '' : gg.formatter0.format(element.master_details.meli_price_local_currency)}</td>
                 <td class="${rowClass}"><i class="fa-regular fa-pen-to-square fs-12" id="edit_${element.id}"></i></td>
                 <td class="${rowClass}"><i class="fa-regular fa-trash-can fs-12" id="destroy_${element.id}"></i></td>
             </tr>

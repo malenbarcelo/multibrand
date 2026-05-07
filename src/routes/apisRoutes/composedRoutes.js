@@ -16,6 +16,7 @@ router.post('/print-excel',composedController.printExcel)
 router.post('/print-pdf',composedController.printPdf)
 router.post('/print-all-pdfs',composedController.printAllPdfs)
 router.post('/print-erp',composedController.printErp)
+router.post('/download-prices-lists',composedController.downloadPricesLists)
 
 // imports
 router.get('/get-new-po-number',composedController.getPoNumber)

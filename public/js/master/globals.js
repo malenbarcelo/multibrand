@@ -14,7 +14,7 @@ let g = {
         size:'',
         page:'',
         order:'[["id_suppliers","ASC"],["item","ASC"]]',
-        id_suppliers:'',
+        supplier_string:'',
         item_string:'',
         description: '',
         volume_null: '',
@@ -25,17 +25,6 @@ let g = {
     // scroll
     loadedPages: new Set(),
     previousScrollTop:0,
-    // main table tooltips
-    tooltips: [
-        {
-            icon:eippIcon,
-            right:'6.5%',
-        },
-        {
-            icon:dippIcon,
-            right:'3%',
-        },
-    ],
     elementToEdit: null,
     action: null,
     confirmation: null

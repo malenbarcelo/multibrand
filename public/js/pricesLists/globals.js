@@ -7,6 +7,9 @@ let g = {
         size:'',
         page:'',
         order:'[["list_name","ASC"],["list_category","ASC"],["price_list_item","ASC"]]',
+        list_name:'',
+        category_name:'',
+        id_suppliers:'',
         item_string:'',
         description: '',
         enabled: 1

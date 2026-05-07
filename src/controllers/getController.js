@@ -13,7 +13,7 @@ const getController = {
     master: async(req,res) =>{
         try{
 
-            const { page, size, order, id_suppliers, item_string, item, description, enabled, last_list_number, volume_null, weight_null  } = req.query
+            const { page, size, order, id_suppliers, supplier_string, item_string, item, description, enabled, last_list_number, volume_null, weight_null  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -30,6 +30,10 @@ const getController = {
 
             if (id_suppliers) {
                 filters.id_suppliers = id_suppliers
+            }
+
+            if (supplier_string) {
+                filters.supplier_string = supplier_string
             }
 
             if (item) {
@@ -189,7 +193,7 @@ const getController = {
     pricesLists: async(req,res) =>{
         try{
 
-            const { page, size, order, id_prices_lists_categories, erp_item, supplier_item, price_list_item, enabled, price_list_item_null, erp_item_null, supplier_item_null  } = req.query
+            const { page, size, order, id_suppliers, item_string, description, list_name, category_name, id_prices_lists_categories, erp_item, supplier_item, price_list_item, enabled, price_list_item_null, erp_item_null, supplier_item_null  } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -202,6 +206,34 @@ const getController = {
             // add filters
             if (order) {
                 filters.order = JSON.parse(order)
+            }
+
+            if (id_suppliers) {
+                filters.id_suppliers = id_suppliers
+            }
+
+            if (list_name) {
+                filters.list_name = list_name
+            }
+
+            if (category_name) {
+                filters.category_name = category_name
+            }
+
+            if (item_string) {
+                filters.item_string = item_string
+            }
+
+            if (description) {
+                filters.description = description
+            }
+
+            if (list_name) {
+                filters.list_name = list_name
+            }
+
+            if (category_name) {
+                filters.category_name = category_name
             }
 
             if (id_prices_lists_categories) {

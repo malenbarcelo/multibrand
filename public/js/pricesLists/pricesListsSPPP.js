@@ -16,6 +16,7 @@ async function spppEventListeners() {
 
         // print prices for customers in pdf
         loader.style.display = 'block'
+        sppp.style.display = 'none'
 
         // get lists to print
         let listsToPrint = await (await fetch(`${domain}composed/get-lists-to-print`)).json()

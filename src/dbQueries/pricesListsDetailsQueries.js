@@ -1,5 +1,6 @@
 const db = require('../../database/models')
 const { Op,literal,fn,col } = require('sequelize')
+const utils = require('../utils/utils')
 const model = db.Prices_lists_details
 
 const pricesListsDetailsQueries = {
@@ -29,7 +30,36 @@ const pricesListsDetailsQueries = {
         }
 
         if (filters.id_suppliers) {
-            where.id_suppliers = filters.id_suppliers
+            where['$supplier_data.supplier$'] = {
+                [Op.like]: `%${utils.specialChars(filters.id_suppliers)}%`
+            }
+        }
+
+        if (filters.list_name) {
+            where['$list_name_data.price_list_name$'] = {
+                [Op.like]: `%${utils.specialChars(filters.list_name)}%`
+            }
+        }
+
+        if (filters.category_name) {
+            where['$category_data.category_name$'] = {
+                [Op.like]: `%${utils.specialChars(filters.category_name)}%`
+            }
+        }
+
+        if (filters.item_string) {
+            const searchTerm = `%${utils.specialChars(filters.item_string)}%`
+            where[Op.or] = [
+                { erp_item: { [Op.like]: searchTerm } },
+                { supplier_item: { [Op.like]: searchTerm } },
+                { price_list_item: { [Op.like]: searchTerm } }
+            ]
+        }
+
+        if (filters.description) {
+            where.description = {
+                [Op.like]: `%${utils.specialChars(filters.description)}%`
+            }
         }
 
         if (filters.erp_item) {
@@ -42,10 +72,6 @@ const pricesListsDetailsQueries = {
 
         if (filters.price_list_item) {
             where.price_list_item = filters.price_list_item
-        }
-
-        if (filters.description) {
-            where.description = filters.description
         }
 
         if (filters.id_prices_lists_names) {

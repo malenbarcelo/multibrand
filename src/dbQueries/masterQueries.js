@@ -31,6 +31,12 @@ const masterQueries = {
             where.id_suppliers = filters.id_suppliers
         }
 
+        if (filters.supplier_string) {
+            where['$supplier_data.supplier$'] = {
+                [Op.like]: `%${utils.specialChars(filters.supplier_string)}%`
+            }
+        }
+
         if (filters.item_string) {
             where.item = {
                 [Op.like]: `%${utils.specialChars(filters.item_string)}%`
@@ -77,6 +83,7 @@ const masterQueries = {
             where,
             limit,
             offset,
+            subQuery: false,
             nest:true,
             logging: console.log
         })
