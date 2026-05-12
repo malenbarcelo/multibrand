@@ -48,7 +48,7 @@ function eventListeners(data) {
             g.elementToEdit = element
             ceippTitle.innerText = 'EDITAR ITEM'
             ceipp.style.display = 'block'
-            ceippContent.scrollTop = 0
+            ceippScrollBody.scrollTop = 0
             ceippError.classList.add('not-visible')
             ceippDestroy.classList.remove('not-visible')
             
@@ -74,15 +74,9 @@ function eventListeners(data) {
 
             ceippSupplier.dispatchEvent(new Event('change'))
             ceippSupplier.focus()
+
         })
 
-        //destroy
-        // destroy.addEventListener('click',async()=>{
-        //     g.confirmation = 'deleteItem'            
-        //     g.elementToEdit = element
-        //     coppText.innerHTML = '¿Confirma que desea eliminar el item <b>' + element.item + '</b> del proveedor <b>' + element.supplier_data.supplier + '</b>?'
-        //     copp.style.display = 'block'
-        // })
     })
 }
 

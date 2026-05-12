@@ -3,7 +3,10 @@
     border: black solid 1px;
 }
 .bs-2{
-    border: black solid 2px;
+    background-color: rgba(0, 113, 116, 0.12);
+    border: 1px solid #e0e0e0;
+    color: var(--color1);
+    font-weight: bold;
 }
 
 .bs-color1-1{
@@ -11,5 +14,7 @@
 }
 
 .bs-gray-1{
-    border: gray solid 1px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
 }

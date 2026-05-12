@@ -7,19 +7,21 @@
 
 /* div general action */
 .dga{
-    border: var(--color1) solid 2px;
+    border: 1px solid var(--color1);
     background-color: var(--color1);
     color: white;
-    font-size: 18px;
+    font-size: 11px;
     display: flex;
     justify-content: center;
     align-items: center;
+    column-gap: 6px;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 20px;
+    padding: 6px 14px;
 }
 
 .dga:hover{
-    color:var(--color1);
+    color: var(--color1);
     background-color: white;
 }
 

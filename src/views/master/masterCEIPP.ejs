@@ -1,7 +1,7 @@
 <!--- create edit item popup (ceipp) --->
 <div class="popup pp-std" id="ceipp">
 
-    <div class="pp-content w-1200 top-10" id="ceippContent">
+    <div class="pp-content w-1100 top-10" id="ceippContent">
 
         <!-- Fixed header -->
         <div class="ceipp-fixed-header">
@@ -11,21 +11,17 @@
 
             <!--- general actions --->
             <div class="flex-r absolute top-9p r-5p cg-10" id="ceippDgas">
-                <div class="dga h-35 w-35" id="ceippAccept">
+                <div class="dga" id="ceippAccept">
                     <i class="fa-regular fa-floppy-disk"></i>
-                    <div class="dga-info fs-12 top-50p-">
-                        Guardar
-                    </div>        
+                    <span>Guardar</span>
                 </div>
-                <div class="dga h-35 w-35 not-visible" id="ceippDestroy">
+                <div class="dga not-visible" id="ceippDestroy">
                     <i class="fa-regular fa-trash-can"></i>
-                    <div class="dga-info fs-12 top-50p-">
-                        Eliminar item
-                    </div>        
+                    <span>Eliminar</span>
                 </div>
             </div>
 
-            <div class="ta-c fw-b fs-19 mt-15-" id="ceippTitle"></div>
+            <div class="ta-c fw-b fs-19 mt-15- fc-1" id="ceippTitle"></div>
 
             <div class="fw-b fc-error fs-13 ta-c mt-10 not-visible" id="ceippError"></div>
 
@@ -45,11 +41,11 @@
         </div>
 
         <!-- Scrollable body -->
-        <div class="ceipp-scroll-body">
+        <div class="ceipp-scroll-body" id="ceippScrollBody">
 
-        <div class="bs-gray-1 w-90p m-a mt-15">            
+        <div class="bs-gray-1 w-95p m-a mt-15">            
             <!--- title -->
-            <div class="mt-10 fw-b ta-c fs-15">DATOS DEL PRODUCTO</div>
+            <div class="mt-10 fw-b ta-c fs-15" style="color:#555">DATOS DEL PRODUCTO</div>
 
             <!--- inputs -->
             <div class="inputs-row cg-15 mt-25">
@@ -108,14 +104,14 @@
             </div>
         </div>
 
-        <div class="bs-gray-1 w-90p m-a mt-10 relative">
+        <div class="bs-gray-1 w-95p m-a mt-10 relative">
             
             <!-- <div class="fs-11 ta-c w-100 pad-5-0 absolute r-3 top-3 bc-4 fc-white pointer not-visible" id="ceippViewFactors">
                 VER FACTORES
             </div> -->
 
             <!--- title -->
-            <div class="mt-15 fw-b ta-c fs-15">COSTEO</div>
+            <div class="mt-15 fw-b ta-c fs-15" style="color:#555">COSTEO</div>
 
             <!--- inputs -->
             <div class="inputs-row cg-15 mt-25 mb-15" id="ceippVolumeFactorsBox">
@@ -156,9 +152,9 @@
             </div>
         </div>
 
-        <div class="bs-gray-1 w-90p m-a mt-10">            
+        <div class="bs-gray-1 w-95p m-a mt-10">            
             <!--- title -->
-            <div class="mt-10 fw-b ta-c fs-15">PRECIO DE VENTA</div>
+            <div class="mt-10 fw-b ta-c fs-15" style="color:#555">PRECIO DE VENTA</div>
 
             <!--- inputs -->
             <div class="inputs-row cg-15 mt-25 mb-15">
@@ -212,7 +208,7 @@
             
         </div>
 
-        <div class="bs-gray-1 w-90p m-a mt-10 mb-15">            
+        <div class="bs-gray-1 w-95p m-a mt-10 mb-15">            
             
             <!--- inputs -->
             <div class="inputs-row cg-15 mt-10 mb-10">

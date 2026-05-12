@@ -62,7 +62,7 @@ const appController = {
             const idBranch = Number(keys[0])
             const branchData = await branchesQueries.get({filters:{id:idBranch}})
             req.session.branch = branchData[0]
-            const redirection = '/master'
+            const redirection = '/maestro'
             return res.redirect(redirection)
 
         }catch(error){
@@ -156,9 +156,14 @@ const appController = {
     },
     currencies: async(req,res) => {
         try{
+
+            // get session if DEV
+            getDevSession(req)
+
             const selectedItem = 'DATOS GENERALES'
             const selectedSubitem = 'MONEDAS'
             const branch = req.session.branch
+            console.log(branch)
             return res.render('currencies/currencies',{title:'Multibrand', selectedItem, selectedSubitem, bottomHeaderMenu, branch})
         }catch(error){
             console.log(error)

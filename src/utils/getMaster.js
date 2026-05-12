@@ -65,8 +65,13 @@ async function getMaster(data, idBranch) {
         // sell price
         row.suggested_price = factors ? utils.round(row.estimated_unit_cost * (1 + margin),3)  : null
         row.suggested_price_local_currency = factors ? Math.ceil(row.suggested_price * row.currency_exchange)  : null
+        
         row.sells_price = factors ? utils.round((specialPriceFactor == null ? row.suggested_price : (row.suggested_price * specialPriceFactor)),3) : null
-        row.sells_price_local_currency = factors ? Math.ceil(row.sells_price * row.currency_exchange) : null
+
+        row.sells_price_local_currency = factors ? (specialPriceFactor == null ? row.suggested_price_local_currency : Math.ceil(row.suggested_price_local_currency * specialPriceFactor)) : null
+        
+        // row.sells_price_local_currency = factors ? Math.ceil(row.sells_price * row.currency_exchange) : null
+        
         row.margin = factors ? utils.round(((row.sells_price_local_currency / (row.estimated_unit_cost * row.currency_exchange)) - 1) * 100,3) : null
 
         // end consumer price

@@ -129,7 +129,6 @@ const composedController = {
 
             // get session if DEV
             getDevSession(req)
-
             const idBranch = req.session.branch.id
 
             // get currencies

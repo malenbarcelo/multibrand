@@ -23,9 +23,13 @@ const currenciesExchangesQueries = {
         }
 
         const data = await model.findAll({
+            include:[
+                {association: 'currency_data'}
+            ],
             order,
             where,
-            raw:true
+            raw:true,
+            nest:true
         })
 
         return data
@@ -34,6 +38,9 @@ const currenciesExchangesQueries = {
     getLastExchange: async(idBranch) => {
 
         const data = await model.findAll({
+            include:[
+                {association: 'currency_data'}
+            ],
             where: {
                 id_branches: idBranch,
                 id: {
@@ -45,7 +52,8 @@ const currenciesExchangesQueries = {
                 )`)
                 }
             },
-            raw: true
+            raw: true,
+            nest: true
         })
 
         return data

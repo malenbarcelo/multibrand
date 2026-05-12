@@ -1,34 +1,35 @@
 /* result popup */
 .result-pp{    
-    border-radius: 5px;
+    border-radius: 10px;
     position: fixed;    
-    font-size: 15px;
-    padding: 6px 20px;
+    font-size: 13px;
+    padding: 12px 20px;
     text-align: center;
     width: fit-content;
-    bottom: 2%;
-    right: 1%;
+    bottom: 3%;
+    right: 2%;
     overflow: hidden;
     display: none;
     z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .ok-pp{
-    border: var(--okColor) solid 2px;
-    background-color: rgb(173, 204, 173);
-    color: var(--okColor);
+    background-color: #4caf50;
+    color: white;
+    border: none;
 }
 
 .error-pp{
-    border: var(--errorColor) solid 2px;
-    background-color: var(--errorColorLight);
-    color:var(--errorColor);
+    background-color: #c62828;
+    color: white;
+    border: none;
 }
 
 .alert-pp{
-    border: var(--alertColor) solid 2px;
-    background-color:var(--alertColorLight);
-    color: var(--alertColor);
+    background-color: #f57c00;
+    color: white;
+    border: none;
 }
 
 .r-pp-content{
@@ -39,19 +40,21 @@
 }
 
 .r-pp-icon{
-    font-size: 25px;
+    font-size: 18px;
 }
 
 .okSlideIn {
     display: block;
-    animation: okSlideIn 0.8s forwards;
+    animation: okSlideIn 0.5s forwards;
 }
 
 @keyframes okSlideIn {
     from {
         transform: translateX(100%);
+        opacity: 0;
     }
     to {
         transform: translateX(0);
+        opacity: 1;
     }
 }

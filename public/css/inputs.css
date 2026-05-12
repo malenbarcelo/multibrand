@@ -14,20 +14,25 @@
 
 /* div input */
 .div-input{
-    position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: flex-start;
 }
 
 /* inputs */
 .input-std{
     font-size: 13px;
     text-align: center;
-    border:rgb(79, 78, 78) solid 1px;
-    border-radius: 6px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
     font-family: inherit;
+    color: #555;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-std:focus{
+    border-color: var(--color1);
 }
 
 select.input-std{
@@ -38,9 +43,10 @@ select.input-std{
 .disabled-input{
     font-size: 13px;
     text-align: center;
-    border:rgb(134, 130, 130) solid 1px;
-    color: rgb(120, 116, 116) ;
-    border-radius: 6px;
+    border: 1px solid #bbb;
+    color: #555;
+    border-radius: 8px;
+    background-color: #ebebeb;
 }
 
 .invalid-input{
@@ -49,11 +55,13 @@ select.input-std{
 
 /* labels */
 .label-std{
-    position: absolute;
-    background-color: white;
-    top: -8px;
-    padding: 0px 5px;
-    font-weight: bold;
+    position: static;
+    background-color: transparent;
+    padding: 0;
+    font-weight: 500;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 4px;
 }
 
 .invalid-label{

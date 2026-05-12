@@ -249,7 +249,14 @@ async function ceippEventListeners() {
             await utils.resetData()
             
         }
-    })  
+    })
+
+    // delete item
+    ceippDestroy.addEventListener('click',async()=>{
+        g.confirmation = 'deleteItem'            
+        coppText.innerHTML = '¿Confirma que desea eliminar el item <b>' + g.elementToEdit.item + '</b> del proveedor <b>' + g.elementToEdit.supplier_data.supplier + '</b>?'
+        copp.style.display = 'block'
+    })
 }
 
 export { ceippEventListeners }

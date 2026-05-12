@@ -103,6 +103,10 @@
     max-height: 550px;
     overflow-y: auto;
 }
+.max-h-570{
+    max-height: 570px;
+    overflow-y: auto;
+}
 .max-h-600{
     max-height: 600px;
     overflow-y: auto;

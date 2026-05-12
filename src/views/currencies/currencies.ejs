@@ -1,7 +1,7 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="fs-18 fw-b mt-25 mb-20 ta-c fc-1">MONEDAS <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
+<div class="fs-18 fw-b mt-45 mb-50 ta-c fc-1">MONEDAS <span class="fw-n fst-i"><%= branch.branch.toUpperCase() %></span></div>
 
 <!--- table --->
 <div class="div-table max-h-450" id="table">
@@ -10,7 +10,7 @@
             <tr>
                 <th class="th pad-7-0 w-100">Moneda</th>
                 <th class="th pad-7-0 w-120">Tipo de cambio</th>
-                <th class="th pad-7-0 w-50 pointer" id="editIcon"><i class="fa-regular fa-pen-to-square"></i></th>                
+                <th class="th pad-7-0 w-50 pointer"></th>                
             </tr>
         </thead>
         <tbody id="body"></tbody>
@@ -23,7 +23,7 @@
 
 <!----------LOADER---------->
 <div class="loader ld-std" id="loader">
-    <div class="ld-content ld-main top-55p"></div>
+    <div class="ld-content ld-main top-35p"></div>
 </div>
 
 <!----------SCRIPTS---------->

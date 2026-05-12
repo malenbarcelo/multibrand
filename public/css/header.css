@@ -25,9 +25,9 @@
 
 .burger-menu {
     color: var(--color1);
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    padding: 8px 10px;
+    padding: 7px 9px;
     background-color: rgba(21, 168, 157, 0.1);
     border-radius: 8px;
 }
@@ -37,7 +37,7 @@
 }
 
 .company-logo {
-    height: 50px;
+    height: 45px;
 }
 
 .header-flag {
